@@ -45,6 +45,11 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Swagger
+Once the application is up, navigate to the elow URL to access the swagger endpoints.
+
+[Swagger UI](http://localhost:3000/swagger#/)
+
 ## Test
 
 ```bash
