@@ -34,7 +34,7 @@ export class CartService {
     }
   }
 
-  async removeCart(cart_id: number): Promise<DeleteResult> {
+  async removeFromCart(cart_id: number): Promise<DeleteResult> {
     return await this.cartRepository.delete(cart_id);
   }
 }

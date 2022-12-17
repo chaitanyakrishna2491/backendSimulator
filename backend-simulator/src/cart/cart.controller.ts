@@ -8,24 +8,24 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   /****************Cart CRUD********************/
-  @Get()
+  @Get('readCart')
   getCart(): Promise<Cart[]> {
     return this.cartService.getCart();
   }
-  @Get('cart/:id')
+  @Get('readCartItem/:id')
   getCartItem(@Param('id') cart_id: number): Promise<Cart> {
     return this.cartService.findOneCartItem(cart_id);
   }
-  @Post('cart')
+  @Post('addToCart')
   addToCart(@Body() cart: Cart): Promise<InsertResult> {
     return this.cartService.createCartItem(cart);
   }
-  @Put('cart/:id')
+  @Put('updateCartItem/:id')
   updateCart(@Param('id') cart_id: number, @Body() cart:Cart): Promise<UpdateResult> {
     return this.cartService.updateCartItem(cart_id, cart);
   }
-  @Delete('cart/:id')
+  @Delete('removeFromCart/:id')
   deleteCart(@Param('id') cart_id: number): Promise<DeleteResult> {
-    return this.cartService.removeCart(cart_id);
+    return this.cartService.removeFromCart(cart_id);
   }
 }

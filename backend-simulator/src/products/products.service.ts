@@ -42,8 +42,12 @@ export class ProductsService {
   }
 
   /****************ProductVarient CRUD********************/
-  findProductVarientsByProduct(product_id: number): Promise<ProductVarient[]> {
+  findProductVarientsByProductId(product_id: number): Promise<ProductVarient[]> {
     return this.productvarientRepository.findBy({ product_id });
+  }
+
+  findProductVarientByVarientId(varient_id: number): Promise<ProductVarient> {
+    return this.productvarientRepository.findOneBy({ varient_id });
   }
 
   createProductVarient(productVarient: ProductVarient): Promise<InsertResult> {

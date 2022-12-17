@@ -5,6 +5,9 @@ export class Orders {
   @PrimaryGeneratedColumn()
   order_id: number
   @Column() user_id: number
+  @Column() varient_id: number
+  @Column() product_id: number
+  @Column() count: number
   @Column() store_id: number
   @Column() address_id: number
   @Column() cart_id: number

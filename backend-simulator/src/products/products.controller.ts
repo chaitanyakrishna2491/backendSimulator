@@ -31,20 +31,24 @@ export class ProductsController {
   }
 
   /****************ProductVarient CRUD********************/
-  @Get('productVarient/:id')
-  getProductVarientByProduct(@Param('id') product_id: number): Promise<ProductVarient[]> {
-    return this.productsService.findProductVarientsByProduct(product_id);
+  @Get('productVarient/product/:product_id')
+  getProductVarientByProduct(@Param('product_id') product_id: number): Promise<ProductVarient[]> {
+    return this.productsService.findProductVarientsByProductId(product_id);
+  }
+  @Get('productVarient/productVarient/:varient_id')
+  getProductVarientByVarient(@Param('varient_id') varient_id: number): Promise<ProductVarient> {
+    return this.productsService.findProductVarientByVarientId(varient_id);
   }
   @Post('productVarient')
   addProductVarient(@Body() productVarient: ProductVarient): Promise<InsertResult> {
     return this.productsService.createProductVarient(productVarient);
   }
-  @Put('productVarient/:id')
-  updateproductVarient(@Param('id') varient_id: number, @Body() ProductVarient:ProductVarient): Promise<UpdateResult> {
+  @Put('productVarient/:varient_id')
+  updateproductVarient(@Param('varient_id') varient_id: number, @Body() ProductVarient:ProductVarient): Promise<UpdateResult> {
     return this.productsService.updateProductVarient(varient_id, ProductVarient);
   }
-  @Delete('productVarient/:id')
-  deleteProductVarient(@Param('id') varient_id: number): Promise<DeleteResult> {
+  @Delete('productVarient/:varient_id')
+  deleteProductVarient(@Param('varient_id') varient_id: number): Promise<DeleteResult> {
     return this.productsService.removeProductVarient(varient_id);
   }
 }
