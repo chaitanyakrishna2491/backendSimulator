@@ -9,6 +9,9 @@ export class Product {
   cat_id: number;
 
   @Column()
+  brand_id: number;
+
+  @Column()
   product_name: string;
   
   @Column()

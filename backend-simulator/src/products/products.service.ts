@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { readFileSync } from 'fs';
+import { parse } from 'papaparse';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Product } from './entities/products.entity';
 import { ProductVarient } from './entities/productvarient.entity';
 
 @Injectable()
 export class ProductsService {
+  
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
@@ -22,8 +25,27 @@ export class ProductsService {
     return this.productsRepository.findOneBy({ product_id });
   }
 
+  findByBrand(brand_id: number): Promise<Product[]> {
+    return this.productsRepository.findBy({ brand_id });
+  }
+
+  findByCategory(cat_id: number): Promise<Product[]> {
+    return this.productsRepository.findBy({ cat_id });
+  }
+
   createProduct(product: Product): Promise<InsertResult> {
     return this.productsRepository.insert(product);
+  }
+
+  async uploadProducts(file: Express.Multer.File): Promise<InsertResult>{
+    const csvFile = readFileSync('./files/Products.csv');
+    const products: Product[] = await parse(csvFile.toString(), {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: (header) => header.toLowerCase().replace('#', '').trim(),
+      complete: (results) => results.data
+    }).data
+    return this.productsRepository.insert(products);
   }
 
   async updateproduct(product_id: number, product: Product): Promise<UpdateResult> {
