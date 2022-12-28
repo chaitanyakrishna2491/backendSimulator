@@ -81,4 +81,11 @@ export class ProductsController {
   deleteProductVarient(@Param('varient_id') varient_id: number): Promise<DeleteResult> {
     return this.productsService.removeProductVarient(varient_id);
   }
+
+  //Stock availability
+  @Get('stockAvailability')
+  getstockAvailability(): Promise<ProductVarient[]> {
+    return this.productsService.getStockAvailablity();
+  }
+  
 }

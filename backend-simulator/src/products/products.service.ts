@@ -90,4 +90,11 @@ export class ProductsService {
   async removeProductVarient(varient_id: number): Promise<DeleteResult> {
     return await this.productvarientRepository.delete(varient_id);
   }
+
+  /********************Stock Availability************ */
+  getStockAvailablity(): Promise<ProductVarient[]>{
+    return this.productvarientRepository.find({ relations: {
+      product: true,
+  } });
+  }
 }

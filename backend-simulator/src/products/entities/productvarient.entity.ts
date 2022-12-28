@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
+import { Product } from './products.entity';
 
 @Entity()
 export class ProductVarient {
@@ -17,5 +18,8 @@ export class ProductVarient {
   @Column({default: 1}) approved: number
   @Column({default: 0}) added_by: number
   @Column() total_count: number
+
+  @ManyToOne(() => Product, product => product.product_varients)
+  product: Product;
 
 }

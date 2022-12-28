@@ -17,5 +17,5 @@ export class Brand {
   @Column() tax_name: string
   @Column() tax_per: number
   @Column() tx_id: number
-
+  @Column() hide: number
 }

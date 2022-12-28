@@ -34,5 +34,5 @@ export class Orders {
   @Column() dboy_incentive: number
   @Column() updated_at: string
   @Column() is_gift: boolean
-
+  @Column() gift_message: string
 }
