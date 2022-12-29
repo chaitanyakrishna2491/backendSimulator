@@ -28,5 +28,7 @@ export class Store {
   @Column() id_type: string
   @Column() id_number: string
   @Column() id_photo: string
+  @Column() compensation: number
+  @Column() compensation_unit: string
 
 }

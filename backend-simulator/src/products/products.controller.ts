@@ -6,12 +6,12 @@ import { ProductVarient } from './entities/productvarient.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
-@Controller('products')
+@Controller()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   /****************Products CRUD********************/
-  @Get()
+  @Get('products')
   getProducts(): Promise<Product[]> {
     return this.productsService.findAllProducts();
   }
@@ -27,12 +27,16 @@ export class ProductsController {
   getProductsByCategory(@Param('id') cat_id: number): Promise<Product[]> {
     return this.productsService.findByCategory(cat_id);
   }
+  @Get('products/featured')
+  getFeaturedProducts(): Promise<Product[]> {
+    return this.productsService.getFeaturedProducts();
+  }
   @Post('product')
   addProduct(@Body() product: Product): Promise<InsertResult> {
     return this.productsService.createProduct(product);
   }
 
-  @Post('upload')
+  @Post('products/upload')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './files',
@@ -83,7 +87,7 @@ export class ProductsController {
   }
 
   //Stock availability
-  @Get('stockAvailability')
+  @Get('products/stockAvailability')
   getstockAvailability(): Promise<ProductVarient[]> {
     return this.productsService.getStockAvailablity();
   }

@@ -3,7 +3,7 @@ import { StoresService } from './store.service';
 import { Store } from './entities/store.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
-@Controller('store')
+@Controller('stores')
 export class StoreController {
   constructor(private readonly storeService: StoresService) {}
 

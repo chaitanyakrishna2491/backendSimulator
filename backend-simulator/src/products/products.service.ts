@@ -33,6 +33,10 @@ export class ProductsService {
     return this.productsRepository.findBy({ cat_id });
   }
 
+  getFeaturedProducts(): Promise<Product[]>{
+    return this.productsRepository.findBy({ "featured":1 })
+  }
+
   createProduct(product: Product): Promise<InsertResult> {
     return this.productsRepository.insert(product);
   }

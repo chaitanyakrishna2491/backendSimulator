@@ -15,6 +15,7 @@ export class Product {
   @Column({default: 0}) added_by: number;
   @Column({default: 1}) approved: number;
   @Column() admin_share: string;
+  @Column() featured: number;
 
   @OneToMany(() => ProductVarient, (productVarient) => productVarient.product)
   product_varients: ProductVarient[]
