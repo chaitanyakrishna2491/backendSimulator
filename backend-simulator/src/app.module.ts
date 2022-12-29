@@ -10,6 +10,10 @@ import { StoreModule } from './store/store.module';
 import { StoreOrdersModule } from './store_orders/store_orders.module';
 import { CategoryModule } from './category/category.module';
 import { BrandModule } from './brand/brand.module';
+import { UserModule } from './user/user.module';
+import { DeliveryBoyModule } from './deliveryBoy/dBoy.module';
+import { AdminModule } from './admin/admin.module';
+import { RolesModule } from './roles/role.module';
 
 @Module({
   imports: [
@@ -29,7 +33,11 @@ import { BrandModule } from './brand/brand.module';
     StoreModule,
     StoreOrdersModule,
     CategoryModule,
-    BrandModule
+    BrandModule,
+    UserModule,
+    DeliveryBoyModule,
+    AdminModule,
+    RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],
