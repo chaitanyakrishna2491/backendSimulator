@@ -14,6 +14,7 @@ import { UserModule } from './user/user.module';
 import { DeliveryBoyModule } from './deliveryBoy/dBoy.module';
 import { AdminModule } from './admin/admin.module';
 import { RolesModule } from './roles/role.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { RolesModule } from './roles/role.module';
     UserModule,
     DeliveryBoyModule,
     AdminModule,
-    RolesModule
+    RolesModule,
+    AddressModule
   ],
   controllers: [AppController],
   providers: [AppService],

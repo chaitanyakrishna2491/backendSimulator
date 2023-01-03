@@ -2,6 +2,8 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { UsersService } from './user.service';
 import { Users } from './entities/user.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { Password } from './entities/password.entity';
+import { Authentication } from './entities/authentcation.entity';
 
 @Controller('users')
 export class UserController {
@@ -15,6 +17,10 @@ export class UserController {
   @Get('user/:id')
   getUser(@Param('id') user_id: number): Promise<Users> {
     return this.userService.findOneUser(user_id);
+  }
+  @Post('authenticateUser')
+  authentcateUser(@Body() user: Password): Promise<Authentication> {
+    return this.userService.authenticateUser(user);
   }
   @Post('user')
   addUser(@Body() user: Users): Promise<InsertResult> {
