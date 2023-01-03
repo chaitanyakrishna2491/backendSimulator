@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -15,6 +15,7 @@ import { DeliveryBoyModule } from './deliveryBoy/dBoy.module';
 import { AdminModule } from './admin/admin.module';
 import { RolesModule } from './roles/role.module';
 import { AddressModule } from './address/address.module';
+import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication';
 
 @Module({
   imports: [
@@ -46,5 +47,12 @@ import { AddressModule } from './address/address.module';
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TokenAuthenticationMiddleware)
+      .exclude({ path: 'users/authenticateUser', method: RequestMethod.POST })
+      .forRoutes('/');
+  }
 
 }

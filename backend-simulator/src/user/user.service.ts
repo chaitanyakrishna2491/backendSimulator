@@ -5,6 +5,7 @@ import { Users } from './entities/user.entity';
 import { Password } from './entities/password.entity';
 import { Authentication } from './entities/authentcation.entity';
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class UsersService {
@@ -23,30 +24,31 @@ export class UsersService {
   }
 
   async authenticateUser(user:Password):Promise<Authentication>{
-    let hash: string = null;
+    let retrievedUser: Users = null;
     if(user.id){
-      hash = (await this.userRepository.findOneBy({"id": user.id})).password
+      retrievedUser = (await this.userRepository.findOneBy({"id": user.id}))
     }
     else if(user.email){
-      hash = (await this.userRepository.findOneBy({"email": user.email})).password
+      retrievedUser = (await this.userRepository.findOneBy({"email": user.email}))
     }
     else if(user.name){
-      hash = (await this.userRepository.findOneBy({"name": user.name})).password
+      retrievedUser = (await this.userRepository.findOneBy({"name": user.name}))
     }
     else if(user.user_phone){
-      hash = (await this.userRepository.findOneBy({"user_phone": user.user_phone})).password
+      retrievedUser = (await this.userRepository.findOneBy({"user_phone": user.user_phone}))
     }
     let authResponse: Authentication = null;
-    const result = await bcrypt.compare(user.password, hash)//, (err, result) => {
+    const result = await bcrypt.compare(user.password, retrievedUser.password)//, (err, result) => {
       if(result){
         authResponse ={
           "authenticated" : true,
-        "message" : 'User successfully authenticated'
+          "message" : 'User successfully authenticated',
+          "token": this.generateJWT(retrievedUser.id)
         }
       } else{
         authResponse ={
           "authenticated" : false,
-        "message" : 'Credentials invalid'
+          "message" : 'Credentials invalid'
       }
     }
       return authResponse;
@@ -83,6 +85,18 @@ export class UsersService {
 
   async removeUser(id: number): Promise<DeleteResult> {
     return await this.userRepository.delete(id);
+  }
+
+  generateJWT(id:number){
+    const jwtSecretKey = 'gfg_jwt_secret_key'
+    const data = {
+        time: Date(),
+        userId:id,
+    }
+  
+    const token = jwt.sign(data, jwtSecretKey);
+  
+    return token
   }
 
 }
