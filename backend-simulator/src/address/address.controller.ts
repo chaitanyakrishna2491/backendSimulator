@@ -2,8 +2,13 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { AddressService } from './address.service';
 import { Address } from './entities/address.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
+@ApiHeader({
+  name: 'userId',
+})
 @Controller('address')
+@ApiBearerAuth()
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 

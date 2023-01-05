@@ -4,8 +4,13 @@ import { Brand } from './entities/brand.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('brand')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
@@ -22,7 +27,7 @@ export class BrandController {
   addToBrand(@Body() brand: Brand): Promise<InsertResult> {
     return this.brandService.createBrandItem(brand);
   }
-  @Post('upload')
+  @Post('brands/upload')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './files',

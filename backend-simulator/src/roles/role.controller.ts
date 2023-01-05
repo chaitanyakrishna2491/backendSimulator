@@ -2,18 +2,23 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { RolesService } from './role.service';
 import { Roles } from './entities/roles.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('roles')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   /****************Roless CRUD********************/
-  @Get()
-  getRoless(): Promise<Roles[]> {
+  @Get('roles')
+  getRoles(): Promise<Roles[]> {
     return this.rolesService.findAllRoless();
   }
   @Get('role/:id')
-  getRoles(@Param('id') roles_id: number): Promise<Roles> {
+  getRole(@Param('id') roles_id: number): Promise<Roles> {
     return this.rolesService.findOneRoles(roles_id);
   }
   @Post('role')

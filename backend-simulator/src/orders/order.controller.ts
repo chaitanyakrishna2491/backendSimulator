@@ -6,15 +6,20 @@ import { Orders } from './entities/orders.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { ProductVarient } from 'src/products/entities/productvarient.entity';
 import { Store_orders } from 'src/store_orders/entities/store_orders.entity';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('orders')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService,
     private readonly productsService: ProductsService,
     private readonly cartService: CartService) {}
 
   /****************Orders CRUD********************/
-  @Get()
+  @Get('orders')
   getOrders(): Promise<Orders[]> {
     return this.ordersService.findAllOrders();
   }

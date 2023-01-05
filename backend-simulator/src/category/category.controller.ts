@@ -4,8 +4,13 @@ import { Categories } from './entities/category.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('category')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
@@ -23,7 +28,7 @@ export class CategoryController {
     return this.categoryService.createCategoryItem(category);
   }
 
-  @Post('upload')
+  @Post('categories/upload')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './files',

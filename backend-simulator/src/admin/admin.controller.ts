@@ -2,13 +2,18 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { AdminService } from './admin.service';
 import { Admin } from './entities/admin.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('admins')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   /****************Admin CRUD********************/
-  @Get()
+  @Get('admins')
   getAdmin(): Promise<Admin[]> {
     return this.adminService.findAllAdmins();
   }

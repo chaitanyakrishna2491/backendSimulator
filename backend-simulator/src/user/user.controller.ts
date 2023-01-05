@@ -4,13 +4,18 @@ import { Users } from './entities/user.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { Password } from './entities/password.entity';
 import { Authentication } from './entities/authentcation.entity';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('users')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UsersService) {}
 
   /****************Users CRUD********************/
-  @Get()
+  @Get('users')
   getUsers(): Promise<Users[]> {
     return this.userService.findAllUsers();
   }

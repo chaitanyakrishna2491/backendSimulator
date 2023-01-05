@@ -5,22 +5,20 @@ const jwt = require('jsonwebtoken');
 @Injectable()
 export class TokenAuthenticationMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    const tokenHeaderKey = 'Authorization'
-    const jwtSecretKey = 'gfg_jwt_secret_key'
-  
+    const tokenHeaderKey = process.env.tokenHeaderKey
+    const userIdHeaderKey = process.env.userIdHeaderKey
+    const jwtSecretKey = process.env.jwtSecretKey
     try {
         const token = req.header(tokenHeaderKey).split(" ")[1];
-  
-        const verified = jwt.verify(token, jwtSecretKey);
+        const userId = req.header(userIdHeaderKey);
+        console.log("userid: ",userId)
+        const verified = jwt.verify(token, jwtSecretKey+":"+userId);
         if(verified){
-            //return res.send("Successfully Verified");
             next();
         }else{
-            // Access Denied
             return res.status(401).send('error');
         }
     } catch (error) {
-        // Access Denied
         return res.status(401).send(error);
     }
     

@@ -1,8 +1,13 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { InsertResult } from 'typeorm';
 import { AppService } from './app.service';
-import { UserDto } from './dto/User.dto';
 
-@Controller('api')
+@Controller('')
 export class AppController {
-  
+    constructor(private readonly appService: AppService) {}
+
+    // @Post('gUser/create')  
+    // createGoogleUser(@Body() token: String): Promise<InsertResult>{
+    //     return this.appService.createGoogleUser(token)
+    // }
 }

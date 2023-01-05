@@ -5,8 +5,13 @@ import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { ProductVarient } from './entities/productvarient.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
+@ApiHeader({
+  name: 'userId',
+})
 @Controller()
+@ApiBearerAuth()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 

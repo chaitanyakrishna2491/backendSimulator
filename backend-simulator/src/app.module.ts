@@ -2,7 +2,6 @@ import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
 import { ProductsModule } from './products/products.module';
 import { OrderModule } from './orders/order.module';
 import { CartModule } from './cart/cart.module';
@@ -16,6 +15,7 @@ import { AdminModule } from './admin/admin.module';
 import { RolesModule } from './roles/role.module';
 import { AddressModule } from './address/address.module';
 import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication';
+import * as dotenv from 'dotenv'
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication'
       synchronize: true,
       autoLoadEntities: true,
     }),
+    UserModule,
     ProductsModule,
     OrderModule,
     CartModule,
@@ -36,7 +37,6 @@ import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication'
     StoreOrdersModule,
     CategoryModule,
     BrandModule,
-    UserModule,
     DeliveryBoyModule,
     AdminModule,
     RolesModule,
@@ -45,14 +45,16 @@ import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication'
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  constructor() {
+    dotenv.config()
+  }
 
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(TokenAuthenticationMiddleware)
-      .exclude({ path: 'users/authenticateUser', method: RequestMethod.POST })
+      .exclude({ path: 'authenticateUser', method: RequestMethod.POST })
       .forRoutes('/');
   }
-
 }

@@ -2,8 +2,13 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { CartService } from './cart.service';
 import { Cart } from './entities/cart.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('cart')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 

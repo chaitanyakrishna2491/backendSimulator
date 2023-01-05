@@ -2,8 +2,13 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { Store_ordersService } from './store_orders.service';
 import { Store_orders } from './entities/store_orders.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('store_order')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class Store_orderController {
   constructor(private readonly store_orderService: Store_ordersService) {}
 

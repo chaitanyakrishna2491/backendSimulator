@@ -2,13 +2,18 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { StoresService } from './store.service';
 import { Store } from './entities/store.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('stores')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class StoreController {
   constructor(private readonly storeService: StoresService) {}
 
   /****************Stores CRUD********************/
-  @Get()
+  @Get('stores')
   getStores(): Promise<Store[]> {
     return this.storeService.findAllStores();
   }

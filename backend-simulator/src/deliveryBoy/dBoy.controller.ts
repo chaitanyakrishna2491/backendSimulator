@@ -2,13 +2,18 @@ import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common'
 import { DeliveryBoysService } from './dBoy.service';
 import { DeliveryBoy } from './entities/dBoy.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 
-@Controller('deliveryBoys')
+@ApiHeader({
+  name: 'userId',
+})
+@Controller()
+@ApiBearerAuth()
 export class DeliveryBoyController {
   constructor(private readonly deliveryBoyService: DeliveryBoysService) {}
 
   /****************DeliveryBoys CRUD********************/
-  @Get()
+  @Get('deliveryBoys')
   getDeliveryBoys(): Promise<DeliveryBoy[]> {
     return this.deliveryBoyService.findAllDeliveryBoys();
   }

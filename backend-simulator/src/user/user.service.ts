@@ -38,7 +38,7 @@ export class UsersService {
       retrievedUser = (await this.userRepository.findOneBy({"user_phone": user.user_phone}))
     }
     let authResponse: Authentication = null;
-    const result = await bcrypt.compare(user.password, retrievedUser.password)//, (err, result) => {
+    const result = await bcrypt.compare(user.password, retrievedUser.password)
       if(result){
         authResponse ={
           "authenticated" : true,
@@ -52,7 +52,6 @@ export class UsersService {
       }
     }
       return authResponse;
-    //})
   }
 
   createUser(user: Users): Promise<InsertResult> {
@@ -88,15 +87,14 @@ export class UsersService {
   }
 
   generateJWT(id:number){
-    const jwtSecretKey = 'gfg_jwt_secret_key'
+    const jwtSecretKey = process.env.jwtSecretKey
+    const expiresIn = process.env.expiresIn
     const data = {
         time: Date(),
         userId:id,
     }
-  
-    const token = jwt.sign(data, jwtSecretKey);
-  
+    console.log("id: ",id)
+    const token = jwt.sign(data, jwtSecretKey+":"+id, { expiresIn: expiresIn });
     return token
   }
-
 }
