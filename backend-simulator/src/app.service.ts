@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { InsertResult } from 'typeorm';
 const {OAuth2Client} = require('google-auth-library');
 
 @Injectable()
 export class AppService {  
     
-    async verify(token: String) {
+    async verifyGToken(token: String) {
         const CLIENT_ID = process.env.clientId;
         const client = new OAuth2Client(CLIENT_ID);
         const ticket = await client.verifyIdToken({
@@ -18,9 +17,6 @@ export class AppService {
         const userid = payload['sub'];
         // If request specified a G Suite domain:
         // const domain = payload['hd'];
-    }
 
-    // createGoogleUser(token: String): Promise<InsertResult>{
-    //     this.verify(token)
-    // }
+    }
 }

@@ -16,6 +16,10 @@ import { RolesModule } from './roles/role.module';
 import { AddressModule } from './address/address.module';
 import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication';
 import * as dotenv from 'dotenv'
+import { CouponModule } from './coupon/coupon.module';
+import { DealModule } from './deal/deal.module';
+import { ProductRatingModule } from './productRating/productrRating.module';
+import { RecentSearchModule } from './recentSearch/recentSearch.module';
 
 @Module({
   imports: [
@@ -40,7 +44,11 @@ import * as dotenv from 'dotenv'
     DeliveryBoyModule,
     AdminModule,
     RolesModule,
-    AddressModule
+    AddressModule,
+    CouponModule,
+    DealModule,
+    ProductRatingModule,
+    RecentSearchModule
   ],
   controllers: [AppController],
   providers: [AppService],

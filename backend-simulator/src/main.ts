@@ -12,7 +12,7 @@ async function bootstrap() {
     .addTag('sample')
     .addBearerAuth(
       { 
-        description: `[just text field] Please enter token in following format: Bearer <JWT>`,
+        description: `Please generate a token using the authenticateUser endpoint and pass it here.`,
         name: 'Authorization',
         bearerFormat: 'Bearer', 
         scheme: 'Bearer',

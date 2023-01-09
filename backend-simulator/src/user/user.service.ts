@@ -57,7 +57,6 @@ export class UsersService {
   createUser(user: Users): Promise<InsertResult> {
     let result:Promise<InsertResult> = null;
     bcrypt.hash(user.password, 10/* salt rounds*/, (err,hash) => {
-      console.log(hash)
       result = this.userRepository.insert({...user, ...{"password":hash}});
     });
     return result;
@@ -69,8 +68,6 @@ export class UsersService {
     if(userList && userList.length){
       let result:Promise<UpdateResult> = null;
       bcrypt.hash(user.password, 10/* salt rounds*/, (err,hash) => {
-        console.log("hash", hash)
-        console.log("user: ", JSON.stringify({...user, ...{"password":hash}}))
         result = this.userRepository.update(id, {...user, ...{"password":hash}});
       });
       return result;
@@ -93,7 +90,6 @@ export class UsersService {
         time: Date(),
         userId:id,
     }
-    console.log("id: ",id)
     const token = jwt.sign(data, jwtSecretKey+":"+id, { expiresIn: expiresIn });
     return token
   }
