@@ -11,22 +11,26 @@ export class RolesService {
   ) {}
 
   /****************Roless CRUD********************/
-  findAllRoless(): Promise<Roles[]> {
+  findAllRoles(): Promise<Roles[]> {
     return this.rolesRepository.find();
   }
 
-  findOneRoles(id: number): Promise<Roles> {
-    return this.rolesRepository.findOneBy({ id });
+  findRolesPerUser(user_id: number): Promise<Roles[]>{
+    return this.rolesRepository.findBy({ user_id });
+  }
+
+  findOneRoles(role_id: number): Promise<Roles> {
+    return this.rolesRepository.findOneBy({ role_id });
   }
 
   createRoles(roles: Roles): Promise<InsertResult> {
     return this.rolesRepository.insert(roles);
   }
 
-  async updateroles(id: number, roles: Roles): Promise<UpdateResult> {
-    const rolesList: Roles[] = await this.rolesRepository.findBy({ id })
+  async updateroles(role_id: number, roles: Roles): Promise<UpdateResult> {
+    const rolesList: Roles[] = await this.rolesRepository.findBy({ role_id })
     if(rolesList && rolesList.length){
-      return this.rolesRepository.update(id, roles);
+      return this.rolesRepository.update(role_id, roles);
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
@@ -34,8 +38,8 @@ export class RolesService {
     }
   }
 
-  async removeRoles(id: number): Promise<DeleteResult> {
-    return await this.rolesRepository.delete(id);
+  async removeRoles(role_id: number): Promise<DeleteResult> {
+    return await this.rolesRepository.delete(role_id);
   }
 
 }

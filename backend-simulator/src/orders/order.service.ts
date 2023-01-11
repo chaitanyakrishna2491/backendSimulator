@@ -11,8 +11,8 @@ export class OrdersService {
   ) {}
 
   /****************Orders CRUD********************/
-  findAllOrders(): Promise<Orders[]> {
-    return this.ordersRepository.find();
+  findAllOrders(user_id: number): Promise<Orders[]> {
+    return this.ordersRepository.findBy({user_id});
   }
 
   findOneOrder(order_id: number): Promise<Orders> {

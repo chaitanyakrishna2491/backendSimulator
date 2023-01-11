@@ -7,29 +7,33 @@ import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 @ApiHeader({
   name: 'userId',
 })
-@Controller()
+@Controller('role')
 @ApiBearerAuth()
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   /****************Roless CRUD********************/
-  @Get('roles')
+  @Get('all')
   getRoles(): Promise<Roles[]> {
-    return this.rolesService.findAllRoless();
+    return this.rolesService.findAllRoles();
   }
-  @Get('role/:id')
+  @Get('user/:id')
+  getRolesPerUser(@Param('id') user_id: number): Promise<Roles[]> {
+    return this.rolesService.findRolesPerUser(user_id);
+  }
+  @Get(':id')
   getRole(@Param('id') roles_id: number): Promise<Roles> {
     return this.rolesService.findOneRoles(roles_id);
   }
-  @Post('role')
+  @Post()
   addRoles(@Body() roles: Roles): Promise<InsertResult> {
     return this.rolesService.createRoles(roles);
   }
-  @Put('role/:id')
+  @Put(':id')
   updateroles(@Param('id') roles_id: number, @Body() roles:Roles): Promise<UpdateResult> {
     return this.rolesService.updateroles(roles_id, roles);
   }
-  @Delete('role/:id')
+  @Delete(':id')
   deleteRoles(@Param('id') roles_id: number): Promise<DeleteResult> {
     return this.rolesService.removeRoles(roles_id);
   }

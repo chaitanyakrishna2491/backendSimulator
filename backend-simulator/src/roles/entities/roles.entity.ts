@@ -6,7 +6,7 @@ export class Roles{
     @Column() role_name: string
     @Column() dashboard: number
     @Column() tax: number
-    @Column() id: number
+    @Column() user_id: number
     @Column() membership: number
     @Column() reports: number
     @Column() notification: number

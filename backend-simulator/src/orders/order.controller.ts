@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Headers } from '@nestjs/common';
 import { OrdersService } from './order.service';
 import { ProductsService } from '../products/products.service';
 import { CartService } from '../cart/cart.service';
@@ -11,7 +11,7 @@ import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 @ApiHeader({
   name: 'userId',
 })
-@Controller()
+@Controller('order')
 @ApiBearerAuth()
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService,
@@ -19,11 +19,11 @@ export class OrdersController {
     private readonly cartService: CartService) {}
 
   /****************Orders CRUD********************/
-  @Get('orders')
-  getOrders(): Promise<Orders[]> {
-    return this.ordersService.findAllOrders();
+  @Get('all')
+  getOrders(@Headers('userId') user_id: number): Promise<Orders[]> {
+    return this.ordersService.findAllOrders(user_id);
   }
-  @Get('order/:id')
+  @Get(':id')
   getOrder(@Param('id') order_id: number): Promise<Orders> {
     return this.ordersService.findOneOrder(order_id);
   }
@@ -32,7 +32,7 @@ export class OrdersController {
     store_order.store_order_id = 0;
     return store_order;
   }
-  @Post('createOrder')
+  @Post()
   async addOrder(@Body() order: Orders): Promise<InsertResult> {
     const result:InsertResult = await this.ordersService.createOrder(order);
     if(result.identifiers && result.identifiers[0] && result.identifiers[0].order_id){
@@ -44,11 +44,11 @@ export class OrdersController {
     }
     return result;
   }
-  @Put('updateOrder/:id')
+  @Put(':id')
   updateorder(@Param('id') order_id: number, @Body() order:Orders): Promise<UpdateResult> {
     return this.ordersService.updateorder(order_id, order);
   }
-  @Delete('cancelOrder/:id')
+  @Delete(':id')
   async deleteOrder(@Param('id') order_id: number): Promise<DeleteResult> {
     const orderDetails: Orders = await this.ordersService.findOneOrder(order_id);
     const result:DeleteResult = await this.ordersService.removeOrder(order_id);

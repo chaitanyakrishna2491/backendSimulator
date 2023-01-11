@@ -13,8 +13,8 @@ export class RecentSearchService {
   ) {}
 
   /****************RecentSearchs CRUD********************/
-  getRecentSearch(): Promise<RecentSearch[]> {
-    return this.recentSearchRepository.find();
+  getRecentSearch(user_id: number): Promise<RecentSearch[]> {
+    return this.recentSearchRepository.findBy({user_id});
   }
 
   findOneRecentSearchItem(id: number): Promise<RecentSearch> {
