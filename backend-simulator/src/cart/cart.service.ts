@@ -11,8 +11,8 @@ export class CartService {
   ) {}
 
   /****************Carts CRUD********************/
-  getCart(): Promise<Cart[]> {
-    return this.cartRepository.find();
+  getCart(user_id: number): Promise<Cart[]> {
+    return this.cartRepository.findBy({ user_id });
   }
 
   findOneCartItem(cart_id: number): Promise<Cart> {

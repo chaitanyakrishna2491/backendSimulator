@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Headers } from '@nestjs/common';
 import { AddressService } from './address.service';
 import { Address } from './entities/address.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -13,8 +13,8 @@ export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   /****************Addresss CRUD********************/
-  @Get('user/:id')
-  getAddressByUser(@Param('id') user_id: number): Promise<Address[]> {
+  @Get('all')
+  getAddressByUser(@Headers('userId') user_id: number): Promise<Address[]> {
     return this.addressService.findAddressByUser(user_id);
   }
   @Get(':id')

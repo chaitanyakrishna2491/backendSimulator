@@ -11,7 +11,6 @@ export class TokenAuthenticationMiddleware implements NestMiddleware {
     try {
         const token = req.header(tokenHeaderKey).split(" ")[1];
         const userId = req.header(userIdHeaderKey);
-        console.log("userid: ",userId)
         const verified = jwt.verify(token, jwtSecretKey+":"+userId);
         if(verified){
             next();
