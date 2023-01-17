@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Users } from './entities/user.entity';
-import { Password } from './entities/password.entity';
+import { LoginDetail } from './entities/loginDetail.entity';
 import { Authentication } from './entities/authentcation.entity';
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -23,7 +23,7 @@ export class UsersService {
     return this.userRepository.findOneBy({ id });
   }
 
-  async authenticateUser(user:Password):Promise<Authentication>{
+  async authenticateUser(user:LoginDetail):Promise<Authentication>{
     let retrievedUser: Users = null;
     if(user.id){
       retrievedUser = (await this.userRepository.findOneBy({"id": user.id}))
@@ -40,9 +40,11 @@ export class UsersService {
     let authResponse: Authentication = null;
     const result = await bcrypt.compare(user.password, retrievedUser.password)
       if(result){
+        await this.updateuser(retrievedUser.id, {...retrievedUser, ...{"device_id":user.device_id}}, false)
         authResponse ={
           "authenticated" : true,
           "message" : 'User successfully authenticated',
+          "retrievedUser" : retrievedUser,
           "token": this.generateJWT(retrievedUser.id)
         }
       } else{
@@ -63,19 +65,23 @@ export class UsersService {
     
   }
 
-  async updateuser(id: number, user: Users): Promise<UpdateResult> {
-    const userList: Users[] = await this.userRepository.findBy({ id })
-    if(userList && userList.length){
-      let result:Promise<UpdateResult> = null;
-      bcrypt.hash(user.password, 10/* salt rounds*/, (err,hash) => {
-        result = this.userRepository.update(id, {...user, ...{"password":hash}});
-      });
-      return result;
-      
-    }else{
-      return new Promise<UpdateResult>((resolve, reject) => {
-        //  resolve(null)
-      })
+  async updateuser(id: number, user: Users, encryptPassword: Boolean = false): Promise<UpdateResult> {
+    if(encryptPassword){
+      const userList: Users[] = await this.userRepository.findBy({ id })
+      if(userList && userList.length){
+        let result:Promise<UpdateResult> = null;
+        bcrypt.hash(user.password, 10/* salt rounds*/, (err,hash) => {
+          result = this.userRepository.update(id, {...user, ...{"password":hash}});
+        });
+        return result;
+        
+      }else{
+        return new Promise<UpdateResult>((resolve, reject) => {
+          //  resolve(null)
+        })
+      }
+    } else {
+      return this.userRepository.update(id, user);
     }
   }
 

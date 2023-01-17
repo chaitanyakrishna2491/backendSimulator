@@ -19,6 +19,10 @@ export class OrdersService {
     return this.ordersRepository.findOneBy({ order_id });
   }
 
+  findOrderByStatus(order_status: string): Promise<Orders> {
+    return this.ordersRepository.findOneBy({ order_status });
+  }
+
   createOrder(order: Orders): Promise<InsertResult> {
     return this.ordersRepository.insert(order);
   }

@@ -62,7 +62,7 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(TokenAuthenticationMiddleware)
-      .exclude({ path: 'authenticateUser', method: RequestMethod.POST })
+      .exclude({ path: 'user/authenticate', method: RequestMethod.POST })
       .forRoutes('/');
   }
 }

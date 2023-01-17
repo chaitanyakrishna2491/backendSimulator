@@ -1,9 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-export class Password{
+export class LoginDetail{
     id: number
     name: string
     email: string
     password: string
     user_phone: string
+    device_id: string
 }
