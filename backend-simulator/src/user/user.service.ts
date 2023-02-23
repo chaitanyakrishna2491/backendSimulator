@@ -4,6 +4,7 @@ import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Users } from './entities/user.entity';
 import { LoginDetail } from './entities/loginDetail.entity';
 import { Authentication } from './entities/authentcation.entity';
+import { LOGIN_TOKEN } from 'src/constants/constants';
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -40,7 +41,7 @@ export class UsersService {
     let authResponse: Authentication = null;
     const result = await bcrypt.compare(user.password, retrievedUser.password)
       if(result){
-        await this.updateuser(retrievedUser.id, {...retrievedUser, ...{"device_id":user.device_id}}, false)
+        await this.updateuser(retrievedUser.id, {...retrievedUser, ...{"device_id":user.device_id, "remember_token": LOGIN_TOKEN}}, false)
         authResponse ={
           "authenticated" : true,
           "message" : 'User successfully authenticated',
@@ -54,6 +55,17 @@ export class UsersService {
       }
     }
       return authResponse;
+  }
+
+  async logoutUser(userID:number):Promise<Authentication>{
+    let retrievedUser: Users = await this.userRepository.findOneBy({"id": userID})
+
+    await this.updateuser(retrievedUser.id, {...retrievedUser, ...{"device_id": "", "remember_token": ""}}, false)
+    let authResponse ={
+      "authenticated" : false,
+      "message" : 'User successfully loggedOut'
+    }
+    return authResponse;
   }
 
   createUser(user: Users): Promise<InsertResult> {
@@ -87,6 +99,10 @@ export class UsersService {
 
   async removeUser(id: number): Promise<DeleteResult> {
     return await this.userRepository.delete(id);
+  }
+
+  async markPhoneNumberAsConfirmed(userId: number): Promise<UpdateResult>{
+    return this.userRepository.update(userId, {"is_verified": 1})
   }
 
   generateJWT(id:number){

@@ -10,7 +10,8 @@ import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 import { ORDER_CANCELLED, ORDER_PLACED, ORDER_REVISED } from 'src/constants/constants';
 import { UsersService } from 'src/user/user.service';
 import { Users } from 'src/user/entities/user.entity';
-import { TwilioNotification } from 'src/utils/TwilioNotificationService';
+import { SMSNotification } from 'src/sms/SMSNotification.service';
+import { MailService } from 'src/mail/mail.service';
 
 @ApiHeader({
   name: 'userId',
@@ -22,7 +23,8 @@ export class OrdersController {
     private readonly productsService: ProductsService,
     private readonly cartService: CartService,
     private readonly userService: UsersService,
-    private readonly twilioNotification: TwilioNotification) {}
+    private readonly twilioNotification: SMSNotification,
+    private readonly mailService: MailService) {}
 
   /****************Orders CRUD********************/
   @Get('all')
@@ -56,7 +58,8 @@ export class OrdersController {
                                 .replace("$paymentAmount", '$20')
                                 .replace("$paymentId", "12345")
                                 .replace("$deliveryEstimate", "30")
-      this.twilioNotification.send(user.user_phone, userNotification)
+      // this.twilioNotification.send(user.user_phone, userNotification)
+      this.mailService.sendMail(user.email, user.name, "SuccessfulOrder", "Order Confirmation")
     }
     return result;
   }

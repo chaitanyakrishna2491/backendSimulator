@@ -20,6 +20,10 @@ import { CouponModule } from './coupon/coupon.module';
 import { DealModule } from './deal/deal.module';
 import { ProductRatingModule } from './productRating/productrRating.module';
 import { RecentSearchModule } from './recentSearch/recentSearch.module';
+import { MailModule } from './mail/mail.module';
+import { SMSNotificationModule } from './sms/SMSNotification.module';
+import { Users } from './user/entities/user.entity';
+import { UsersService } from './user/user.service';
 
 @Module({
   imports: [
@@ -33,6 +37,7 @@ import { RecentSearchModule } from './recentSearch/recentSearch.module';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    TypeOrmModule.forFeature([Users]),
     UserModule,
     ProductsModule,
     OrderModule,
@@ -48,10 +53,12 @@ import { RecentSearchModule } from './recentSearch/recentSearch.module';
     CouponModule,
     DealModule,
     ProductRatingModule,
-    RecentSearchModule
+    RecentSearchModule,
+    MailModule,
+    SMSNotificationModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UsersService],
 })
 
 export class AppModule {

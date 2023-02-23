@@ -80,6 +80,17 @@ export class ProductsService {
     return this.productvarientRepository.insert(productVarient);
   }
 
+  async uploadProductVarient(file: Express.Multer.File): Promise<InsertResult>{
+    const csvFile = readFileSync('./files/ProductVarient.csv');
+    const productVarient: ProductVarient[] = await parse(csvFile.toString(), {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: (header) => header.toLowerCase().replace('#', '').trim(),
+      complete: (results) => results.data
+    }).data
+    return this.productvarientRepository.insert(productVarient);
+  }
+
   async updateProductVarient(varient_id: number, productVarient: ProductVarient): Promise<UpdateResult> {
     const varientList: ProductVarient[] = await this.productvarientRepository.findBy({ varient_id })
     if(varientList && varientList.length){

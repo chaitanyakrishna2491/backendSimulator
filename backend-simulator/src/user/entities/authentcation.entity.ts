@@ -3,7 +3,7 @@ import { Users } from './user.entity';
 
 export class Authentication{
     message: string
-    authenticated: boolean
+    authenticated?: boolean
     retrievedUser?: Users
     token?: string
 }

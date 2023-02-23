@@ -82,6 +82,26 @@ export class ProductsController {
   addProductVarient(@Body() productVarient: ProductVarient): Promise<InsertResult> {
     return this.productsService.createProductVarient(productVarient);
   }
+
+  @Post('productVarient/upload')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './files',
+      filename: function (req, file, cb) {
+        cb(null , 'ProductVarient.csv');
+      }
+    })
+  }))
+  async uploadProductVarient(@UploadedFile(
+    new ParseFilePipe({
+      validators: [
+        new FileTypeValidator({ fileType: 'csv' }),
+      ],
+    }),
+  ) file: Express.Multer.File): Promise<InsertResult> {
+    return this.productsService.uploadProductVarient(file);
+  }
+
   @Put('productVarient/:varient_id')
   updateproductVarient(@Param('varient_id') varient_id: number, @Body() ProductVarient:ProductVarient): Promise<UpdateResult> {
     return this.productsService.updateProductVarient(varient_id, ProductVarient);
