@@ -24,6 +24,7 @@ import { MailModule } from './mail/mail.module';
 import { SMSNotificationModule } from './sms/SMSNotification.module';
 import { Users } from './user/entities/user.entity';
 import { UsersService } from './user/user.service';
+import { LoggerMiddleware } from './middleware/logger.middleware';
 
 @Module({
   imports: [
@@ -71,5 +72,7 @@ export class AppModule {
       .apply(TokenAuthenticationMiddleware)
       .exclude({ path: 'user/authenticate', method: RequestMethod.POST })
       .forRoutes('/');
+
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

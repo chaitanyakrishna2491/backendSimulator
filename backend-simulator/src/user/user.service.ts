@@ -112,7 +112,7 @@ export class UsersService {
         time: Date(),
         userId:id,
     }
-    const token = jwt.sign(data, jwtSecretKey+":"+id, { expiresIn: expiresIn });
+    const token = jwt.sign(data, jwtSecretKey+":"+id,);// { expiresIn: expiresIn });
     return token
   }
 }
