@@ -44,7 +44,7 @@ export class UserController {
                           .replace('$device',authResponse.retrievedUser.device_id)
       console.log(userNotification)
       // this.twilioNotification.send(authResponse.retrievedUser.user_phone, userNotification)
-      this.mailService.sendMail(authResponse.retrievedUser.email, authResponse.retrievedUser.name, "successfullogin", "Login Confirmation")
+      // this.mailService.sendMail(authResponse.retrievedUser.email, authResponse.retrievedUser.name, "successfullogin", "Login Confirmation")
     } 
     return authResponse;
   }

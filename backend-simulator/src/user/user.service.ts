@@ -5,6 +5,7 @@ import { Users } from './entities/user.entity';
 import { LoginDetail } from './entities/loginDetail.entity';
 import { Authentication } from './entities/authentcation.entity';
 import { LOGIN_TOKEN } from 'src/constants/constants';
+import * as speakeasy from "speakeasy";
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -41,12 +42,13 @@ export class UsersService {
     let authResponse: Authentication = null;
     const result = await bcrypt.compare(user.password, retrievedUser.password)
       if(result){
-        await this.updateuser(retrievedUser.id, {...retrievedUser, ...{"device_id":user.device_id, "remember_token": LOGIN_TOKEN}}, false)
+        const generatedJWT = this.generateJWT(retrievedUser.id)
+        await this.updateuser(retrievedUser.id, {...retrievedUser, ...{"device_id":user.device_id, "remember_token": generatedJWT}}, false)
         authResponse ={
           "authenticated" : true,
           "message" : 'User successfully authenticated',
           "retrievedUser" : retrievedUser,
-          "token": this.generateJWT(retrievedUser.id)
+          "token": generatedJWT
         }
       } else{
         authResponse ={
@@ -75,6 +77,11 @@ export class UsersService {
     });
     return result;
     
+  }
+
+  registerUser(): Promise<InsertResult>{
+    var secret = speakeasy.generateSecret();
+
   }
 
   async updateuser(id: number, user: Users, encryptPassword: Boolean = false): Promise<UpdateResult> {
