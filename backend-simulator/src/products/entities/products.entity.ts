@@ -1,10 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany ,  ManyToOne} from 'typeorm';
 import { ProductVarient } from './productvarient.entity';
+import { Brand } from 'src/brand/entities/brand.entity';
+
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   product_id: number;
+  
+  @ManyToOne(() => Brand)
+  brand: Brand;
 
   @Column() cat_id: number;
   @Column() brand_id: number;
@@ -20,4 +25,22 @@ export class Product {
   @OneToMany(() => ProductVarient, (productVarient) => productVarient.product)
   product_varients: ProductVarient[]
 
+  
+ 
+
+
+  @Column() price: string;
+  @Column() weight: string;
+  @Column() discount: string;
+  @Column() cartCount: number;
+  @Column() isFavourite: boolean;
+  @Column() detail: string;
+  @Column() ratingValue: string;
+
+
+
+
+
 }
+
+

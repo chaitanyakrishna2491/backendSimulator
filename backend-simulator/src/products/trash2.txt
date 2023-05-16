@@ -21,7 +21,11 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   /****************Products CRUD********************/
- 
+  // @Get('products')
+  // getProducts(): Promise<Product[]> {
+  //   return this.productsService.findAllProducts();
+  // }
+
 
   @Get('products')
 async getProducts(): Promise<Product[]> {
@@ -29,10 +33,38 @@ async getProducts(): Promise<Product[]> {
 }
 
 
+
+  // @Get('products')
+  // async getProducts(): Promise<ProductDto[]> {
+  //   const products: Product[] = await this.productsService.findAllProducts();
+  //   const getProductsDtoArray: ProductDto[] = plainToClass(ProductDto, products, { excludeExtraneousValues: true });
+  //   const errors = await validate(getProductsDtoArray, { skipMissingProperties: true });
+  //   if (errors.length > 0) {
+  //     throw new Error(`Validation failed: ${JSON.stringify(errors)}`);
+  //   }
+  //   return getProductsDtoArray;
+  // }
+
+
+  // @Get()
+  // async getProducts(@Query() queryParams: GetProductsDto): Promise<Product[]> {
+  //   if (queryParams.brand_id) {
+  //     return this.productsService.findByBrandWithDetails(queryParams.brand_id);
+  //   }
+  //   return this.productsService.findAll();
+  // }
+
+
+
+
   @Get('byBrand/:brandId')
   async getByBrand(@Param('brandId') brandId: number): Promise<Product[]> {
     return this.productsService.findByBrandWithDetails(brandId);
   }
+
+
+ 
+
 
 
 
@@ -130,8 +162,7 @@ async getProducts(): Promise<Product[]> {
   //Stock availability
   @Get('products/stockAvailability')
   getstockAvailability(): Promise<ProductVarient[]> {
-    // return this.productsService.getStockAvailablity();
-    return this.productsService.findAllpv();
+    return this.productsService.getStockAvailablity();
   }
   
 }

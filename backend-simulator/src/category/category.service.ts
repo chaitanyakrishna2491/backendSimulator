@@ -17,9 +17,18 @@ export class CategoryService {
     return this.categoryRepository.find();
   }
 
+
   findOneCategoryItem(cat_id: number): Promise<Categories> {
     return this.categoryRepository.findOneBy({ cat_id });
   }
+
+  // findcatlevel1(level:number): Promise <Categories> {
+
+  //   var a=await this.categoryRepository.find();
+
+    
+
+  // }
 
   createCategoryItem(category_item: Categories): Promise<InsertResult> {
     return this.categoryRepository.insert(category_item);

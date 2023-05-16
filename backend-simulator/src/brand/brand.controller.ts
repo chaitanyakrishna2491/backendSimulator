@@ -36,15 +36,15 @@ export class BrandController {
       }
     })
   }))
-  async uploadProducts(@UploadedFile(
-    new ParseFilePipe({
-      validators: [
-        new FileTypeValidator({ fileType: 'csv' }),
-      ],
-    }),
-  ) file: Express.Multer.File): Promise<InsertResult> {
-    return this.brandService.uploadBrands(file);
-  }
+  // async uploadProducts(@UploadedFile(
+  //   new ParseFilePipe({
+  //     validators: [
+  //       new FileTypeValidator({ fileType: 'csv' }),
+  //     ],
+  //   }),
+  // ) file: Express.Multer.File): Promise<InsertResult> {
+  //   return this.brandService.uploadBrands(file);
+  // }
   @Put('updateBrandItem/:id')
   updateBrand(@Param('id') brand_id: number, @Body() brand:Brand): Promise<UpdateResult> {
     return this.brandService.updateBrandItem(brand_id, brand);

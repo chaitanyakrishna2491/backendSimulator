@@ -43,8 +43,8 @@ export class UserController {
                           .replace('$loginTime', new Date().toString())
                           .replace('$device',authResponse.retrievedUser.device_id)
       console.log(userNotification)
-      // this.twilioNotification.send(authResponse.retrievedUser.user_phone, userNotification)
-      // this.mailService.sendMail(authResponse.retrievedUser.email, authResponse.retrievedUser.name, "successfullogin", "Login Confirmation")
+      this.twilioNotification.send(authResponse.retrievedUser.user_phone, userNotification)
+      this.mailService.sendMail(authResponse.retrievedUser.email, authResponse.retrievedUser.name, "successfullogin", "Login Confirmation")
     } 
     return authResponse;
   }
@@ -60,7 +60,7 @@ export class UserController {
       userNotification = USER_SUCCESSFUL_LOGOUT.replace('$username', authResponse.retrievedUser.name)
                           .replace('$loginTime', new Date().toString())
       console.log(userNotification)
-      // this.twilioNotification.send(authResponse.retrievedUser.user_phone, userNotification)
+      this.twilioNotification.send(authResponse.retrievedUser.user_phone, userNotification)
       this.mailService.sendMail(authResponse.retrievedUser.email, authResponse.retrievedUser.name, "successfullogout", "Logout Confirmation")
     } 
     return authResponse;

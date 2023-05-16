@@ -7,6 +7,7 @@ import { parse } from 'papaparse';
 
 @Injectable()
 export class BrandService {
+  static brandRepository: any;
   constructor(
     @InjectRepository(Brand)
     private brandRepository: Repository<Brand>,

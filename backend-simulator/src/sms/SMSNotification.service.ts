@@ -1,19 +1,50 @@
 import { Exception } from "handlebars";
 import { UsersService } from "src/user/user.service";
+import { Twilio } from 'twilio';
+
 
 export class SMSNotification{
 
-  private twilioClient: any;
 
-  constructor(private usersService: UsersService){
-    const accountSid = process.env.twilioAccountSID;
-    const authToken = process.env.twilioAuthToken;
-    this.twilioClient = require('twilio')(accountSid, authToken);
-  }
+
+  // private twilioClient: any;
+  // configService: any;
+  // usersService: any;
+
+  // constructor(private usersService: UsersService){
+  //   const accountSid = process.env.twilioAccountSID;
+  //   const authToken = process.env.twilioAuthToken;
+  // //   const fromNumber = this.configService.get('TWILIO_FROM_NUMBER');
+  // //   const username = this.configService.get('TWILIO_USERNAME');{ username, from: fromNumber }
+
+    
+  //   // this.twilioClient = require('twilio')(accountSid, authToken);
+
+  // }
+
+
+
+
+
+
+  private twilioClient: any;
+  configService: any;
+  usersService: any;
+
+  // constructor(){
+  //   // const accountSid = process.env.twilioAccountSID;
+  //   // const authToken = process.env.twilioAuthToken;
+  //   // const fromNumber = this.configService.get('TWILIO_FROM_NUMBER');
+  //   // const username = this.configService.get('TWILIO_USERNAME');{ username, from: fromNumber }
+
+    
+  //   // this.twilioClient = require('twilio')(accountSid, authToken);
+
+  // }
 
     send(phone: string, text: string){
       this.twilioClient.messages
-      // .create({body: 'Hi there', from: '+16089676147', to: '+918655025343'})
+      .create({body: 'Hi there', from: '+16089676147', to: '+918655025343'})
       .create({body: text, from: process.env.twilioFromPhone, to: phone})
       .then(message => console.log(message.sid), 
             error => console.log(error));

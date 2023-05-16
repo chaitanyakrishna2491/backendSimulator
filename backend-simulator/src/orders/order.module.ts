@@ -12,11 +12,16 @@ import { UsersService } from 'src/user/user.service';
 import { Users } from 'src/user/entities/user.entity';
 import { SMSNotification } from 'src/sms/SMSNotification.service';
 import { MailService } from 'src/mail/mail.service';
+import { Brand } from 'src/brand/entities/brand.entity';
+import { ProductsModule } from 'src/products/products.module';
+import { BrandModule } from 'src/brand/brand.module';
+import { BrandService } from 'src/brand/brand.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Orders, ProductVarient, Product, Cart, Users])],
+  imports: [TypeOrmModule.forFeature([Orders, ProductVarient, Product, Brand, Cart, Users]),  ProductsModule,
+  BrandModule, ],
   exports: [TypeOrmModule],
-  providers: [OrdersService, ProductsService, CartService, UsersService, SMSNotification, MailService],
+  providers: [OrdersService, ProductsService, BrandService , CartService, UsersService, SMSNotification, MailService],
   controllers: [OrdersController],
 })
 export class OrderModule {}

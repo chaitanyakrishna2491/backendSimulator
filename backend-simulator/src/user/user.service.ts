@@ -79,10 +79,26 @@ export class UsersService {
     
   }
 
-  registerUser(): Promise<InsertResult>{
-    var secret = speakeasy.generateSecret();
+  // registerUser(): Promise<InsertResult>{
+  //   var secret = speakeasy.generateSecret();
+  //   // return await this.userRepository.
+  //   // return "asdf";
+  //   // this.userRepository.insert({...user, ...{"password":hash}});
 
-  }
+
+  // }
+
+
+  // async registerUser(username: string): Promise<Users> {
+  //   const secret = speakeasy.generateSecret();
+
+  //   const qw = new Users();
+  //   qw.name = username;
+  //   qw.secret = secret.base32;
+
+  //   return this.userRepository.save(qw);
+  // }
+  
 
   async updateuser(id: number, user: Users, encryptPassword: Boolean = false): Promise<UpdateResult> {
     if(encryptPassword){

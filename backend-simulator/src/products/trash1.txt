@@ -2,14 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { readFileSync } from 'fs';
 import { parse } from 'papaparse';
-import { DeleteResult, InsertResult, Repository, UpdateResult,FindOneOptions } from 'typeorm';
+import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Product } from './entities/products.entity';
 import { ProductVarient } from './entities/productvarient.entity';
 import { Brand } from 'src/brand/entities/brand.entity';
 import { BrandController } from 'src/brand/brand.controller';
 import { BrandService } from 'src/brand/brand.service';
 import { BrandModule } from 'src/brand/brand.module';
-import { BrandRepository } from 'src/brand/BrandRepository';
 
 @Injectable()
 export class ProductsService {
@@ -22,36 +21,157 @@ export class ProductsService {
     @InjectRepository(Brand)
     private brandRepository: Repository<Brand>,
 
-
-    @InjectRepository(ProductVarient)
-    private productvarientRepository: Repository<ProductVarient>,
-    private brandService: BrandService,
     
+   
+ 
+    @InjectRepository(ProductVarient)
+    private productvarientRepository: Repository<ProductVarient>
   ) {}
 
   /****************Products CRUD********************/
 
-  //  findAllProducts(): Promise<Product[]> {
+
+  async findAllProducts(): Promise<Product[]> {
+    var products: Product[] = await this.productsRepository.find();
+    var productWithBrand: Product[] = [];
+  
+    for (var product of products) {
+      var brand: Brand = await BrandService.brandRepository.findOneBy({ brand_id: product.brand_id });
+      // product.push({
+      //   product_id: product.product_id,
+      //   cat_id: product.cat_id,
+      //   brand_id: product.brand_id,
+      //   product_name: product.product_name,
+      //   product_image: product.product_image,
+      //   type: product.type,
+      //   hide: product.hide,
+      //   added_by: product.added_by,
+      //   approved: product.approved,
+      //   admin_share: product.admin_share,
+      //   featured: product.featured,
+      //   brand: brand // include brand details
+      // });
+      product={...product,"brand": brand}
+    }
+  
+    return products;
+  }
+  
+
+
+  // findAllProducts(): Promise<Product[]> {
+  //   let result= this.productsRepository.find();
+  //   result = { ...result, this.brandRepository.findOneBy({ result.brand_id })};
+  //   return result;
+  // }
+
+
+  // findAllProducts(): Promise<Product[]> {
+  //   let result= this.productsRepository.find();
+  //   result = { ...result, this.brandRepository.findOneBy({ result.brand_id })};
+  //   return result;
+  // }
+
+
+  // async findAllProducts(): Promise<Product[]> {
+  //   var products = await this.productsRepository.find();
+  //   var result = await Promise.all(products.map(async (product) => {
+  //     var brand = await this.brandRepository.findOne({product.brand_id });
+  //     return { ...product, brand };
+  //   }));
+  //   return result;
+  // }
+
+
+  // findAllProducts(): Promise<Product[]> {
+  //   return this.productsRepository.find().then((products: Product[]) => {
+  //     var promises = products.map((product: Product) => {
+  //       return this.brandRepository.findOneOrFail(product.brand_id).then((brand: Brand) => {
+  //         product.brand = brand;
+  //         return product;
+  //       });
+  //     });
+  //     return Promise.all(promises);
+  //   });
+  // }
+  
+
+  // async findAllProducts(): Promise<Product[]> {
+  //   var products = await this.productsRepository.find();
+  //   var productBrandMap = new Map();
+  //   var brandIds = Array.from(new Set(products.map(p => p.brand_id)));
+    
+  //   var brands = await this.brandRepository.findByIds(brandIds);
+  //   brands.forEach(b => productBrandMap.set(b.brand_id, b));
+    
+  //   products.forEach(p => {
+  //     var brand = productBrandMap.get(p.brand_id);
+  //     p.brand = brand;
+  //   });
+    
+  //   return products;
+  // }
+  
+
+  // async findAllProducts(): Promise<Product[]> {
+  //   var products = await this.productsRepository.find();
+
+  //   for (var product of products) {
+  //     product.brand = await this.brandService.findOneBy(product.brand_id);
+  //   }
+
+  //   return products;
+  // }
+  
+
+
+  // async findAllProducts(): Promise<Product[]> {
+  //   var products = await this.productsRepository.find({
+  //     relations: ['brand'],
+  //   });
+  
+  //   // Create a new array with the modified product objects
+  //   var result = products.map((product) => {
+  //     var { brand, ...rest } = product;
+  //     return {
+  //       ...rest,
+  //       brand: brand || null,
+  //     };
+  //   });
+  
+  //   return result;
+  // }
+  
+
+  // findAllProducts(): Promise<Product[]> {
+  //   return this.productsRepository.find({
+  //     relations: ['brand']
+  //   });
+  // }
+
+  
+
+  // findAllProducts(): Promise<Product[]> {
+  //   return this.productsRepository.createQueryBuilder('product')
+  //     .leftJoinAndSelect('product.brand', 'brand')
+  //     .getMany();
+  // }
+  
+
+  // findAllProducts(): Promise<Product[]> {
+  //   return this.productsRepository
+  //     .createQueryBuilder('product')
+  //     .leftJoinAndSelect('product.brand', 'brand')
+  //     .getMany();
+  // }
+  
+
+
+
+  // findAllProducts(): Promise<Product[]> {
   //   return this.productsRepository.find();
   // }
 
-  // findAllProducts(): Promise<Product[]> {
-  //   return this.productsRepository.find({ relations: ['brand'] });
-  // }
-  
-
-  async findAllProducts(): Promise<Product[]> {
-    const products = await this.productsRepository.find();
-    const productsWithBrands = [];
-  
-    for (const product of products) {
-      const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
-      productsWithBrands.push({ ...product, brand });
-    }
-  
-    return productsWithBrands;
-  }
-  
 
   findOneProduct(product_id: number): Promise<Product> {
     return this.productsRepository.findOneBy({ product_id });
@@ -179,30 +299,4 @@ export class ProductsService {
       product: true,
   } });
   }
-
-  async findAllpv(): Promise<ProductVarient[]> {
-    var pv=await this.productvarientRepository.find();
-    var pvv=[];
-    for(var pv1 of pv) {
-      var pr=await this.productsRepository.findOneBy({product_id:pv1.product_id});
-      pvv.push({...pv1, pr });
-
-    }
-    return pvv;
-  }
-
-  // async findAllProducts(): Promise<Product[]> {
-  //   const products = await this.productsRepository.find();
-  //   const productsWithBrands = [];
-  
-  //   for (const product of products) {
-  //     const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
-  //     productsWithBrands.push({ ...product, brand });
-  //   }
-  
-  //   return productsWithBrands;
-  // }
-
-
-
 }

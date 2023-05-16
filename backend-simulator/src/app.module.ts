@@ -15,7 +15,7 @@ import { AdminModule } from './admin/admin.module';
 import { RolesModule } from './roles/role.module';
 import { AddressModule } from './address/address.module';
 import { TokenAuthenticationMiddleware } from './middleware/tokenAuthentication';
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 import { CouponModule } from './coupon/coupon.module';
 import { DealModule } from './deal/deal.module';
 import { ProductRatingModule } from './productRating/productrRating.module';
@@ -25,16 +25,20 @@ import { SMSNotificationModule } from './sms/SMSNotification.module';
 import { Users } from './user/entities/user.entity';
 import { UsersService } from './user/user.service';
 import { LoggerMiddleware } from './middleware/logger.middleware';
+import { Brand } from './brand/entities/brand.entity';
+import { Product } from './products/entities/products.entity';
+
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: 'localhost',
-      port: 3306,
+      port: 4306,
       username: 'root',
       password: 'root',
       database: 'db1',
+      entities: [Brand, Product],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -68,10 +72,10 @@ export class AppModule {
   }
 
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(TokenAuthenticationMiddleware)
-      .exclude({ path: 'user/authenticate', method: RequestMethod.POST })
-      .forRoutes('/');
+    // consumer
+    //   .apply(TokenAuthenticationMiddleware)
+    //   .exclude({ path: 'user/authenticate', method: RequestMethod.POST })
+    //   .forRoutes('/');
 
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }

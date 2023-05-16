@@ -5,8 +5,12 @@ import { UsersService } from './user/user.service';
 
 @Controller('')
 export class AppController {
+    getHello(): any {
+      throw new Error('Method not implemented.');
+    }
     constructor(private readonly appService: AppService,
-        // private readonly userService: UsersService
+        private readonly userService: UsersService
+
         ) {}
 
     // @Post('gUser/create')  

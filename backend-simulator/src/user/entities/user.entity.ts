@@ -28,4 +28,6 @@ export class Users{
     @Column() mem_plan_expiry: string
     @Column() created_at: string
     @Column() updated_at: string
+  username: string;
+  secret: any;
 }

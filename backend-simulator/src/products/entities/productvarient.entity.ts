@@ -21,5 +21,7 @@ export class ProductVarient {
 
   @ManyToOne(() => Product, product => product.product_varients)
   product: Product;
+  // @ManyToOne(() => Product, product => product.variants)
+  // product: Product;
 
 }
