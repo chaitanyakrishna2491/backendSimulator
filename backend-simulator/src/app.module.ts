@@ -27,6 +27,7 @@ import { UsersService } from './user/user.service';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { Brand } from './brand/entities/brand.entity';
 import { Product } from './products/entities/products.entity';
+import { SMSNotification } from './sms/SMSNotification.service';
 
 
 @Module({
@@ -61,9 +62,10 @@ import { Product } from './products/entities/products.entity';
     RecentSearchModule,
     MailModule,
     SMSNotificationModule
+    // OtpModule
   ],
   controllers: [AppController],
-  providers: [AppService, UsersService],
+  providers: [AppService, UsersService,SMSNotification ],
 })
 
 export class AppModule {

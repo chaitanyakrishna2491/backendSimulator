@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany ,  ManyToOne} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany , OneToOne, ManyToOne,JoinColumn} from 'typeorm';
 import { ProductVarient } from './productvarient.entity';
 import { Brand } from 'src/brand/entities/brand.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
 
 
 @Entity()
@@ -24,6 +25,14 @@ export class Product {
 
   @OneToMany(() => ProductVarient, (productVarient) => productVarient.product)
   product_varients: ProductVarient[]
+
+  // @OneToOne(() => Cart)
+  //   @JoinColumn()
+  //   Cart:Cart
+
+  @OneToOne(() => Cart, (cart) => cart.product)
+  cart: Cart;
+ 
 
   
  

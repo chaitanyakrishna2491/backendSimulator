@@ -3,6 +3,7 @@ import { CartService } from './cart.service';
 import { Cart } from './entities/cart.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
+import { CartDTO } from './CartDTO.dto';
 
 @ApiHeader({
   name: 'userId',
@@ -13,10 +14,27 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   /****************Cart CRUD********************/
-  @Get()
-  getCart(@Headers("userId") userId: number): Promise<Cart[]> {
-    return this.cartService.getCart(userId);
+  // @Get()
+  // getCart(@Headers("userId") userId: number): Promise<Cart[]> {
+  //   return this.cartService.getCart(userId);
+  // }
+
+  @Get("findcartAll")
+  getCartup(): Promise<any> {
+    return this.cartService.getCartup();
   }
+
+  
+  
+  
+ 
+
+
+  @Get('findAllPc')
+  getCartpc(): Promise<any> {
+    return this.cartService.findAllpcs();
+  }
+
   @Get(':id')
   getCartItem(@Param('id') cart_id: number): Promise<Cart> {
     return this.cartService.findOneCartItem(cart_id);

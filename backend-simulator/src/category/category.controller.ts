@@ -19,13 +19,23 @@ export class CategoryController {
   getCategory(): Promise<Categories[]> {
     return this.categoryService.getCategory();
   }
-  @Get('readCategoryItem/:id')
+  @Get('readCategoryIteml/:id')
   getCategoryItem(@Param('id') category_id: number): Promise<Categories> {
     return this.categoryService.findOneCategoryItem(category_id);
   }
   @Post('addToCategory')
   addToCategory(@Body() category: Categories): Promise<InsertResult> {
     return this.categoryService.createCategoryItem(category);
+  }
+
+  @Get('findCategoryByLevel/:level')
+  findgetcatlevel1(@Param('level') v: number): Promise<any> {
+    return this.categoryService.findcatlevel1(v);
+  }
+
+  @Get('findChildrenByCatId/:CatId')
+  fccr(@Param('CatId') v: number): Promise<any> { 
+    return this.categoryService.fcc(v);
   }
 
   @Post('categories/upload')

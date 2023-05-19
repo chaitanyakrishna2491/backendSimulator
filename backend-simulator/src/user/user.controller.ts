@@ -4,11 +4,14 @@ import { Users } from './entities/user.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { LoginDetail } from './entities/loginDetail.entity';
 import { Authentication } from './entities/authentcation.entity';
-import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiHeaders } from '@nestjs/swagger';
 import { PasswordEntity } from './entities/passwordEntity.entity';
 import { SMSNotification } from 'src/sms/SMSNotification.service';
 import { USER_PASSWORD_RESET, USER_SUCCESSFUL_LOGIN, USER_SUCCESSFUL_LOGOUT } from 'src/constants/constants';
 import { MailService } from 'src/mail/mail.service';
+import { get } from 'http';
+import { GenOtpDto } from './GenOtpDto.dto';
+import { VerifyOtpDto } from './VerifyOtpDto.dto';
 
 @Controller('user')
 @ApiBearerAuth()
@@ -33,6 +36,35 @@ export class UserController {
   getUser(@Param('id') user_id: number): Promise<Users> {
     return this.userService.findOneUser(user_id);
   }
+
+//   @Post('gen-otp')
+  
+// async genOtp(@Body('user_phone') user_phone: number): Promise<any> {
+//   return this.userService.generateOTP(user_phone);
+// }
+
+
+// @Post('verify-otp')
+
+// async verifyOtp(@Body() data: { user_phone: number, otp: string }): Promise<any> {
+//   const { user_phone, otp } = data;
+//   return this.userService.verifyOTP(user_phone, otp);
+// }
+
+
+@Post('gen-otp')
+async genOtp(@Body() genOtpDto: GenOtpDto): Promise<any> {
+  const { user_phone } = genOtpDto;
+  return this.userService.generateOTP(user_phone);
+}
+
+@Post('verify-otp')
+async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto): Promise<any> {
+  const { user_phone, otp } = verifyOtpDto;
+  return this.userService.verifyOTP(user_phone, otp);
+}
+
+
   
   @Post('authenticate')
   async authenticateUser(@Body() user: LoginDetail): Promise<Authentication> {
