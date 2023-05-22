@@ -34,11 +34,11 @@ import { SMSNotification } from './sms/SMSNotification.service';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mariadb',
-      host: 'localhost',
-      port: 4306,
+      host: 'boozemartdb.cikntbshfrwd.ap-south-1.rds.amazonaws.com',
+      port: 3306,
       username: 'root',
-      password: 'root',
-      database: 'db1',
+      password: 'password',
+      database: 'boozemartDB',
       entities: [Brand, Product],
       synchronize: true,
       autoLoadEntities: true,

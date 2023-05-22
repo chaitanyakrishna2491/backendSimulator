@@ -14,7 +14,7 @@ export class CategoryService {
 
   /****************Categorys CRUD********************/
   getCategory(): Promise<Categories[]> {
-    return this.categoryRepository.find();
+    return this.categoryRepository.findBy({level:0});
   }
 
 
