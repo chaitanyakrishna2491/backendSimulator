@@ -18,7 +18,7 @@ export class AddressController {
     return this.addressService.findAddressByUser(user_id);
   }
 
-  @Get('get--all--address')
+  @Get('userAddress')
   getAddressAll(): Promise<any> {
     return this.addressService.qw12();
   }
