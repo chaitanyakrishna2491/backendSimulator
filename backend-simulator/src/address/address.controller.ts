@@ -17,6 +17,11 @@ export class AddressController {
   getAddressByUser(@Headers('userId') user_id: number): Promise<Address[]> {
     return this.addressService.findAddressByUser(user_id);
   }
+
+  @Get('get--all--address')
+  getAddressAll(): Promise<any> {
+    return this.addressService.qw12();
+  }
   @Get(':id')
   getAddress(@Param('id') address_id: number): Promise<Address> {
     return this.addressService.findOneAddress(address_id);

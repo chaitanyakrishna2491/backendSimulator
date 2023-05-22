@@ -28,6 +28,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
 import { Brand } from './brand/entities/brand.entity';
 import { Product } from './products/entities/products.entity';
 import { SMSNotification } from './sms/SMSNotification.service';
+import { FavouritesModule } from './favourites/favourites.module';
 
 
 @Module({
@@ -61,7 +62,8 @@ import { SMSNotification } from './sms/SMSNotification.service';
     ProductRatingModule,
     RecentSearchModule,
     MailModule,
-    SMSNotificationModule
+    SMSNotificationModule,
+    FavouritesModule
     // OtpModule
   ],
   controllers: [AppController],

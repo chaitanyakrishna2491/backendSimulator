@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Address } from 'src/address/entities/address.entity';
+import { Product } from 'src/products/entities/products.entity';
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
 
 @Entity()
 export class Users{
@@ -28,6 +30,8 @@ export class Users{
     @Column() mem_plan_expiry: string
     @Column() created_at: string
     @Column() updated_at: string
+    @OneToMany(() => Address, (adr) => adr.user_id)
+    Addresses: Address[]
     
   username: string;
   secret: any;
