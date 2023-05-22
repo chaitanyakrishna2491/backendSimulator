@@ -35,11 +35,11 @@ import { FavouritesModule } from './favourites/favourites.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mariadb',
-      host: 'boozemartdb.cikntbshfrwd.ap-south-1.rds.amazonaws.com',
-      port: 3306,
+      host: 'localhost',
+      port: 4306,
       username: 'root',
-      password: 'password',
-      database: 'boozemartDB',
+      password: 'root',
+      database: 'db1',
       entities: [Brand, Product],
       synchronize: true,
       autoLoadEntities: true,
