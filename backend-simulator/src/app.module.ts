@@ -30,6 +30,9 @@ import { Product } from './products/entities/products.entity';
 import { SMSNotification } from './sms/SMSNotification.service';
 import { FavouritesModule } from './favourites/favourites.module';
 import { PaymentsModule } from './payments/payments.module';
+import { TransactionModule } from './transaction/Transaction.module';
+import { NotifyModule } from './notify/notify.module';
+// import { CreditCardModule } from './credit-card/credit-card.module';
 
 
 @Module({
@@ -66,6 +69,9 @@ import { PaymentsModule } from './payments/payments.module';
     SMSNotificationModule,
     FavouritesModule,
     PaymentsModule,
+    TransactionModule,
+    NotifyModule,
+    // CreditCardModule
     // OtpModule
   ],
   controllers: [AppController],
