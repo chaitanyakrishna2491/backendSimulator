@@ -13,7 +13,7 @@ export class Cart {
   //   @JoinColumn()
   //   Product:Product
 
-  @OneToOne(() => Product)
+  @ManyToOne(() => Product)
   @JoinColumn({ name: 'product_id' })
   product: Product;
 

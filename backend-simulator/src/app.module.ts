@@ -29,6 +29,9 @@ import { Brand } from './brand/entities/brand.entity';
 import { Product } from './products/entities/products.entity';
 import { SMSNotification } from './sms/SMSNotification.service';
 import { FavouritesModule } from './favourites/favourites.module';
+import { TransactionModule } from './transaction/Transaction.module';
+import { NotifyModule } from './notify/notify.module';
+import { CreditCardModule } from './credit-card/credit-card.module';
 
 
 @Module({
@@ -63,7 +66,10 @@ import { FavouritesModule } from './favourites/favourites.module';
     RecentSearchModule,
     MailModule,
     SMSNotificationModule,
-    FavouritesModule
+    FavouritesModule,
+    TransactionModule,
+    NotifyModule,
+    CreditCardModule
     // OtpModule
   ],
   controllers: [AppController],
