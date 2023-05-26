@@ -16,7 +16,9 @@ export class CartService {
   /****************Carts CRUD********************/
   getCart(user_id: number): Promise<Cart[]> {
     return this.cartRepository.findBy({ user_id });
+
   }
+
 //   {relations: {
 //     Product: true,
 // }}
@@ -64,9 +66,35 @@ export class CartService {
     return this.cartRepository.findOneBy({ cart_id });
   }
 
-  createCartItem(cart_item: Cart): Promise<InsertResult> {
-    return this.cartRepository.insert(cart_item);
-  }
+  async createCartItem(cart_item: Cart): Promise<any> {
+    var a=await this.cartRepository.find();
+    var fg=0;
+    if(a.length>0) {
+    for(var h of a) {
+      if((h.product_id==cart_item.product_id) && 
+      (h.varient_id==cart_item.varient_id) &&
+        (h.user_id==cart_item.user_id))  {
+              
+          fg=1;
+          var idc=h.cart_id;
+          cart_item.cart_id=idc;
+
+          if(cart_item.qty>0) {
+          await this.cartRepository.delete(idc);
+          await this.cartRepository.insert(cart_item); 
+             }
+              else if(cart_item.qty==0)
+                    await this.cartRepository.delete(idc);
+        }
+              }  }
+
+        if(fg==0)  {
+          cart_item.cart_id=a.length+1;
+          await this.cartRepository.insert(cart_item);
+        }
+
+        return cart_item;
+      }
 
 
 

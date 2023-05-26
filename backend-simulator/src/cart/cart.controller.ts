@@ -39,7 +39,7 @@ export class CartController {
   getCartItem(@Param('id') cart_id: number): Promise<Cart> {
     return this.cartService.findOneCartItem(cart_id);
   }
-  @Post()
+  @Post('insertIntoCart')
   addToCart(@Body() cart: Cart): Promise<InsertResult> {
     return this.cartService.createCartItem(cart);
   }
