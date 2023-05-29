@@ -11,8 +11,13 @@ export class TransactionService {
         private TransactionRepository : Repository<Transaction> 
         ) {}
         /************************************ */
-        getTns():Promise<Transaction[]> {
-            return this.TransactionRepository.find();
+
+
+        getTns(user_Id:number):Promise<Transaction[]> {
+
+            return this.TransactionRepository.findBy( {user_Id:user_Id} );
+            
+
         }
 
         insertNewTns(@Body() tsc:Transaction):Promise<InsertResult> {

@@ -9,9 +9,9 @@ export class FavouritesController {
     constructor(private readonly favService: FavouritesService) {}
 
     
-  @Get('favourites--all')
-  async getProducts(): Promise<any> {
-    return this.favService.getAllFav();
+  @Get('favourites/:user_id')
+  async getProducts(@Param('user_Id') user_id:number): Promise<any> {
+    return this.favService.getAllFav(user_id);
   }
   
 

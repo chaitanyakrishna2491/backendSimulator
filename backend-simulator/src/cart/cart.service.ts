@@ -15,7 +15,7 @@ export class CartService {
 
   /****************Carts CRUD********************/
   getCart(user_id: number): Promise<Cart[]> {
-    return this.cartRepository.findBy({ user_id });
+    return this.cartRepository.findBy({ user_id:user_id });
 
   }
 
@@ -93,7 +93,8 @@ export class CartService {
           await this.cartRepository.insert(cart_item);
         }
 
-        return cart_item;
+         let updatedCart=this.cartRepository.findBy({user_id:cart_item.user_id});
+         return updatedCart;
       }
 
 

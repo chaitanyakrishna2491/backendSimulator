@@ -20,8 +20,8 @@ export class FavouritesService {
    
   ) {}
 
-  async getAllFav(): Promise<any> {
-    return this.FavouritesRepository.find();
+  async getAllFav(user_id:number): Promise<any> {
+    return this.FavouritesRepository.findBy({user_id:user_id});
   }
 
   

@@ -31,10 +31,22 @@ export class OrdersController {
   getOrders(@Headers('userId') user_id: number): Promise<Orders[]> {
     return this.ordersService.findAllOrders(user_id);
   }
-  @Get(':id')
-  getOrder(@Param('id') order_id: number): Promise<Orders> {
+  @Get(':orderId')
+  getOrder(@Param('orderId') order_id: number): Promise<any> {
     return this.ordersService.findOneOrder(order_id);
   }
+
+  
+
+
+
+  // @Get('ordersByUserId/:userId')
+  // getOrder(@Param('userId'))
+
+  
+
+
+
   @Get('status/:status')
   getOrderByStatus(@Param('status') order_status: string): Promise<Orders> {
     return this.ordersService.findOrderByStatus(order_status);
@@ -44,25 +56,36 @@ export class OrdersController {
     store_order.store_order_id = 0;
     return store_order;
   }
-  @Post()
+  // @Post()
+  // async addOrder(@Body() order: Orders): Promise<InsertResult> {
+  //   const result:InsertResult = await this.ordersService.createOrder(order);
+  //   if(result.identifiers && result.identifiers[0] && result.identifiers[0].order_id){
+  //     await this.cartService.removeFromCart(order.cart_id);
+  //     const productvarient:ProductVarient = await this.productsService.findProductVarientByVarientId(order.varient_id)
+  //     this.productsService.updateProductVarient(productvarient.varient_id, {...productvarient, ...{"total_count": (productvarient.total_count - order.count)}})
+  //     //insert into store_orders
+  //     const storeOrder:Store_orders = this.createStoreOrderEntity()//todo
+  //     const user: Users = await this.userService.findOneUser(order.user_id);
+  //     const userNotification = ORDER_PLACED.replace("$orderId", order.order_id.toString())
+  //                               .replace("$paymentAmount", '$20')
+  //                               .replace("$paymentId", "12345")
+  //                               .replace("$deliveryEstimate", "30")
+  //     // this.twilioNotification.send(user.user_phone, userNotification)
+  //     this.mailService.sendMail(user.email, user.name, "SuccessfulOrder", "Order Confirmation")
+  //   }
+  //   return result;
+  // }
+
+
+  
+  @Post('placeYourOrder')
   async addOrder(@Body() order: Orders): Promise<InsertResult> {
-    const result:InsertResult = await this.ordersService.createOrder(order);
-    if(result.identifiers && result.identifiers[0] && result.identifiers[0].order_id){
-      await this.cartService.removeFromCart(order.cart_id);
-      const productvarient:ProductVarient = await this.productsService.findProductVarientByVarientId(order.varient_id)
-      this.productsService.updateProductVarient(productvarient.varient_id, {...productvarient, ...{"total_count": (productvarient.total_count - order.count)}})
-      //insert into store_orders
-      const storeOrder:Store_orders = this.createStoreOrderEntity()//todo
-      const user: Users = await this.userService.findOneUser(order.user_id);
-      const userNotification = ORDER_PLACED.replace("$orderId", order.order_id.toString())
-                                .replace("$paymentAmount", '$20')
-                                .replace("$paymentId", "12345")
-                                .replace("$deliveryEstimate", "30")
-      // this.twilioNotification.send(user.user_phone, userNotification)
-      this.mailService.sendMail(user.email, user.name, "SuccessfulOrder", "Order Confirmation")
-    }
-    return result;
+    return this.ordersService.createOrder(order);
   }
+
+
+
+
   @Put(':id')
   async updateorder(@Param('id') order_id: number, @Body() order:Orders): Promise<UpdateResult> {
     const result:UpdateResult = await this.ordersService.updateorder(order_id, order);
@@ -74,19 +97,27 @@ export class OrdersController {
     }
     return result;
   }
-  @Delete(':id')
-  async deleteOrder(@Param('id') order_id: number): Promise<DeleteResult> {
-    const orderDetails: Orders = await this.ordersService.findOneOrder(order_id);
-    const result:DeleteResult = await this.ordersService.removeOrder(order_id);
-    if(result.affected){
-      const productvarient:ProductVarient = await this.productsService.findProductVarientByVarientId(orderDetails.varient_id)
-      this.productsService.updateProductVarient(productvarient.varient_id, {...productvarient, ...{"total_count": (productvarient.total_count + orderDetails.count)}})
-      const user: Users = await this.userService.findOneUser(orderDetails.user_id);
-      const userNotification = ORDER_CANCELLED.replace("$orderId", order_id.toString())
-                                .replace("$refundDays", process.env.refundDays)
-      this.twilioNotification.send(user.user_phone, userNotification)
-      //remove from store_orders //todo
-    }
-    return result;
+  // @Delete(':id')
+  // async deleteOrder(@Param('id') order_id: number): Promise<DeleteResult> {
+  //   const orderDetails: Orders = await this.ordersService.findOneOrder(order_id);
+  //   const result:DeleteResult = await this.ordersService.removeOrder(order_id);
+  //   if(result.affected){
+  //     const productvarient:ProductVarient = await this.productsService.findProductVarientByVarientId(orderDetails.varient_id)
+  //     this.productsService.updateProductVarient(productvarient.varient_id, {...productvarient, ...{"total_count": (productvarient.total_count + orderDetails.count)}})
+  //     const user: Users = await this.userService.findOneUser(orderDetails.user_id);
+  //     const userNotification = ORDER_CANCELLED.replace("$orderId", order_id.toString())
+  //                               .replace("$refundDays", process.env.refundDays)
+  //     this.twilioNotification.send(user.user_phone, userNotification)
+  //     //remove from store_orders //todo
+  //   }
+  //   return result;
+  // }
+
+  @Post('orderId/:id')
+  async deleteOrder(@Param('id') order_id:number ): Promise<DeleteResult> {
+    return this.ordersService.removeOrder(order_id);
   }
+
+
+
 }

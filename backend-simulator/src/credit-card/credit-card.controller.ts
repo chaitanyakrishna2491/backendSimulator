@@ -10,9 +10,9 @@ constructor(
 ){}
 /*************************************************** */
 
-@Get('credit-cards')
-async getProducts(): Promise<CreditCard[]> {
-  return this.CreditCardService.cc1();
+@Get('credit-cards_byUser_Id/:user_id')
+async getProducts(@Param('user_id') user_id:number ): Promise<CreditCard[]> {
+  return this.CreditCardService.cc1(user_id);
 }
 
 @Post('credit-card')

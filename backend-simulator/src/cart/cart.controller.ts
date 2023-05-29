@@ -14,20 +14,15 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   /****************Cart CRUD********************/
-  // @Get()
-  // getCart(@Headers("userId") userId: number): Promise<Cart[]> {
-  //   return this.cartService.getCart(userId);
-  // }
+  @Get('ByUserId')
+  getCart(@Headers("userId") userId: number): Promise<Cart[]> {
+    return this.cartService.getCart(userId);
+  }
 
   @Get("findcartAll")
   getCartup(): Promise<any> {
     return this.cartService.getCartup();
   }
-
-  
-  
-  
- 
 
 
   @Get('findAllPc')
@@ -35,7 +30,7 @@ export class CartController {
     return this.cartService.findAllpcs();
   }
 
-  @Get(':id')
+  @Get('ByCartId:id')
   getCartItem(@Param('id') cart_id: number): Promise<Cart> {
     return this.cartService.findOneCartItem(cart_id);
   }

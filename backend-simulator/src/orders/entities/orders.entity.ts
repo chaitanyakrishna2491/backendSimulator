@@ -2,11 +2,9 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Orders {
-  @PrimaryGeneratedColumn()
-  order_id: number
+  @PrimaryGeneratedColumn() order_id: number
   @Column() user_id: number
-  @Column() varient_id: number
-  @Column() product_id: number
+  @Column() products_and_varients: string
   @Column() count: number
   @Column() store_id: number
   @Column() address_id: number
@@ -35,4 +33,13 @@ export class Orders {
   @Column() updated_at: string
   @Column() is_gift: boolean
   @Column() gift_message: string
+  @Column() isconfirmed:boolean
+  @Column() isPlaced:boolean
+  @Column() isShipped:boolean
+  @Column() isOutForDelivery:boolean
+  @Column() status:string
+  @Column() isDelivered:boolean
+
+
+  
 }

@@ -13,8 +13,8 @@ export class CreditCardService {
 
     /************************************************ */
     
-    async cc1():Promise<CreditCard[]> {
-        return await this.CreditCardRepository.find();
+    async cc1(user_Id:number):Promise<CreditCard[]> {
+        return await this.CreditCardRepository.findBy({user_Id});
     }
 
     async cc2(@Body() cd:CreditCard):Promise<InsertResult> {

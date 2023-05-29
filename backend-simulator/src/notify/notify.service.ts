@@ -22,6 +22,9 @@ export class NotifyService {
     async getNfsById(id:number):Promise<Notify> {
         return await this.notifyRepository.findOneBy({ "notify_id" :id});
     }
+    async getNfsByUserId(uid:number):Promise<Notify[]> {
+        return await this.notifyRepository.findBy({user_id:uid});
+    }
 
     async addNfs(@Body() nf:Notify):Promise<InsertResult> {
         return await this.notifyRepository.insert(nf); 

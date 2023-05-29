@@ -5,6 +5,7 @@ export class Transaction {
     @PrimaryGeneratedColumn() py_id:number;
     @Column() payment_id:string;
     @Column() amount:string;
+    @Column() user_Id:number;
     @Column() cart_id:string;
     @Column() payment_gateway:string;
     @Column() created_at:Date;
