@@ -46,7 +46,7 @@ async generateOTP(mb: string): Promise<any> {
   }
 
   let otp_msg = `your otp is ${otp}`;
-  //this.twilioNotification.send(user.user_phone, otp_msg);
+  this.twilioNotification.send(user.user_phone, otp_msg);
 
   setTimeout(async () => {
     const az = await this.userRepository.find();
