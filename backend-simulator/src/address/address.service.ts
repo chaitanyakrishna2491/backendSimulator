@@ -43,9 +43,9 @@ yt.push({"id":j.id,"name":j.name,"phone":j.user_phone,"address":h});
   }
 
   async updateAddress(address_id: number, address: Address): Promise<UpdateResult> {
-    const addressList: Address[] = await this.addressRepository.findBy({ address_id })
-    if(addressList && addressList.length){
-      return this.addressRepository.update(address_id, address);
+    const existingAddress: Address = await this.addressRepository.findOneBy({ address_id })
+    if(address){
+      return this.addressRepository.update(address_id, {...existingAddress, ...address, });
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
