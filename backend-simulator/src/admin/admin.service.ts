@@ -23,15 +23,27 @@ export class AdminService {
     return this.adminRepository.insert(admin);
   }
 
-  async updateadmin(id: number, admin: Admin): Promise<UpdateResult> {
-    const adminList: Admin[] = await this.adminRepository.findBy({ id })
-    if(adminList && adminList.length){
-      return this.adminRepository.update(id, admin);
+  // async updateadmin(id: number, admin: Admin): Promise<UpdateResult> {
+  //   const adminList: Admin[] = await this.adminRepository.findBy({ id })
+  //   if(adminList && adminList.length){
+  //     return this.adminRepository.update(id, admin);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
+   async updateadmin(id: number, admin: Admin): Promise<UpdateResult> {
+    const existingAdmin: Admin = await this.adminRepository.findOneBy({ id });
+    if(admin){
+      return this.adminRepository.update(id, {...existingAdmin, ...admin, });
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
       })
     }
+    
   }
 
   async removeAdmin(id: number): Promise<DeleteResult> {

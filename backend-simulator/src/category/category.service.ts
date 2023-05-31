@@ -96,10 +96,21 @@ export class CategoryService {
     return this.categoryRepository.insert(categories);
   }
 
+  // async updateCategoryItem(cat_id: number, category_item: Categories): Promise<UpdateResult> {
+  //   const categoryList: Categories[] = await this.categoryRepository.findBy({ cat_id })
+  //   if(categoryList && categoryList.length){
+  //     return this.categoryRepository.update(cat_id, category_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateCategoryItem(cat_id: number, category_item: Categories): Promise<UpdateResult> {
-    const categoryList: Categories[] = await this.categoryRepository.findBy({ cat_id })
-    if(categoryList && categoryList.length){
-      return this.categoryRepository.update(cat_id, category_item);
+    const existingCategory = await this.categoryRepository.findOneBy({ cat_id })
+    if(existingCategory){
+      return this.categoryRepository.update(cat_id, {...existingCategory,...category_item});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)

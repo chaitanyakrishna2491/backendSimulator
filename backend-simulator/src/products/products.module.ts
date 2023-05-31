@@ -5,16 +5,17 @@ import { ProductsController } from './products.controller';
 import { Product } from './entities/products.entity';
 import { ProductVarient } from './entities/productvarient.entity';
 import { Brand } from 'src/brand/entities/brand.entity';
-import { BrandController } from 'src/brand/brand.controller';
 import { BrandService } from 'src/brand/brand.service';
 import { BrandModule } from 'src/brand/brand.module';
 import { BrandRepository } from 'src/brand/BrandRepository';
+import { PromotionalProduct } from 'src/promotional-products/promotional-products.entity';
+import { PromotionalProductsService } from 'src/promotional-products/promotional-products.service';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, ProductVarient, Brand, BrandRepository ]), BrandModule],
+  imports: [TypeOrmModule.forFeature([Product,PromotionalProduct, ProductVarient, Brand, BrandRepository ]), BrandModule],
   exports: [TypeOrmModule],
-  providers: [ProductsService,BrandService,BrandRepository],
+  providers: [ProductsService,PromotionalProductsService,BrandService,BrandRepository],
   controllers: [ProductsController],
 })
 export class ProductsModule {}

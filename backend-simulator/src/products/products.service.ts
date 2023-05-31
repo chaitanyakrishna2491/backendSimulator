@@ -40,17 +40,31 @@ export class ProductsService {
   // }
   
 
-  async findAllProducts(): Promise<Product[]> {
-    const products = await this.productsRepository.find();
-    const productsWithBrands = [];
+  // async findAllProducts(): Promise<Product[]> {
+  //   const products = await this.productsRepository.find();
+  //   const productsWithBrands = [];
   
-    for (const product of products) {
+  //   for (const product of products) {
+  //     const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
+  //     productsWithBrands.push({ ...product, brand });
+  //   }
+  
+  //   return productsWithBrands;
+  // }
+
+  async findAllProducts(n?: number): Promise<Product[]> {
+    const products = await this.productsRepository.find();
+    const productsWithBrands = [];var n1=50;
+  
+    for (let i = 0; i < (n1 ? Math.min(n1, products.length) : products.length); i++) {
+      const product = products[i];
       const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
       productsWithBrands.push({ ...product, brand });
     }
   
     return productsWithBrands;
   }
+  
   
 
   findOneProduct(product_id: number): Promise<Product> {

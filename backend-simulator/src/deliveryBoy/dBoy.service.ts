@@ -33,6 +33,7 @@ export class DeliveryBoysService {
       })
     }
   }
+ 
 
   async removeDeliveryBoy(id: number): Promise<DeleteResult> {
     return await this.deliveryBoyRepository.delete(id);

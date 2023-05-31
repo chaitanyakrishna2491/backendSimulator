@@ -37,10 +37,21 @@ export class BrandService {
     return this.brandRepository.insert(brands);
   }
 
+  // async updateBrandItem(brand_id: number, brand_item: Brand): Promise<UpdateResult> {
+  //   const brandList: Brand[] = await this.brandRepository.findBy({ brand_id })
+  //   if(brandList && brandList.length){
+  //     return this.brandRepository.update(brand_id, brand_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateBrandItem(brand_id: number, brand_item: Brand): Promise<UpdateResult> {
-    const brandList: Brand[] = await this.brandRepository.findBy({ brand_id })
-    if(brandList && brandList.length){
-      return this.brandRepository.update(brand_id, brand_item);
+    const existingBrand= await this.brandRepository.findOneBy({ brand_id })
+    if(existingBrand){
+      return this.brandRepository.update(brand_id,{...existingBrand,...brand_item});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)

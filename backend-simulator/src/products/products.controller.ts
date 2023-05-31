@@ -24,8 +24,8 @@ export class ProductsController {
  
 
   @Get('products')
-async getProducts(): Promise<Product[]> {
-  return this.productsService.findAllProducts();
+async getProducts(@Query('n') n?: number): Promise<Product[]> {
+  return this.productsService.findAllProducts(n);
 }
 
 

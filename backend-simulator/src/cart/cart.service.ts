@@ -99,16 +99,32 @@ export class CartService {
 
 
 
+  // async updateCartItem(cart_id: number, cart_item: Cart): Promise<UpdateResult> {
+  //   const cartList: Cart[] = await this.cartRepository.findBy({ cart_id })
+  //   if(cartList && cartList.length){
+  //     return this.cartRepository.update(cart_id, cart_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
+
   async updateCartItem(cart_id: number, cart_item: Cart): Promise<UpdateResult> {
-    const cartList: Cart[] = await this.cartRepository.findBy({ cart_id })
-    if(cartList && cartList.length){
-      return this.cartRepository.update(cart_id, cart_item);
-    }else{
+    const existingCart = await this.cartRepository.findOneBy({ cart_id })
+    if(existingCart){
+      return this.cartRepository.update(cart_id, {...existingCart,...cart_item});
+    }
+    else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
       })
     }
   }
+
+
+
 
   async removeFromCart(cart_id: number): Promise<DeleteResult> {
     return await this.cartRepository.delete(cart_id);

@@ -19,9 +19,9 @@ async getProducts(@Param('user_id') user_id:number ): Promise<CreditCard[]> {
 async NewCreditCardInsert(@Body() ccr:CreditCard): Promise<InsertResult> {
     return this.CreditCardService.cc2(ccr);
 }
-@Post('credit-card-update')
-async UpdateCreditCard(@Body() ccr:CreditCard ): Promise<any> {
-    return this.CreditCardService.cc3(ccr);
+@Post('credit-card-update/:ccid')
+async UpdateCreditCard(@Param() ccid , @Body() ccr:CreditCard ): Promise<any> {
+    return this.CreditCardService.cc3(ccid,ccr);
 }
 @Post('delete-credit-card/:idcc')
 async DeleteCreditCard(@Param('idcc') idcc:number) : Promise<any> {

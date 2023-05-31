@@ -36,10 +36,22 @@ export class CouponService {
     return this.couponRepository.insert(coupons);
   }
 
+  // async updateCouponItem(coupon_id: number, coupon_item: Coupon): Promise<UpdateResult> {
+  //   const couponList: Coupon[] = await this.couponRepository.findBy({ coupon_id })
+  //   if(couponList && couponList.length){
+  //     return this.couponRepository.update(coupon_id, coupon_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
+
   async updateCouponItem(coupon_id: number, coupon_item: Coupon): Promise<UpdateResult> {
-    const couponList: Coupon[] = await this.couponRepository.findBy({ coupon_id })
-    if(couponList && couponList.length){
-      return this.couponRepository.update(coupon_id, coupon_item);
+    const existingCoupon= await this.couponRepository.findOneBy({ coupon_id })
+    if(existingCoupon){
+      return this.couponRepository.update(coupon_id, {...existingCoupon,...coupon_item});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)

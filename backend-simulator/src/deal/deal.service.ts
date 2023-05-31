@@ -36,10 +36,21 @@ export class DealService {
     return this.dealRepository.insert(deals);
   }
 
+  // async updateDealItem(deal_id: number, deal_item: Deal): Promise<UpdateResult> {
+  //   const dealList: Deal[] = await this.dealRepository.findBy({ deal_id })
+  //   if(dealList && dealList.length){
+  //     return this.dealRepository.update(deal_id, deal_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateDealItem(deal_id: number, deal_item: Deal): Promise<UpdateResult> {
-    const dealList: Deal[] = await this.dealRepository.findBy({ deal_id })
-    if(dealList && dealList.length){
-      return this.dealRepository.update(deal_id, deal_item);
+    const existingDeal= await this.dealRepository.findOneBy({ deal_id })
+    if(existingDeal){
+      return await this.dealRepository.update(deal_id, {...existingDeal,...deal_item});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
