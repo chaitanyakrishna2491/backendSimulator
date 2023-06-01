@@ -47,8 +47,8 @@ export class OrdersController {
 
 
 
-  @Get('ByStatusAndUserId')
-  getOrderByStatus(@Param('status') order_status: string,@Param('user_id') user_id:number): Promise<Orders[]> {
+  @Get('ByStatusAndUserId/status')
+  getOrderByStatus(@Param('status') order_status: string,@Headers('user_id') user_id:number): Promise<Orders[]> {
     return this.ordersService.findOrderByStatus(order_status,user_id);
   }
   createStoreOrderEntity(): Store_orders{

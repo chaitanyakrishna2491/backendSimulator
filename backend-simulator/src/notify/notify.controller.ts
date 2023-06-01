@@ -28,8 +28,8 @@ export class NotifyController {
     async addNewNotification(@Body() nf:Notify):Promise<InsertResult> {
             return await this.notifyService.addNfs(nf);
     }
-    @Post('updateNotificationById')
-    async updateNfns(@Param() nf_id,@Body() nf:Notify): Promise<any> {
+    @Post('updateNotificationById/:id')
+    async updateNfns(@Param('id') nf_id,@Body() nf:Notify): Promise<any> {
         return await this.notifyService.updateNfs(nf_id,nf);
     }
     

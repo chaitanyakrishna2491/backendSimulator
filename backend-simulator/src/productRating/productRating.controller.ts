@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors, Header, Headers } from '@nestjs/common';
 import { ProductRatingService } from './productRating.service';
 import { ProductRating } from './entities/productRating.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -24,8 +24,8 @@ export class ProductRatingController {
     return this.productRatingService.findOneProductRatingItem(productRating_id);
   }
 
-  @Get('productRatingsByUserId')
-  async m1(@Param('product_id') prod_id:number,@Param('user_id') user_id:number ) :Promise<ProductRating>
+  @Get('productRatingsByUserId/product_id')
+  async m1(@Param('product_id') prod_id:number,@Headers('user_id') user_id:number ) :Promise<ProductRating>
   {
     return this.productRatingService.m1s(prod_id,user_id);
   }
