@@ -36,19 +36,11 @@ export class OrdersController {
     return this.ordersService.findOneOrder(order_id);
   }
 
-  
-
-
-
   // @Get('ordersByUserId/:userId')
   // getOrder(@Param('userId'))
 
-  
-
-
-
-  @Get('ByStatusAndUserId')
-  getOrderByStatus(@Param('status') order_status: string,@Param('user_id') user_id:number): Promise<Orders[]> {
+  @Get('ByStatusAndUserId/:status')
+  getOrderByStatus(@Param('status') order_status: string,@Headers('user_id') user_id:number): Promise<Orders[]> {
     return this.ordersService.findOrderByStatus(order_status,user_id);
   }
   createStoreOrderEntity(): Store_orders{
@@ -75,16 +67,11 @@ export class OrdersController {
   //   }
   //   return result;
   // }
-
-
   
   @Post('placeYourOrder')
   async addOrder(@Body() order: Orders): Promise<InsertResult> {
     return this.ordersService.createOrder(order);
   }
-
-
-
 
   @Put(':id')
   async updateorder(@Param('id') order_id: number, @Body() order:Orders): Promise<UpdateResult> {
