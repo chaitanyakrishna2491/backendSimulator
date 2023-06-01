@@ -26,9 +26,9 @@ export class HscreenController {
         return this.HscreenService.addHscreen(hs);
     }
 
-    @Post('UpdateHscreen')
-    async updateHscreen(@Body() hs:Hscreen) :Promise<any> {
-        return this.HscreenService.UpdateHscreen(hs);
+    @Post('UpdateHscreenById')
+    async updateHscreen(@Param() hs_id,@Body() hs:Hscreen) :Promise<any> {
+        return this.HscreenService.UpdateHscreen(hs_id,hs);
     }
     @Post('DeleteHscreen/:pr_id')
     async deleteHscreen(@Param('pr_id') pr_id:number ) :Promise<DeleteResult> {

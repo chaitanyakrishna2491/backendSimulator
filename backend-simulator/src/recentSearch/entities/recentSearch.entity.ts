@@ -4,6 +4,6 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class RecentSearch {
   @PrimaryGeneratedColumn()
   id: number
-  @Column() keyword: string
-  @Column() user_id: number
+  @Column() keyword?: string
+  @Column() user_id?: number
 }

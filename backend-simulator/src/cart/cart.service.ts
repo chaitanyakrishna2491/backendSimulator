@@ -80,8 +80,8 @@ export class CartService {
           cart_item.cart_id=idc;
 
           if(cart_item.qty>0) {
-          await this.cartRepository.delete(idc);
-          await this.cartRepository.insert(cart_item); 
+         // await this.cartRepository.delete(idc);
+          await this.cartRepository.update(idc,cart_item); 
              }
               else if(cart_item.qty==0)
                     await this.cartRepository.delete(idc);
@@ -89,7 +89,7 @@ export class CartService {
               }  }
 
         if(fg==0)  {
-          cart_item.cart_id=a.length+1;
+          //cart_item.cart_id=a.length+1;
           await this.cartRepository.insert(cart_item);
         }
 

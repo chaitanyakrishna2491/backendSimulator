@@ -24,7 +24,7 @@ export class ProductsController {
  
 
   @Get('products')
-async getProducts(@Query('n') n?: number): Promise<Product[]> {
+async getProducts(@Query('n') n?: number,@Query('pgn') pgn?: number): Promise<Product[]> {
   return this.productsService.findAllProducts(n);
 }
 

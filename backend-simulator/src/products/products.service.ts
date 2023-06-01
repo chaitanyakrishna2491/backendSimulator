@@ -31,20 +31,14 @@ export class ProductsService {
 
   /****************Products CRUD********************/
 
-  //  findAllProducts(): Promise<Product[]> {
-  //   return this.productsRepository.find();
-  // }
 
-  // findAllProducts(): Promise<Product[]> {
-  //   return this.productsRepository.find({ relations: ['brand'] });
-  // }
-  
 
-  // async findAllProducts(): Promise<Product[]> {
+  // async findAllProducts(n?: number): Promise<Product[]> {
   //   const products = await this.productsRepository.find();
-  //   const productsWithBrands = [];
+  //   const productsWithBrands = [];var n1=50;
   
-  //   for (const product of products) {
+  //   for (let i = 0; i < (n1 ? Math.min(n1, products.length) : products.length); i++) {
+  //     const product = products[i];
   //     const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
   //     productsWithBrands.push({ ...product, brand });
   //   }
@@ -52,18 +46,22 @@ export class ProductsService {
   //   return productsWithBrands;
   // }
 
-  async findAllProducts(n?: number): Promise<Product[]> {
+  async findAllProducts(n?: number, page?: number): Promise<Product[]> {
     const products = await this.productsRepository.find();
-    const productsWithBrands = [];var n1=50;
+    const productsWithBrands = [];
+    const pageSize = n || 50;
+    const startIndex = (page ? (page - 1) * pageSize : 0);
+    const endIndex = Math.min(startIndex + pageSize, products.length);
   
-    for (let i = 0; i < (n1 ? Math.min(n1, products.length) : products.length); i++) {
+    for (let i = startIndex; i < endIndex; i++) {
       const product = products[i];
       const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
       productsWithBrands.push({ ...product, brand });
     }
-  
+    
     return productsWithBrands;
   }
+  
   
   
 
@@ -132,9 +130,9 @@ export class ProductsService {
   }
 
   async updateproduct(product_id: number, product: Product): Promise<UpdateResult> {
-    var productList: Product[] = await this.productsRepository.findBy({ product_id })
-    if(productList && productList.length){
-      return this.productsRepository.update(product_id, product);
+    var pr= await this.productsRepository.findOneBy({ product_id });
+    if(pr){
+      return this.productsRepository.update(product_id, {...pr,...product});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
@@ -170,16 +168,31 @@ export class ProductsService {
     return this.productvarientRepository.insert(productVarient);
   }
 
+  // async updateProductVarient(varient_id: number, productVarient: ProductVarient): Promise<UpdateResult> {
+  //   var varientList: ProductVarient[] = await this.productvarientRepository.findBy({ varient_id })
+  //   if(varientList && varientList.length){
+  //     return this.productvarientRepository.update(varient_id, productVarient);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //        resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateProductVarient(varient_id: number, productVarient: ProductVarient): Promise<UpdateResult> {
-    var varientList: ProductVarient[] = await this.productvarientRepository.findBy({ varient_id })
-    if(varientList && varientList.length){
-      return this.productvarientRepository.update(varient_id, productVarient);
+    var ExistingVarient= await this.productvarientRepository.findOneBy({ varient_id })
+    if(ExistingVarient){
+      return this.productvarientRepository.update(varient_id, {...ExistingVarient,...productVarient});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
          resolve(null)
       })
     }
   }
+
+
+
+
 
   async removeProductVarient(varient_id: number): Promise<DeleteResult> {
     return await this.productvarientRepository.delete(varient_id);

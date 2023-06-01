@@ -23,11 +23,22 @@ export class StoresService {
     return this.storeRepository.insert(store);
   }
 
+  // async updatestore(id: number, store: Store): Promise<UpdateResult> {
+  //   const storeList: Store[] = await this.storeRepository.findBy({ id })
+  //   if(storeList && storeList.length){
+  //     return this.storeRepository.update(id, store);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updatestore(id: number, store: Store): Promise<UpdateResult> {
-    const storeList: Store[] = await this.storeRepository.findBy({ id })
-    if(storeList && storeList.length){
-      return this.storeRepository.update(id, store);
-    }else{
+    const rc= await this.storeRepository.findOneBy({ id });
+    if(rc){
+      return this.storeRepository.update(id, {...rc,...store});
+    } else {
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
       })

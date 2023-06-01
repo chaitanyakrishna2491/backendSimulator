@@ -16,7 +16,7 @@ export class TransactionController {
         return this.TransactionService.insertNewTns(tns);
     }
     @Post("update_transaction")
-    async updateTns(@Body() tns:Transaction): Promise<InsertResult> {
-        return this.TransactionService.updateTns(tns);
+    async updateTns(@Param('py_id') py_id:number,@Body() tns:Transaction): Promise<InsertResult> {
+        return this.TransactionService.updateTns(py_id,tns);
     }
 }

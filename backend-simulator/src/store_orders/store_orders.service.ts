@@ -23,11 +23,23 @@ export class Store_ordersService {
     return this.store_orderRepository.insert(store_order_item);
   }
 
+  // async updateStore_ordersItem(store_order_id: number, store_order_item: Store_orders): Promise<UpdateResult> {
+  //   const store_orderList: Store_orders[] = await this.store_orderRepository.findBy({ store_order_id })
+  //   if(store_orderList && store_orderList.length){
+  //     return this.store_orderRepository.update(store_order_id, store_order_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateStore_ordersItem(store_order_id: number, store_order_item: Store_orders): Promise<UpdateResult> {
-    const store_orderList: Store_orders[] = await this.store_orderRepository.findBy({ store_order_id })
-    if(store_orderList && store_orderList.length){
-      return this.store_orderRepository.update(store_order_id, store_order_item);
-    }else{
+    const rc = await this.store_orderRepository.findOneBy({ store_order_id })
+    if(rc){
+      return this.store_orderRepository.update(store_order_id, {...rc, ...store_order_item } );
+    }
+    else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
       })

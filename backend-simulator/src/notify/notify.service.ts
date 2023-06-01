@@ -1,6 +1,6 @@
 import { Body, Get, Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InsertResult, Repository } from 'typeorm';
+import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Notify } from './notify.entity';
 import { get } from 'http';
 
@@ -30,12 +30,18 @@ export class NotifyService {
         return await this.notifyRepository.insert(nf); 
     }
 
-    async updateNfs(@Body() nf:Notify ) :Promise<any> {
-        var rc=await this.notifyRepository.findBy({"notify_id":nf.notify_id});
-        await this.notifyRepository.delete(nf.notify_id);
-        await this.notifyRepository.insert(nf);
-       return rc;
+    async updateNfs(nf_id:number, nf:Notify ) :Promise<any> {
+       var existingNf=await this.notifyRepository.findOneBy({notify_id:nf_id});
+       if(existingNf){
+              return this.notifyRepository.update(nf_id, {...existingNf,...nf});
+            }else{
+              return new Promise<UpdateResult>((_resolve, reject) => {
+                //  resolve(null)
+              })
+            }
     }
+
+     
     
      
     

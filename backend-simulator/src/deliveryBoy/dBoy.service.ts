@@ -23,10 +23,21 @@ export class DeliveryBoysService {
     return this.deliveryBoyRepository.insert(deliveryBoy);
   }
 
+  // async updatedeliveryBoy(dboy_id: number, deliveryBoy: DeliveryBoy): Promise<UpdateResult> {
+  //   const deliveryBoyList: DeliveryBoy[] = await this.deliveryBoyRepository.findBy({ dboy_id })
+  //   if(deliveryBoyList && deliveryBoyList.length){
+  //     return this.deliveryBoyRepository.update(dboy_id, deliveryBoy);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updatedeliveryBoy(dboy_id: number, deliveryBoy: DeliveryBoy): Promise<UpdateResult> {
-    const deliveryBoyList: DeliveryBoy[] = await this.deliveryBoyRepository.findBy({ dboy_id })
-    if(deliveryBoyList && deliveryBoyList.length){
-      return this.deliveryBoyRepository.update(dboy_id, deliveryBoy);
+    const existingDBoy = await this.deliveryBoyRepository.findOneBy({ dboy_id })
+    if(existingDBoy){
+      return this.deliveryBoyRepository.update(dboy_id, {...existingDBoy,...deliveryBoy});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)

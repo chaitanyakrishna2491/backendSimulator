@@ -25,16 +25,30 @@ export class RecentSearchService {
     return this.recentSearchRepository.insert(recentSearch_item);
   }
 
+  // async updateRecentSearchItem(id: number, recentSearch_item: RecentSearch): Promise<UpdateResult> {
+  //   const recentSearchList: RecentSearch[] = await this.recentSearchRepository.findBy({ id })
+  //   if(recentSearchList && recentSearchList.length){
+  //     return this.recentSearchRepository.update(id, recentSearch_item);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateRecentSearchItem(id: number, recentSearch_item: RecentSearch): Promise<UpdateResult> {
-    const recentSearchList: RecentSearch[] = await this.recentSearchRepository.findBy({ id })
-    if(recentSearchList && recentSearchList.length){
-      return this.recentSearchRepository.update(id, recentSearch_item);
+    const rc= await this.recentSearchRepository.findOneBy({ id })
+    if(rc){
+      return this.recentSearchRepository.update(id, {...rc,...recentSearch_item});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)
       })
     }
   }
+
+
+
 
   async removeFromRecentSearch(recentSearch_id: number): Promise<DeleteResult> {
     return await this.recentSearchRepository.delete(recentSearch_id);

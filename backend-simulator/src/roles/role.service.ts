@@ -27,10 +27,21 @@ export class RolesService {
     return this.rolesRepository.insert(roles);
   }
 
+  // async updateroles(role_id: number, roles: Roles): Promise<UpdateResult> {
+  //   const rolesList: Roles[] = await this.rolesRepository.findBy({ role_id })
+  //   if(rolesList && rolesList.length){
+  //     return this.rolesRepository.update(role_id, roles);
+  //   }else{
+  //     return new Promise<UpdateResult>((resolve, reject) => {
+  //       //  resolve(null)
+  //     })
+  //   }
+  // }
+
   async updateroles(role_id: number, roles: Roles): Promise<UpdateResult> {
-    const rolesList: Roles[] = await this.rolesRepository.findBy({ role_id })
-    if(rolesList && rolesList.length){
-      return this.rolesRepository.update(role_id, roles);
+    const rc= await this.rolesRepository.findOneBy({ role_id })
+    if(rc){
+      return this.rolesRepository.update(role_id, {...rc,...roles});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)

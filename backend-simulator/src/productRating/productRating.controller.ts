@@ -23,6 +23,26 @@ export class ProductRatingController {
   getProductRatingItem(@Param('id') productRating_id: number): Promise<ProductRating> {
     return this.productRatingService.findOneProductRatingItem(productRating_id);
   }
+
+  @Get('productRatingsByUserId')
+  async m1(@Param('product_id') prod_id:number,@Param('user_id') user_id:number ) :Promise<ProductRating>
+  {
+    return this.productRatingService.m1s(prod_id,user_id);
+  }
+
+  @Get('productRatingsByProductId')
+  async m2(@Param('product_id') prod_id:number):Promise<ProductRating> {
+    return this.productRatingService.m2s(prod_id);
+  }
+
+  @Get('productRatingsByUserId')
+  async m3(@Param('user_id') user_id:number) :Promise<ProductRating[]>{
+    return this.productRatingService.m3s(user_id);
+  }
+
+
+
+
   @Post('productRating')
   addToProductRating(@Body() productRating: ProductRating): Promise<InsertResult> {
     return this.productRatingService.createProductRatingItem(productRating);

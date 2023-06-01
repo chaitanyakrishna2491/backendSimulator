@@ -68,8 +68,16 @@ export class OrdersService {
   //   return abc;
   // }
 
-  findOrderByStatus(order_status: string): Promise<Orders> {
-    return this.ordersRepository.findOneBy({ order_status });
+  async findOrderByStatus(order_status: string,user_id: number): Promise<Orders[]> {
+      var ab=await this.ordersRepository.findBy({"user_id":user_id});
+      var ar=[];
+      for( var h of ab) {
+          if(h.order_status==order_status) 
+          {
+            ar.push(h);
+          }
+      }
+      return ar;
   }
 
   createOrder(order: Orders): Promise<InsertResult> {
@@ -77,9 +85,9 @@ export class OrdersService {
   }
 
   async updateorder(order_id: number, order: Orders): Promise<UpdateResult> {
-    const orderList: Orders[] = await this.ordersRepository.findBy({ order_id })
-    if(orderList && orderList.length){
-      return this.ordersRepository.update(order_id, order);
+    const existingOrder= await this.ordersRepository.findOneBy({ order_id })
+    if(existingOrder){
+      return this.ordersRepository.update(order_id, {...existingOrder,...order});
     }else{
       return new Promise<UpdateResult>((resolve, reject) => {
         //  resolve(null)

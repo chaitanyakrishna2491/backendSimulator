@@ -1,7 +1,7 @@
 import { Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transaction } from './Transaction.entity';
-import { InsertResult, Repository } from 'typeorm';
+import { InsertResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class TransactionService {
@@ -24,14 +24,17 @@ export class TransactionService {
             return this.TransactionRepository.insert(tsc);
         }
 
-        async updateTns(@Body() tsc:Transaction):Promise<any>{
-            var rc=await this.TransactionRepository.findBy({"py_id":tsc.py_id});
-            await this.TransactionRepository.delete(tsc.py_id);
-            await this.TransactionRepository.insert(tsc);
-            return rc;
-        }
+        async updateTns(py_id:number, tsc:Transaction):Promise<any>{
+            var rc=await this.TransactionRepository.findOneBy({"py_id":tsc.py_id});
+            if(rc) {
+                return this.TransactionRepository.update(py_id,{...rc,...tsc});
+            }
+            else{
+                      return new Promise<UpdateResult>((_resolve, reject) => {
+                        //  resolve(null)
+                      })
+                    }
+                }
 
-
-
-
+       
 }
