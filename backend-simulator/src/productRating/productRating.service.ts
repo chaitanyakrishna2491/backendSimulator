@@ -4,10 +4,14 @@ import { readFileSync } from 'fs';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { ProductRating } from './entities/productRating.entity';
 import { parse } from 'papaparse';
+import { Product } from 'src/products/entities/products.entity';
 
 @Injectable()
 export class ProductRatingService {
   constructor(
+    @InjectRepository(Product)
+    private productsRepository: Repository<Product>,
+
     @InjectRepository(ProductRating)
     private productRatingRepository: Repository<ProductRating>,
   ) {}
@@ -21,8 +25,20 @@ export class ProductRatingService {
     return this.productRatingRepository.findOneBy({ rate_id });
   }
 
-  createProductRatingItem(productRating_item: ProductRating): Promise<InsertResult> {
-    return this.productRatingRepository.insert(productRating_item);
+  async createProductRatingItem(productRating_item: ProductRating): Promise<InsertResult> {
+      var ab=await this.productRatingRepository.findBy(productRating_item);
+      var pr1=await this.productsRepository.findOneBy({"product_id":productRating_item.product_id});
+     var pr=pr1;
+      pr.review_count=ab.length+1;
+      ab.push(productRating_item);
+      var avg=0;var t=0;var tn=ab.length;
+      for (var a of ab ) {
+          t=t+JSON.parse(a.rating);
+      }
+      avg=t/tn;
+      pr.ratingValue=JSON.stringify(avg);
+       await this.productsRepository.update(pr.product_id,{...pr1,...pr});
+return this.productRatingRepository.insert(productRating_item);
   }
   async m1s(prod_id:number,user_id:number):Promise<ProductRating> {
       var ab=await this.productRatingRepository.findBy({"user_id":user_id});

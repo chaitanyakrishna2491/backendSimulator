@@ -19,6 +19,7 @@ export class ProductRatingController {
   getProductRating(): Promise<ProductRating[]> {
     return this.productRatingService.getProductRating();
   }
+  
   @Get('productRating/:id')
   getProductRatingItem(@Param('id') productRating_id: number): Promise<ProductRating> {
     return this.productRatingService.findOneProductRatingItem(productRating_id);

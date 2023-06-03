@@ -26,6 +26,8 @@ export class AddressController {
   getAddress(@Param('id') address_id: number): Promise<Address> {
     return this.addressService.findOneAddress(address_id);
   }
+  // @Get('Addressname')
+  // m1()
   @Post('')
   addAddress(@Body() address: Address): Promise<InsertResult> {
     return this.addressService.createAddress(address);

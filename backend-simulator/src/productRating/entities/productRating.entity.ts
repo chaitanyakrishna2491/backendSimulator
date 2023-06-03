@@ -5,6 +5,7 @@ export class ProductRating {
   @PrimaryGeneratedColumn()
   rate_id: number
   @Column() product_id?:number
+  @Column() product_image?:string
   @Column() store_id?: number
   @Column() varient_id?: number
   @Column() rating?: string
@@ -13,4 +14,5 @@ export class ProductRating {
   @Column() created_at?: string
   @Column() updated_at?: string
   @Column() hide?: string
+  
 }

@@ -33,4 +33,9 @@ export class RecentSearchController {
   deleteRecentSearch(@Param('id') recentSearch_id: number): Promise<DeleteResult> {
     return this.recentSearchService.removeFromRecentSearch(recentSearch_id);
   }
+  @Delete('allSearchItems')
+  deleteAllRecentSearch():Promise<any> {
+    return this.recentSearchService.delS();
+  }
+
 }

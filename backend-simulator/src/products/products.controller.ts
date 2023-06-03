@@ -28,6 +28,12 @@ async getProducts(@Query('n') n?: number,@Query('pgn') pgn?: number): Promise<Pr
   return this.productsService.findAllProducts(n);
 }
 
+@Get('productByName/:name')
+async m1(@Param('name') name:string , @Query('n') n?: number,@Query('pgn') pgn?: number):Promise<Product[]> {
+return this.productsService.m1s(name);
+}
+
+
 
   @Get('byBrand/:brandId')
   async getByBrand(@Param('brandId') brandId: number): Promise<Product[]> {

@@ -13,8 +13,14 @@ export class RecentSearchService {
   ) {}
 
   /****************RecentSearchs CRUD********************/
-  getRecentSearch(user_id: number): Promise<RecentSearch[]> {
-    return this.recentSearchRepository.findBy({user_id});
+ async  getRecentSearch(user_id: number): Promise<RecentSearch[]> {
+    var ab=await this.recentSearchRepository.findBy({user_id});
+    var ar=[];
+ 
+    for(let i=ab.length-1;i>ab.length-7;i--) {
+      ar.push(ab[i]);
+    }
+    return ar;
   }
 
   findOneRecentSearchItem(id: number): Promise<RecentSearch> {
@@ -53,4 +59,15 @@ export class RecentSearchService {
   async removeFromRecentSearch(recentSearch_id: number): Promise<DeleteResult> {
     return await this.recentSearchRepository.delete(recentSearch_id);
   }
+
+  async delS():Promise<any> {
+    var ab=await this.recentSearchRepository.find();
+    for(var a of ab) {
+      await this.recentSearchRepository.delete(a.id);
+    }
+    return [];
+
+  }
+
+
 }

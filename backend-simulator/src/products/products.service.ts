@@ -49,7 +49,7 @@ export class ProductsService {
   async findAllProducts(n?: number, page?: number): Promise<Product[]> {
     const products = await this.productsRepository.find();
     const productsWithBrands = [];
-    const pageSize = n || 50;
+    const pageSize = n || 24;
     const startIndex = (page ? (page - 1) * pageSize : 0);
     const endIndex = Math.min(startIndex + pageSize, products.length);
   
@@ -60,6 +60,30 @@ export class ProductsService {
     }
     
     return productsWithBrands;
+  }
+
+  async m1s(name:string,n?: number, page?: number):Promise<Product[]> {
+    var ab=await this.productsRepository.find();
+
+    var cd=[];
+      for(var a of ab) {
+          if(a.product_name.toLowerCase().includes(name.toLowerCase())) {
+            var ef=await this.brandRepository.findOneBy({brand_id:a.brand_id});
+            cd.push({...a,ef});
+          }
+      }
+      var v1=[];
+    var v2=n||24;
+    var v3=(page?(page-1)*v2:0);
+    var v4=Math.min(v3+v2,cd.length);
+    var gh=[];var k=0;
+
+    for (let i = v3; i <v4; i++) {
+     gh[k]=cd[i];
+     k++;
+    }
+
+      return gh;
   }
   
   

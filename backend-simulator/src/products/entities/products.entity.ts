@@ -39,6 +39,7 @@ export class Product {
   @Column() cartCount?: number;
   @Column() isFavourite?: boolean;
   @Column() detail?: string;
+  @Column() review_count?:number
   @Column() ratingValue?: string;
 
 }
