@@ -39,15 +39,7 @@ export class OrdersController {
   // @Get('ordersByUserId/:userId')
   // getOrder(@Param('userId'))
 
-<<<<<<< HEAD
-  
-
-
-
-  @Get('ByStatusAndUserId/status')
-=======
   @Get('ByStatusAndUserId/:status')
->>>>>>> c5e20361d4723ba5afec69cd113873ad8224ec51
   getOrderByStatus(@Param('status') order_status: string,@Headers('user_id') user_id:number): Promise<Orders[]> {
     return this.ordersService.findOrderByStatus(order_status,user_id);
   }
