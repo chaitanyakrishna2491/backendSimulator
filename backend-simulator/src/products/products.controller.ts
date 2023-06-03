@@ -24,12 +24,12 @@ export class ProductsController {
  
 
   @Get('products')
-async getProducts(@Query('n') n?: number,@Query('pgn') pgn?: number): Promise<Product[]> {
+async getProducts(@Query('itemCount') n?: number,@Query('pageNumber') pgn?: number): Promise<Product[]> {
   return this.productsService.findAllProducts(n);
 }
 
 @Get('productByName/:name')
-async m1(@Param('name') name:string , @Query('n') n?: number,@Query('pgn') pgn?: number):Promise<Product[]> {
+async m1(@Param('name') name:string , @Query('itemCount') n?: number,@Query('pageNumber') pgn?: number):Promise<Product[]> {
 return this.productsService.m1s(name);
 }
 
