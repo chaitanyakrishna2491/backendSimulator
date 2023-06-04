@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, Headers } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Headers, Query } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { Users } from './entities/user.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -64,6 +64,11 @@ async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto): Promise<any> {
   return this.userService.verifyOTP(user_phone, otp);
 }
 
+
+@Get('Search_Users_ByName/:name')
+async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+return this.userService.m7s(name,n,pgn);
+}
 
   
   @Post('authenticate')

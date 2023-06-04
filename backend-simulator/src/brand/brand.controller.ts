@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { Brand } from './entities/brand.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -18,6 +18,10 @@ export class BrandController {
   @Get('readBrand')
   getBrand(): Promise<Brand[]> {
     return this.brandService.getBrand();
+  }
+  @Get('BrandsByNameSearch/:brandTitle')
+  m1(@Param('brandTitle') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.brandService.getBrandsByNameSearch(name,n,pgn);
   }
   @Get('readBrandItem/:id')
   getBrandItem(@Param('id') brand_id: number): Promise<Brand> {

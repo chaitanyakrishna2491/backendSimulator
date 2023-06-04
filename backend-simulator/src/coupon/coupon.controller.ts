@@ -19,6 +19,9 @@ export class CouponController {
   getCoupon(): Promise<Coupon[]> {
     return this.couponService.getCoupon();
   }
+  
+
+
   @Get('readCouponItem/:id')
   getCouponItem(@Param('id') coupon_id: number): Promise<Coupon> {
     return this.couponService.findOneCouponItem(coupon_id);

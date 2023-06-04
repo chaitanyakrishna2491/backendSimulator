@@ -23,6 +23,36 @@ export class RecentSearchService {
     return ar;
   }
 
+  async m7s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.recentSearchRepository.find();
+    var cd=[];
+  for(var a of ab) {
+      if(a.keyword.toLowerCase().includes(name.toLowerCase())) {
+        cd.push(a);
+      }
+  }
+    var v1=[];
+    var v2=n||24;
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+    for (let i = v3; i <v4; i++) {
+     gh[k]=cd[i];
+     k++;
+    }
+
+      return gh;
+  }
+
+
+
+
   findOneRecentSearchItem(id: number): Promise<RecentSearch> {
     return this.recentSearchRepository.findOneBy({ id });
   }
@@ -63,7 +93,7 @@ export class RecentSearchService {
   async delS():Promise<any> {
     var ab=await this.recentSearchRepository.find();
     for(var a of ab) {
-      await this.recentSearchRepository.delete(a.id);
+      await this.recentSearchRepository.delete(a);
     }
     return [];
 

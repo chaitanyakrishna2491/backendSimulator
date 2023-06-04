@@ -10,6 +10,10 @@ import { BrandController } from 'src/brand/brand.controller';
 import { BrandService } from 'src/brand/brand.service';
 import { BrandModule } from 'src/brand/brand.module';
 import { BrandRepository } from 'src/brand/BrandRepository';
+import { Categories } from 'src/category/entities/category.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
+import { ProductRating } from 'src/productRating/entities/productRating.entity';
+import { Orders } from 'src/orders/entities/orders.entity';
 
 @Injectable()
 export class ProductsService {
@@ -18,11 +22,16 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
-
+    @InjectRepository(Orders)
+    private ordersRepository: Repository<Orders>,
+    @InjectRepository(ProductRating)
+    private productRatingRepository: Repository<ProductRating>,
     @InjectRepository(Brand)
     private brandRepository: Repository<Brand>,
-
-
+    @InjectRepository(Categories)
+    private categoryRepository: Repository<Categories>,
+    @InjectRepository(Cart)
+    private cartRepository: Repository<Cart>,
     @InjectRepository(ProductVarient)
     private productvarientRepository: Repository<ProductVarient>,
     private brandService: BrandService,
@@ -33,32 +42,24 @@ export class ProductsService {
 
 
 
-  // async findAllProducts(n?: number): Promise<Product[]> {
-  //   const products = await this.productsRepository.find();
-  //   const productsWithBrands = [];var n1=50;
-  
-  //   for (let i = 0; i < (n1 ? Math.min(n1, products.length) : products.length); i++) {
-  //     const product = products[i];
-  //     const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
-  //     productsWithBrands.push({ ...product, brand });
-  //   }
-  
-  //   return productsWithBrands;
-  // }
+ 
 
-  async findAllProducts(n?: number, page?: number): Promise<Product[]> {
+  async findAllProducts(n?: number, page?: number): Promise<any> {
     const products = await this.productsRepository.find();
     const productsWithBrands = [];
     const pageSize = n || 24;
+    console.log(page);
     const startIndex = (page ? (page - 1) * pageSize : 0);
-    const endIndex = Math.min(startIndex + pageSize, products.length);
+    var r=0;let v5=pageSize;
+    while(r<startIndex){v5++;r++;}
+    console.log('startIndex:', startIndex, 'page:', page, 'pageSize:', pageSize);
+    const endIndex = Math.min(v5, products.length);
   
     for (let i = startIndex; i < endIndex; i++) {
       const product = products[i];
       const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
-      productsWithBrands.push({ ...product, brand });
+      productsWithBrands.push({ ...products[i], brand });
     }
-    
     return productsWithBrands;
   }
 
@@ -74,9 +75,14 @@ export class ProductsService {
       }
       var v1=[];
     var v2=n||24;
-    var v3=(page?(page-1)*v2:0);
-    var v4=Math.min(v3+v2,cd.length);
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
     var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
 
     for (let i = v3; i <v4; i++) {
      gh[k]=cd[i];
@@ -89,8 +95,26 @@ export class ProductsService {
   
   
 
-  findOneProduct(product_id: number): Promise<Product> {
-    return this.productsRepository.findOneBy({ product_id });
+  // findOneProduct(product_id: number): Promise<Product> {
+  //   return this.productsRepository.findOneBy({ product_id });
+  // }
+  async findOneProduct(product_id: number): Promise<any> {
+    var ab=await  this.productsRepository.findOneBy({ product_id });
+    var cd=await this.brandRepository.findOneBy({"brand_id":ab.brand_id});
+    var ef=await this.cartRepository.findBy({"product_id":product_id});
+    var gh=await this.productvarientRepository.findBy({"product_id":product_id});
+    var qw=await this.productRatingRepository.findBy({"product_id":product_id});
+
+    var cv=await this.ordersRepository.find();
+    var arr=[];
+    for(var a of cv) {
+      var pv=JSON.parse(a.products_and_varients);
+      if(pv.product_id==product_id) { 
+        arr.push(a);
+      }
+    }
+    var req={...ab,"brand_details":cd,"Associated_carts":ef,"Product_Varients":gh,"Associated_Orders":arr,"product_ratings":qw}
+    return req;
   }
 
   // findByBrand(brand_id: number): Promise<Product[]> {
@@ -105,13 +129,34 @@ export class ProductsService {
   //     .getMany();
   // }
 
-  async findByBrandWithDetails(brand_id: number): Promise<Product[]> {
-    return await this.productsRepository
+  async findByBrandWithDetails(brand_id: number,n?:number,page?:number): Promise<Product[]> {
+    var cd=await this.productsRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.brand', 'brand')
       .select(['product', 'brand.brand_id', 'brand.title', 'brand.slug', 'brand.url', 'brand.image', 'brand.parent', 'brand.level', 'brand.description', 'brand.status', 'brand.added_by', 'brand.tax_type', 'brand.tax_name', 'brand.tax_per', 'brand.tx_id', 'brand.hide'])
       .where('product.brand_id = :brand_id', { brand_id })
       .getMany();
+
+
+      var v2=n||24;
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+    for (let i = v3; i <v4; i++) {
+     gh[k]=cd[i];
+     k++;
+    }
+
+      return gh;
+
+
+
   }
   
 
@@ -119,20 +164,55 @@ export class ProductsService {
 
   
 
-  findByBrand(brand_id: number): Promise<Product[]> {
-    return this.productsRepository.find({
-      where: { brand_id },
-      relations: ['brand']
-    });
-  }
+  // findByBrand(brand_id: number): Promise<Product[]> {
+  //   return this.productsRepository.find({
+  //     where: { brand_id },
+  //     relations: ['brand']
+  //   });
+  // }
   
 
-  findByCategory(cat_id: number): Promise<Product[]> {
-    return this.productsRepository.findBy({ cat_id });
+  async findByCategory(cat_id: number,n?: number, page?: number): Promise<any> {
+    var cd=await this.productsRepository.findBy({ cat_id });
+    var v2=n||24;
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+    for (let i = v3; i <v4; i++) {
+     gh[k]=cd[i];
+     k++;
+    }
+
+      return gh;
+    
   }
 
-  getFeaturedProducts(): Promise<Product[]>{
-    return this.productsRepository.findBy({ "featured":1 })
+  async getFeaturedProducts(n?: number, page?: number): Promise<any>{
+    var cd=await this.productsRepository.findBy({ "featured":1 });
+    var v2=n||24;
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+    for (let i = v3; i <v4; i++) {
+     gh[k]=cd[i];
+     k++;
+    }
+
+      return gh;
+
+
   }
 
   
@@ -169,13 +249,53 @@ export class ProductsService {
   }
 
   /****************ProductVarient CRUD********************/
-  findProductVarientsByProductId(product_id: number): Promise<ProductVarient[]> {
-    return this.productvarientRepository.findBy({ product_id });
+  async findProductVarientsByProductId(product_id: number,n?: number, page?: number): Promise<any> {
+    var cd=await this.productvarientRepository.findBy({ product_id });
+    var v2=n||24;
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+    for (let i = v3; i <v4; i++) {
+    gh[k]=cd[i];
+    k++;
+    }
+
+      return gh;
+      
+
   }
 
   findProductVarientByVarientId(varient_id: number): Promise<ProductVarient> {
     return this.productvarientRepository.findOneBy({ varient_id });
   }
+
+          async m3s(n?: number, page?: number):Promise<any> {
+
+            var cd=await this.productvarientRepository.find();
+            var v2=n||24;
+            var v3=(page?((page-1)*v2):0);
+            var r=0;let v5=v2;
+            while(r<v3){v5++;r++;}
+            
+            var v4=Math.min(v5,cd.length);
+
+            var gh=[];var k=0;
+            console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+            for (let i = v3; i <v4; i++) {
+            gh[k]=cd[i];
+            k++;
+            }
+
+              return gh;
+              
+          }
 
   createProductVarient(productVarient: ProductVarient): Promise<InsertResult> {
     return this.productvarientRepository.insert(productVarient);
@@ -225,13 +345,13 @@ export class ProductsService {
   
 
   /********************Stock Availability************ */
-  getStockAvailablity(): Promise<ProductVarient[]>{
-    return this.productvarientRepository.find({ relations: {
-      product: true,
-  } });
-  }
+  // getStockAvailablity(): Promise<ProductVarient[]>{
+  //   return this.productvarientRepository.find({ relations: {
+  //     product: true,
+  // } });
+  // }
 
-  async findAllpv(): Promise<ProductVarient[]> {
+  async findAllpv(n?: number, page?: number): Promise<any> {
     var pv=await this.productvarientRepository.find();
     var pvv=[];
     for(var pv1 of pv) {
@@ -239,7 +359,24 @@ export class ProductsService {
       pvv.push({...pv1, pr });
 
     }
-    return pvv;
+    var cd=pvv;
+    var v2=n||24;
+    var v3=(page?((page-1)*v2):0);
+    var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+
+    for (let i = v3; i <v4; i++) {
+    gh[k]=cd[i];
+    k++;
+    }
+
+      return gh;
+
   }
 
   // async findAllProducts(): Promise<Product[]> {

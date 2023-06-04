@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Query } from '@nestjs/common';
 import { RolesService } from './role.service';
 import { Roles } from './entities/roles.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -17,6 +17,16 @@ export class RolesController {
   getRoles(): Promise<Roles[]> {
     return this.rolesService.findAllRoles();
   }
+
+  
+@Get('Search_Roles_ByName/:name')
+async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+return this.rolesService.m7s(name,n,pgn);
+}
+
+
+
+
   @Get('user/:id')
   getRolesPerUser(@Param('id') user_id: number): Promise<Roles[]> {
     return this.rolesService.findRolesPerUser(user_id);

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { PromotionalProductsService } from './promotional-products.service';
 import { PromotionalProduct } from './promotional-products.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -14,6 +14,14 @@ export class PromotionalProductsController {
 async m1():Promise<PromotionalProduct[]> {
 return await this.pps.m1s();
 }
+
+
+@Get('Promotional_Product_ByName/:name')
+async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+return this.pps.m7s(name,n,pgn);
+}
+
+
 
 
 @Get('promotionalProductsById/:ppid')

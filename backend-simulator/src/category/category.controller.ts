@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Categories } from './entities/category.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -19,6 +19,14 @@ export class CategoryController {
   getCategory(): Promise<Categories[]> {
     return this.categoryService.getCategory();
   }
+
+  @Get('readCategoryByNameSearch/:CategoryTitle')
+  m2(@Param('CategoryTitle') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.categoryService.m2s(name,n,pgn);
+  }
+  
+
+
   @Get('readCategoryIteml/:id')
   getCategoryItem(@Param('id') category_id: number): Promise<Categories> {
     return this.categoryService.findOneCategoryItem(category_id);

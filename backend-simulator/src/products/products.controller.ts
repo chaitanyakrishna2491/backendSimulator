@@ -24,39 +24,39 @@ export class ProductsController {
  
 
   @Get('products')
-async getProducts(@Query('n') n?: number,@Query('pgn') pgn?: number): Promise<Product[]> {
-  return this.productsService.findAllProducts(n);
+async getProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+  return this.productsService.findAllProducts(n,pgn);
 }
 
 @Get('productByName/:name')
-async m1(@Param('name') name:string , @Query('n') n?: number,@Query('pgn') pgn?: number):Promise<Product[]> {
-return this.productsService.m1s(name);
+async m1(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<Product[]> {
+return this.productsService.m1s(name,n,pgn);
 }
 
 
 
-  @Get('byBrand/:brandId')
-  async getByBrand(@Param('brandId') brandId: number): Promise<Product[]> {
-    return this.productsService.findByBrandWithDetails(brandId);
+  @Get('Products_By_Brand/:brandId')
+  async getByBrand(@Param('brandId') brandId: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<Product[]> {
+    return this.productsService.findByBrandWithDetails(brandId,n,pgn);
   }
 
 
 
   @Get('product/:id')
-  getProduct(@Param('id') product_id: number): Promise<Product> {
+  getProduct(@Param('id') product_id: number): Promise<any> {
     return this.productsService.findOneProduct(product_id);
   }
-  @Get('product/brand/:id')
-  getProductsByBrand(@Param('id') brand_id: number): Promise<Product[]> {
-    return this.productsService.findByBrand(brand_id);
-  }
+  // @Get('product/brand/:id')
+  // getProductsByBrand(@Param('id') brand_id: number): Promise<Product[]> {
+  //   return this.productsService.findByBrand(brand_id);
+  // }
   @Get('product/category/:id')
-  getProductsByCategory(@Param('id') cat_id: number): Promise<Product[]> {
-    return this.productsService.findByCategory(cat_id);
+  getProductsByCategory(@Param('id') cat_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.productsService.findByCategory(cat_id,n,pgn);
   }
   @Get('products/featured')
-  getFeaturedProducts(): Promise<Product[]> {
-    return this.productsService.getFeaturedProducts();
+  getFeaturedProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.productsService.getFeaturedProducts(n,pgn);
   }
   @Post('product')
   addProduct(@Body() product: Product): Promise<InsertResult> {
@@ -93,9 +93,20 @@ return this.productsService.m1s(name);
 
   /****************ProductVarient CRUD********************/
   @Get('productVarient/product/:product_id')
-  getProductVarientByProduct(@Param('product_id') product_id: number): Promise<ProductVarient[]> {
-    return this.productsService.findProductVarientsByProductId(product_id);
+  getProductVarientByProduct(@Param('product_id') product_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<ProductVarient[]> {
+    return this.productsService.findProductVarientsByProductId(product_id,n,pgn);
   }
+
+
+  @Get('productsVarients')
+  async readVarients(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.productsService.m3s(n,pgn);
+  }
+  
+
+
+
+
   @Get('productVarient/productVarient/:varient_id')
   getProductVarientByVarient(@Param('varient_id') varient_id: number): Promise<ProductVarient> {
     return this.productsService.findProductVarientByVarientId(varient_id);
@@ -135,9 +146,9 @@ return this.productsService.m1s(name);
 
   //Stock availability
   @Get('products/stockAvailability')
-  getstockAvailability(): Promise<ProductVarient[]> {
+  getstockAvailability(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
     // return this.productsService.getStockAvailablity();
-    return this.productsService.findAllpv();
+    return this.productsService.findAllpv(n,pgn);
   }
   
 }

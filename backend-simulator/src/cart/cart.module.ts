@@ -8,9 +8,12 @@ import { ProductsService } from 'src/products/products.service';
 import { Brand } from 'src/brand/entities/brand.entity';
 import { BrandService } from 'src/brand/brand.service';
 import { ProductVarient } from 'src/products/entities/productvarient.entity';
+import { Orders } from 'src/orders/entities/orders.entity';
+import { ProductRating } from 'src/productRating/entities/productRating.entity';
+import { Categories } from 'src/category/entities/category.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cart,Product,Brand,ProductVarient])],
+  imports: [TypeOrmModule.forFeature([Categories,ProductRating,Cart,Orders,Product,Brand,ProductVarient])],
   exports: [TypeOrmModule],
   providers: [CartService,ProductsService,BrandService],
   controllers: [CartController],

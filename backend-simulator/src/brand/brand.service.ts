@@ -18,6 +18,31 @@ export class BrandService {
     return this.brandRepository.find();
   }
 
+  async getBrandsByNameSearch(name:string,n?: number, page?: number):Promise<Brand[]> {
+    var ab=await this.brandRepository.find();
+    var cd=[];
+    for(var a of ab) {
+      if(a.title.toLowerCase().includes(name.toLowerCase())) {
+          cd.push(a);
+      }
+    }
+
+   var v2=n||24;
+    var v3=(page?((page-1)*v2):0);var r=0;let v5=v2;
+    while(r<v3){v5++;r++;}
+    
+    var v4=Math.min(v5,cd.length);
+    console.log('zxcvb',v5)
+    var gh=[];var k=0;
+    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
+    for (let i = v3; i <v4; i++) {
+      gh[k]=cd[i];
+      k++;
+     }
+
+     return gh;
+  }
+
   findOneBrandItem(brand_id: number): Promise<Brand> {
     return this.brandRepository.findOneBy({ brand_id });
   }
