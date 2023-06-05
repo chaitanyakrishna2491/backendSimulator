@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, Headers } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Headers, Query } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { Cart } from './entities/cart.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -15,19 +15,22 @@ export class CartController {
 
   /****************Cart CRUD********************/
   @Get('ByUserId')
-  getCart(@Headers("userId") userId: number): Promise<Cart[]> {
-    return this.cartService.getCart(userId);
+  getCart(@Headers("userId") userId: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.cartService.getCart(userId,n,pgn);
   }
 
   @Get("findcartAll")
-  getCartup(): Promise<any> {
-    return this.cartService.getCartup();
+  getCartup(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.cartService.getCartup(n,pgn);
+  }
+  @Get('Cart__Search/:keyword')
+  m1(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.cartService.CartSearch(name,n,pgn);
   }
 
-
   @Get('findAllPc')
-  getCartpc(): Promise<any> {
-    return this.cartService.findAllpcs();
+  getCartpc(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.cartService.findAllpcs(n,pgn);
   }
 
   @Get('ByCartId:id')

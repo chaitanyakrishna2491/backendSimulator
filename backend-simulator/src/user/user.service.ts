@@ -9,6 +9,7 @@ import * as speakeasy from "speakeasy";
 import { SMSNotification } from 'src/sms/SMSNotification.service';
 // const bcrypt = require('bcrypt');
 import * as bcrypt from 'bcrypt'; 
+import { Pagination } from 'src/globalHelper';
 const jwt = require('jsonwebtoken');
 
 @Injectable()
@@ -92,28 +93,15 @@ for(var a of ab) {
       cd.push(a);
     }
 }
-  var v1=[];
-  var v2=n||24;
-  var v3=(page?((page-1)*v2):0);
-  var r=0;let v5=v2;
-  while(r<v3){v5++;r++;}
-  
-  var v4=Math.min(v5,cd.length);
-
-  var gh=[];var k=0;
-  console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
-
-  for (let i = v3; i <v4; i++) {
-   gh[k]=cd[i];
-   k++;
-  }
+  var gh=Pagination(cd,n,page);
 
     return gh;
 }
 
 
-  findAllUsers(): Promise<Users[]> {
-    return this.userRepository.find();
+  async findAllUsers(n?: number, page?: number): Promise<any> {
+    var cd=await  this.userRepository.find();
+    var gh=Pagination(cd,n,page); return gh;
   }
 
   findOneUser(id: number): Promise<Users> {

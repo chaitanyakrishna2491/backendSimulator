@@ -12,10 +12,10 @@ import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  /****************Roless CRUD********************/
+  /****************Roles CRUD********************/
   @Get('all')
-  getRoles(): Promise<Roles[]> {
-    return this.rolesService.findAllRoles();
+  getRoles( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.rolesService.findAllRoles(n,pgn);
   }
 
   

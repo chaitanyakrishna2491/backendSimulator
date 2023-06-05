@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Brand } from './entities/brand.entity';
 import { parse } from 'papaparse';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class BrandService {
@@ -14,33 +15,14 @@ export class BrandService {
   ) {}
 
   /****************Brands CRUD********************/
-  getBrand(): Promise<Brand[]> {
-    return this.brandRepository.find();
+ async getBrand(n?: number, page?: number): Promise<any> {
+    var cd=await this.brandRepository.find();
+    var gh=Pagination(cd,n,page);return gh;
   }
 
-  async getBrandsByNameSearch(name:string,n?: number, page?: number):Promise<Brand[]> {
+  async BrandSearch(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.brandRepository.find();
-    var cd=[];
-    for(var a of ab) {
-      if(a.title.toLowerCase().includes(name.toLowerCase())) {
-          cd.push(a);
-      }
-    }
-
-   var v2=n||24;
-    var v3=(page?((page-1)*v2):0);var r=0;let v5=v2;
-    while(r<v3){v5++;r++;}
-    
-    var v4=Math.min(v5,cd.length);
-    console.log('zxcvb',v5)
-    var gh=[];var k=0;
-    console.log('startIndex:', v3, 'page:', page, 'pageSize:', v2,'v4==',v4);
-    for (let i = v3; i <v4; i++) {
-      gh[k]=cd[i];
-      k++;
-     }
-
-     return gh;
+   return Search(name,ab,n,page);
   }
 
   findOneBrandItem(brand_id: number): Promise<Brand> {

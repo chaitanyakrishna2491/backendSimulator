@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Coupon } from './entities/coupon.entity';
 import { parse } from 'papaparse';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class CouponService {
@@ -13,9 +14,18 @@ export class CouponService {
   ) {}
 
   /****************Coupons CRUD********************/
-  getCoupon(): Promise<Coupon[]> {
-    return this.couponRepository.find();
+  async getCoupon(n?: number, page?: number): Promise<any> {
+    var cd=await this.couponRepository.find();
+    return Pagination(cd,n,page);
   }
+
+
+  
+  async m2s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.couponRepository.find();
+    return Search(name,ab,n,page);
+  }
+
 
   findOneCouponItem(coupon_id: number): Promise<Coupon> {
     return this.couponRepository.findOneBy({ coupon_id });

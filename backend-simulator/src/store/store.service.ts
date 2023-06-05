@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Store } from './entities/store.entity';
+import { Pagination } from 'src/globalHelper';
 
 @Injectable()
 export class StoresService {
@@ -11,9 +12,22 @@ export class StoresService {
   ) {}
 
   /****************Stores CRUD********************/
-  findAllStores(): Promise<Store[]> {
-    return this.storeRepository.find();
+  async findAllStores(n?: number, page?: number): Promise<any> {
+    var cd=await this.storeRepository.find();
+   var gh=Pagination(cd,n,page); return gh;
   }
+
+  
+async m7s(name:string,n?: number, page?: number):Promise<any> {
+  var ab=await this.storeRepository.find();
+  var cd=[];
+for(var a of ab) {
+    if(a.store_name.toLowerCase().includes(name.toLowerCase())) {
+      cd.push(a);
+    }
+}
+ var gh=Pagination(cd,n,page);return gh;
+}
 
   findOneStore(id: number): Promise<Store> {
     return this.storeRepository.findOneBy({ id });

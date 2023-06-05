@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors, Header, Headers } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors, Header, Headers, Query } from '@nestjs/common';
 import { ProductRatingService } from './productRating.service';
 import { ProductRating } from './entities/productRating.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -37,8 +37,8 @@ export class ProductRatingController {
   }
 
   @Get('productRatingsByUserId')
-  async m3(@Param('user_id') user_id:number) :Promise<ProductRating[]>{
-    return this.productRatingService.m3s(user_id);
+  async m3(@Param('user_id') user_id:number,@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number) :Promise<any>{
+    return this.productRatingService.m3s(user_id,n,pgn);
   }
 
 

@@ -11,8 +11,8 @@ export class PromotionalProductsController {
 /************************************************************************************ */
 
 @Get('promotionalProducts')
-async m1():Promise<PromotionalProduct[]> {
-return await this.pps.m1s();
+async m1(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+return await this.pps.m1s(n,pgn);
 }
 
 

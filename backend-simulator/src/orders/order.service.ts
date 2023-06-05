@@ -4,6 +4,7 @@ import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Orders } from './entities/orders.entity';
 import { Product } from 'src/products/entities/products.entity';
 import { ProductVarient } from 'src/products/entities/productvarient.entity';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class OrdersService {
@@ -17,8 +18,14 @@ export class OrdersService {
   ) {}
 
   /****************Orders CRUD********************/
-  findAllOrders(user_id: number): Promise<Orders[]> {
-    return this.ordersRepository.findBy({user_id});
+  async findAllOrders(user_id: number,n?: number, page?: number): Promise<any> {
+    var cd=await this.ordersRepository.findBy({user_id});
+    return Pagination(cd,n,page);
+  }
+  async m2s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.ordersRepository.find();
+    return Search(name,ab,n,page);
+    
   }
 
   async findOneOrder(order_id:number):Promise<any> {

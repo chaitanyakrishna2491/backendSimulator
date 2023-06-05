@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Query } from '@nestjs/common';
 import { Store_ordersService } from './store_orders.service';
 import { Store_orders } from './entities/store_orders.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -14,9 +14,12 @@ export class Store_orderController {
 
   /****************Store_order CRUD********************/
   @Get('readStore_order')
-  getStore_order(): Promise<Store_orders[]> {
-    return this.store_orderService.getStore_orders();
+  getStore_order( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.store_orderService.getStore_orders(n,pgn);
   }
+
+    
+
   @Get('readStore_orderItem/:id')
   getStore_orderItem(@Param('id') store_order_id: number): Promise<Store_orders> {
     return this.store_orderService.findOneStore_ordersItem(store_order_id);

@@ -16,12 +16,12 @@ export class BrandController {
 
   /****************Brand CRUD********************/
   @Get('readBrand')
-  getBrand(): Promise<Brand[]> {
-    return this.brandService.getBrand();
+  getBrand( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.brandService.getBrand(n,pgn);
   }
-  @Get('BrandsByNameSearch/:brandTitle')
-  m1(@Param('brandTitle') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-    return this.brandService.getBrandsByNameSearch(name,n,pgn);
+  @Get('Brands__Search/:keyword')
+  m1(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.brandService.BrandSearch(name,n,pgn);
   }
   @Get('readBrandItem/:id')
   getBrandItem(@Param('id') brand_id: number): Promise<Brand> {

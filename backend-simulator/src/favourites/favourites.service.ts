@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/products.entity';
 import { DeleteResult, InsertResult, Repository } from 'typeorm';
 import { Favourites } from './entities/Favourites.entity';
+import { Pagination } from 'src/globalHelper';
 
 @Injectable()
 export class FavouritesService {
@@ -23,6 +24,18 @@ export class FavouritesService {
   async getAllFav(user_id:number): Promise<any> {
     return this.FavouritesRepository.findBy({user_id:user_id});
   }
+
+  async getFavProducts(user_id:number,n?: number, page?: number): Promise<any> {
+    var ab=await this.FavouritesRepository.findBy({user_id:user_id});
+    var cd=[]; 
+    for(var a of ab) {
+      var ef=await this.productsRepository.findOneBy({"product_id":a.prod_id});
+      cd.push({"Fav":a,"product":ef});
+    }
+   return Pagination(cd,n,page);
+  }
+  
+
 
   
   createFav(fav:Favourites): Promise<InsertResult> {

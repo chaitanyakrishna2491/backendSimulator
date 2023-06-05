@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Query } from '@nestjs/common';
 import { DeliveryBoysService } from './dBoy.service';
 import { DeliveryBoy } from './entities/dBoy.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -14,9 +14,17 @@ export class DeliveryBoyController {
 
   /****************DeliveryBoys CRUD********************/
   @Get('deliveryBoys')
-  getDeliveryBoys(): Promise<DeliveryBoy[]> {
-    return this.deliveryBoyService.findAllDeliveryBoys();
+  getDeliveryBoys(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.deliveryBoyService.findAllDeliveryBoys(n,pgn);
   }
+
+  
+  @Get('DBoy__Search/:keyword')
+  m2(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.deliveryBoyService.m2s(name,n,pgn);
+  }
+
+
   @Get('deliveryBoy/:id')
   getDeliveryBoy(@Param('id') deliveryBoy_id: number): Promise<DeliveryBoy> {
     return this.deliveryBoyService.findOneDeliveryBoy(deliveryBoy_id);

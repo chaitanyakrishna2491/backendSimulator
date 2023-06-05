@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { NotifyService } from './notify.service';
 import { Notify } from './notify.entity';
 import { InsertResult } from 'typeorm';
@@ -9,13 +9,18 @@ export class NotifyController {
 
     /********************************* */
     @Get('notifications')
-     async getNfs():Promise<Notify[]> {
-        return await this.notifyService.getNfcs();
+     async getNfs( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+        return await this.notifyService.getNfcs(n,pgn);
     }
 
     @Get('notificationById/:id')
     async getNfnsById(@Param('id') id:number):Promise<Notify> {
         return await this.notifyService.getNfsById(id);
+    }
+
+    @Get('notification__Search/:keyword')
+    m2(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+      return this.notifyService.m2s(name,n,pgn);
     }
 
     @Get('notificationsByUserId/:uid')

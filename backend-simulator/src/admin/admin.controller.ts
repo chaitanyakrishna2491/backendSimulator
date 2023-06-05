@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Admin } from './entities/admin.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -14,9 +14,16 @@ export class AdminController {
 
   /****************Admin CRUD********************/
   @Get('admins')
-  getAdmin(): Promise<Admin[]> {
-    return this.adminService.findAllAdmins();
+  getAdmin(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.adminService.findAllAdmins(n,pgn);
   }
+
+  @Get('Admins__Search/:keyword')
+  m1(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.adminService.getAdminsByNameSearch(name,n,pgn);
+  }
+
+
   @Get('admin/:id')
   getAdminById(@Param('id') admin_id: number): Promise<Admin> {
     return this.adminService.findOneAdmin(admin_id);

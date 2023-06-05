@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, Headers } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Headers, Query } from '@nestjs/common';
 import { AddressService } from './address.service';
 import { Address } from './entities/address.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -20,9 +20,17 @@ export class AddressController {
 
  
   @Get('AllUsersAddressList')
-  getAddressAll(): Promise<any> {
-    return this.addressService.qw12();
+  getAddressAll(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.addressService.qw12(n,pgn);
   }
+
+  @Get('Address_Search/:address')
+  m1(@Param('address') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.addressService.getAddressBySearch(name,n,pgn);
+  }
+
+
+
   @Get(':id')
   getAddress(@Param('id') address_id: number): Promise<Address> {
     return this.addressService.findOneAddress(address_id);

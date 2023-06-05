@@ -16,12 +16,12 @@ export class CategoryController {
 
   /****************Category CRUD********************/
   @Get('readCategory')
-  getCategory(): Promise<Categories[]> {
-    return this.categoryService.getCategory();
+  getCategory( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<Categories[]> {
+    return this.categoryService.getCategory(n,pgn);
   }
 
-  @Get('readCategoryByNameSearch/:CategoryTitle')
-  m2(@Param('CategoryTitle') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+  @Get('Category__Search/:keyword')
+  m2(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
     return this.categoryService.m2s(name,n,pgn);
   }
   

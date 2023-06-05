@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Address } from './entities/address.entity';
 import { Users } from 'src/user/entities/user.entity';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class AddressService {
@@ -17,7 +18,7 @@ export class AddressService {
   findAddressByUser(user_id:number): Promise<Address[]> {
     return this.addressRepository.findBy({ user_id });
   }
- async  qw12(): Promise<any> {
+ async  qw12(n?: number, page?: number): Promise<any> {
  var urs=await this.userRepository.find();
  var adrses=await this.addressRepository.find();
  //username,address,phonenumber
@@ -31,7 +32,15 @@ yt.push({"id":j.id,"name":j.name,"phone":j.user_phone,"address":h});
 }
  }
  }
-    return yt  ;
+   
+    var cd=yt;
+    var gh=Pagination(cd,n,page);
+    return gh;
+  }
+
+  async getAddressBySearch(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.addressRepository.find();
+  return Search(name,ab,n,page);
   }
 
   findOneAddress(address_id: number): Promise<Address> {

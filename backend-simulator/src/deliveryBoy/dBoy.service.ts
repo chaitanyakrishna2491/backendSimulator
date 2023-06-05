@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { DeliveryBoy } from './entities/dBoy.entity';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class DeliveryBoysService {
@@ -11,9 +12,17 @@ export class DeliveryBoysService {
   ) {}
 
   /****************DeliveryBoys CRUD********************/
-  findAllDeliveryBoys(): Promise<DeliveryBoy[]> {
-    return this.deliveryBoyRepository.find();
+ async findAllDeliveryBoys(n?: number, page?: number): Promise<any> {
+    var cd= await this.deliveryBoyRepository.find();
+    return Pagination(cd,n,page);
   }
+
+  
+  async m2s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.deliveryBoyRepository.find();
+    return Search(name,ab,n,page);
+  }
+
 
   findOneDeliveryBoy(dboy_id: number): Promise<DeliveryBoy> {
     return this.deliveryBoyRepository.findOneBy({ dboy_id });

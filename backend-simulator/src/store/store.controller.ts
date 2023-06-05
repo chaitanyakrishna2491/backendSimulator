@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Query } from '@nestjs/common';
 import { StoresService } from './store.service';
 import { Store } from './entities/store.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -14,9 +14,15 @@ export class StoreController {
 
   /****************Stores CRUD********************/
   @Get('stores')
-  getStores(): Promise<Store[]> {
-    return this.storeService.findAllStores();
+  getStores(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.storeService.findAllStores(n,pgn);
   }
+  
+@Get('Search_Store_ByName/:name')
+async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+return this.storeService.m7s(name,n,pgn);
+}
+
   @Get('store/:id')
   getStore(@Param('id') store_id: number): Promise<Store> {
     return this.storeService.findOneStore(store_id);

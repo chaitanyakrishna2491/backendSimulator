@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Cart } from './entities/cart.entity';
 import { Product } from 'src/products/entities/products.entity';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class CartService {
@@ -14,20 +15,26 @@ export class CartService {
   ) {}
 
   /****************Carts CRUD********************/
-  getCart(user_id: number): Promise<Cart[]> {
-    return this.cartRepository.findBy({ user_id:user_id });
-
+  async getCart(user_id: number,n?: number, page?: number): Promise<any> {
+    var cd=await this.cartRepository.findBy({ user_id:user_id });
+    var gh=Pagination(cd,n,page);return gh;
   }
 
 //   {relations: {
 //     Product: true,
 // }}
 
-  getCartup(): Promise<Cart[]> {
-    return this.cartRepository.find( 
-          
-    );
+  async getCartup(n?: number, page?: number): Promise<any> {
+    var cd=await this.cartRepository.find();
+    var gh=Pagination(cd,n,page);return gh;
   }
+
+
+  async CartSearch(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.cartRepository.find();
+    return Search(name,ab,n,page);
+  }
+
 
 
 /**
@@ -50,7 +57,7 @@ export class CartService {
 
   // async findchildrencart()
 
-  async findAllpcs(): Promise<any> {
+  async findAllpcs(n?: number, page?: number): Promise<any> {
     const cs = await this.cartRepository.find();
     const pcs = [];
   
@@ -59,7 +66,7 @@ export class CartService {
       pcs.push({  c1 , ...ps});
     }
   
-    return pcs;
+    return Pagination(pcs,n,page);
   }
 
   findOneCartItem(cart_id: number): Promise<Cart> {

@@ -2,6 +2,7 @@ import { Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transaction } from './Transaction.entity';
 import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { Pagination } from 'src/globalHelper';
 
 @Injectable()
 export class TransactionService {
@@ -13,10 +14,10 @@ export class TransactionService {
         /************************************ */
 
 
-        getTns(user_Id:number):Promise<Transaction[]> {
+        async getTns(user_Id:number,n?: number, page?: number):Promise<any> {
 
-            return this.TransactionRepository.findBy( {user_Id:user_Id} );
-            
+            var cd=await this.TransactionRepository.findBy( {user_Id:user_Id} );
+         var gh=Pagination(cd,n,page);return gh;
 
         }
 

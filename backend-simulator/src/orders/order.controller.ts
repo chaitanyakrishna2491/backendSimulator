@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, Headers } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, Headers, Query } from '@nestjs/common';
 import { OrdersService } from './order.service';
 import { ProductsService } from '../products/products.service';
 import { CartService } from '../cart/cart.service';
@@ -28,13 +28,20 @@ export class OrdersController {
 
   /****************Orders CRUD********************/
   @Get('all')
-  getOrders(@Headers('userId') user_id: number): Promise<Orders[]> {
-    return this.ordersService.findAllOrders(user_id);
+  getOrders(@Headers('userId') user_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.ordersService.findAllOrders(user_id,n,pgn);
   }
   @Get(':orderId')
   getOrder(@Param('orderId') order_id: number): Promise<any> {
     return this.ordersService.findOneOrder(order_id);
+  }  
+  
+  @Get('Order__Search/:keyword')
+  m2(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.ordersService.m2s(name,n,pgn);
   }
+
+
 
   // @Get('ordersByUserId/:userId')
   // getOrder(@Param('userId'))

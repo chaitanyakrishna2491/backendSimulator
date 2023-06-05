@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, FileTypeValidator, ParseFilePipe, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { DealService } from './deal.service';
 import { DealProduct as Deal } from './entities/deal.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -16,9 +16,17 @@ export class DealController {
 
   /****************Deal CRUD********************/
   @Get('deals')
-  getDeal(): Promise<Deal[]> {
-    return this.dealService.getDeal();
+  getDeal(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.dealService.getDeal(n,pgn);
   }
+
+  
+  @Get('Deal__Search/:keyword')
+  m2(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.dealService.m2s(name,n,pgn);
+  }
+  
+
   @Get('deal/:id')
   getDealItem(@Param('id') deal_id: number): Promise<Deal> {
     return this.dealService.findOneDealItem(deal_id);

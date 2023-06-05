@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { DealProduct as Deal } from './entities/deal.entity';
 import { parse } from 'papaparse';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class DealService {
@@ -13,8 +14,14 @@ export class DealService {
   ) {}
 
   /****************Deals CRUD********************/
-  getDeal(): Promise<Deal[]> {
-    return this.dealRepository.find();
+  async getDeal(n?: number, page?: number): Promise<any> {
+   var cd= await this.dealRepository.find();
+   return Pagination(cd,n,page);
+  }
+
+  async m2s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.dealRepository.find();
+  return Search(name,ab,n,page);
   }
 
   findOneDealItem(deal_id: number): Promise<Deal> {

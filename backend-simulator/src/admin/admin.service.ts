@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Admin } from './entities/admin.entity';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class AdminService {
@@ -11,8 +12,14 @@ export class AdminService {
   ) {}
 
   /****************Admins CRUD********************/
-  findAllAdmins(): Promise<Admin[]> {
-    return this.adminRepository.find();
+  async findAllAdmins(n?: number, page?: number): Promise<any> {
+    var cd=await this.adminRepository.find();
+    return Pagination(cd,n,page);
+  }
+
+  async getAdminsByNameSearch(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.adminRepository.find();
+   return Search(name,ab,n,page);
   }
 
   findOneAdmin(id: number): Promise<Admin> {

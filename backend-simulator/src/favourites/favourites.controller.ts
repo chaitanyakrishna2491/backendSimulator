@@ -1,4 +1,4 @@
-import { Body, Controller,Delete,Get,Param,Post } from '@nestjs/common';
+import { Body, Controller,Delete,Get,Param,Post, Query } from '@nestjs/common';
 import { FavouritesService } from './favourites.service';
 import { Favourites } from './entities/Favourites.entity';
 import { DeleteResult, InsertResult } from 'typeorm';
@@ -11,8 +11,14 @@ export class FavouritesController {
     
   @Get('favourites/:user_id')
   async getProducts(@Param('user_Id') user_id:number): Promise<any> {
-    return this.favService.getAllFav(user_id);
+    return this.favService.getAllFav(user_id,);
   }
+
+  @Get('favouriteProductsDetails/:user_id')
+  async getFavProducts(@Param('user_Id') user_id:number, @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.favService.getFavProducts(user_id,n,pgn);
+  }
+
   
 
   @Post('add--Fav')

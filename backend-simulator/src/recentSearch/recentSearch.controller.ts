@@ -19,7 +19,7 @@ async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query
 return this.recentSearchService.m7s(name,n,pgn);
 }
 
-  @Get('all')
+  @Get('Last_7_RecentSearchByUserId')
   getRecentSearch(@Headers('userId') user_id: number): Promise<RecentSearch[]> {
     return this.recentSearchService.getRecentSearch(user_id);
   }
