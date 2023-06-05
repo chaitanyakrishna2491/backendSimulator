@@ -18,7 +18,15 @@ export class Store_orderController {
     return this.store_orderService.getStore_orders(n,pgn);
   }
 
-    
+  @Get('Search_StoreOrder_ByKeyWord/:name')
+  async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+  return this.store_orderService.m7s(name,n,pgn);
+  }
+
+  @Get('Store_ordersByStoreId/:Store_id')
+  getStore_ordersByStoreId(@Param('Store_id') store_order_id: number, @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.store_orderService.m5(store_order_id,n,pgn);
+  }
 
   @Get('readStore_orderItem/:id')
   getStore_orderItem(@Param('id') store_order_id: number): Promise<Store_orders> {

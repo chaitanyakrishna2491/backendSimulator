@@ -35,6 +35,7 @@ import { NotifyModule } from './notify/notify.module';
 import { CreditCardModule } from './credit-card/credit-card.module';
 import { HscreenModule } from './hscreen/hscreen.module';
 import { PromotionalProductsModule } from './promotional-products/promotional-products.module';
+import { ShippingModule } from './shipping/shipping.module';
 
 
 @Module({
@@ -76,6 +77,8 @@ import { PromotionalProductsModule } from './promotional-products/promotional-pr
     CreditCardModule,
      HscreenModule,
      PromotionalProductsModule
+     PromotionalProductsModule,
+     ShippingModule
 
     
   ],

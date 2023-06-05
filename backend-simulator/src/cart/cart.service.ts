@@ -81,7 +81,7 @@ export class CartService {
       if((h.product_id==cart_item.product_id) && 
       (h.varient_id==cart_item.varient_id) &&
         (h.user_id==cart_item.user_id))  {
-              
+              console.log(h);
           fg=1;
           var idc=h.cart_id;
           cart_item.cart_id=idc;
@@ -97,6 +97,7 @@ export class CartService {
 
         if(fg==0)  {
           //cart_item.cart_id=a.length+1;
+          console.log(cart_item);
           await this.cartRepository.insert(cart_item);
         }
 

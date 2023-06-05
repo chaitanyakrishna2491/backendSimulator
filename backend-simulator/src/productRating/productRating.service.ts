@@ -5,7 +5,7 @@ import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { ProductRating } from './entities/productRating.entity';
 import { parse } from 'papaparse';
 import { Product } from 'src/products/entities/products.entity';
-import { Pagination } from 'src/globalHelper';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class ProductRatingService {
@@ -18,10 +18,14 @@ export class ProductRatingService {
   ) {}
 
   /****************ProductRatings CRUD********************/
-  getProductRating(): Promise<ProductRating[]> {
-    return this.productRatingRepository.find();
+  async getProductRating(n?: number, page?: number): Promise<any> {
+    var ab=await this.productRatingRepository.find();
+    return Pagination(ab,n,page);
   }
-
+  async m4s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.productRatingRepository.find();
+    return Search(name,ab,n,page);
+  }
   findOneProductRatingItem(rate_id: number): Promise<ProductRating> {
     return this.productRatingRepository.findOneBy({ rate_id });
   }
@@ -64,8 +68,9 @@ return await this.productRatingRepository.insert(productRating_item);
       }
   }
 
-  async m2s(prod_id:number):Promise<ProductRating> {
-    return await this.productRatingRepository.findOneBy({product_id:prod_id});
+  async m2s(prod_id:number,n?: number, page?: number):Promise<any> {
+    var cd=await this.productRatingRepository.findBy({product_id:prod_id});
+    return Pagination(cd,n,page);
   }
 
   async m3s(user_id:number,n?: number, page?: number):Promise<any> {

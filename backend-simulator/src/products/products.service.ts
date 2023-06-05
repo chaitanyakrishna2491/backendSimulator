@@ -83,6 +83,7 @@ export class ProductsService {
     var ef=await this.cartRepository.findBy({"product_id":product_id});
     var gh=await this.productvarientRepository.findBy({"product_id":product_id});
     var qw=await this.productRatingRepository.findBy({"product_id":product_id});
+    var yt=await this.categoryRepository.findOneBy({"cat_id":ab.cat_id});
 
     var cv=await this.ordersRepository.find();
     var arr=[];
@@ -92,7 +93,7 @@ export class ProductsService {
         arr.push(a);
       }
     }
-    var req={...ab,"brand_details":cd,"Associated_carts":ef,"Product_Varients":gh,"Associated_Orders":arr,"product_ratings":qw}
+    var req={...ab,"brand_details":cd,"Category_details":yt,"Associated_carts":ef,"Product_Varients":gh,"Associated_Orders":arr,"product_ratings":qw}
     return req;
   }
 

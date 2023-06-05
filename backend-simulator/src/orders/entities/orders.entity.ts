@@ -33,12 +33,20 @@ export class Orders {
   @Column() updated_at?: string
   @Column() is_gift?: boolean
   @Column() gift_message?: string
+
   @Column() isconfirmed?:boolean
+  @Column() order_confirm_timestamp?:string
+  
   @Column() isPlaced?:boolean
+  @Column() order_placed_timestamp?:string
   @Column() isShipped?:boolean
+  @Column() order_shipped_timestamp?:string
   @Column() isOutForDelivery?:boolean
+  @Column() order_outForDelivery_timestamp?:string
   @Column() status?:string
   @Column() isDelivered?:boolean
+  @Column() order_delivered_timestamp?:string
+  
 
 
   

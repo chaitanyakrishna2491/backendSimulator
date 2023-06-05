@@ -16,10 +16,13 @@ export class ProductRatingController {
 
   /****************ProductRating CRUD********************/
   @Get('productRatings')
-  getProductRating(): Promise<ProductRating[]> {
-    return this.productRatingService.getProductRating();
+  getProductRating(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.productRatingService.getProductRating(n,pgn);
   }
-  
+  @Get('ProductRatings__Search/:keyword')
+  m4(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.productRatingService.m4s(name,n,pgn);
+  }
   @Get('productRating/:id')
   getProductRatingItem(@Param('id') productRating_id: number): Promise<ProductRating> {
     return this.productRatingService.findOneProductRatingItem(productRating_id);
@@ -32,8 +35,8 @@ export class ProductRatingController {
   }
 
   @Get('productRatingsByProductId')
-  async m2(@Param('product_id') prod_id:number):Promise<ProductRating> {
-    return this.productRatingService.m2s(prod_id);
+  async m2(@Param('product_id') prod_id:number, @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.productRatingService.m2s(prod_id,n,pgn);
   }
 
   @Get('productRatingsByUserId')

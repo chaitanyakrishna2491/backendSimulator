@@ -17,8 +17,8 @@ export class HscreenController {
         return this.HscreenService.getHscreensByCatId(cat_id,n,pgn);
     }
 
-    @Get('ByProduct_Id/:product_id')
-    async getAllHscreensByProductId(@Param('product_id') prId:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<Hscreen[]> {
+    @Get('HscreensByProduct_Id/:product_id')
+    async getAllHscreensByProductId(@Param('product_id') prId:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
         return this.HscreenService.getHscreensByProductId(prId,n,pgn);
     }
     

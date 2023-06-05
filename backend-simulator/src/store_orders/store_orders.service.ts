@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Store_orders } from './entities/store_orders.entity';
-import { Pagination } from 'src/globalHelper';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class Store_ordersService {
@@ -15,6 +15,16 @@ export class Store_ordersService {
   async getStore_orders(n?: number, page?: number): Promise<any> {
     var cd= await this.store_orderRepository.find();
     var gh=Pagination(cd,n,page); return gh;
+  }
+
+  async m7s(name:string,n?: number, page?: number):Promise<any> {
+    var ab=await this.store_orderRepository.find();
+   return Search(name,ab,n,page);
+  }
+
+  async m5(sid:number,n?: number, page?: number):Promise<any> {
+    var ab=await this.store_orderRepository.findBy({"store_id":sid});
+      return Pagination(ab,n,page);
   }
 
   findOneStore_ordersItem(store_order_id: number): Promise<Store_orders> {

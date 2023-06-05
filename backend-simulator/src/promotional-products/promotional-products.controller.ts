@@ -16,8 +16,8 @@ return await this.pps.m1s(n,pgn);
 }
 
 
-@Get('Promotional_Product_ByName/:name')
-async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+@Get('Promotional_Product_Search/:keyword')
+async m7(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
 return this.pps.m7s(name,n,pgn);
 }
 

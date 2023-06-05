@@ -2,7 +2,7 @@ import { Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Roles } from './entities/roles.entity';
-import { Pagination } from 'src/globalHelper';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class RolesService {
@@ -20,17 +20,12 @@ export class RolesService {
 
   async m7s(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.rolesRepository.find();
-    var cd=[];
-  for(var a of ab) {
-      if(a.role_name.toLowerCase().includes(name.toLowerCase())) {
-        cd.push(a);
-      }
-  }
-   var gh=Pagination(cd,n,page); return gh;
+    return Search(name,ab,n,page);
   }
 
-  findRolesPerUser(user_id: number): Promise<Roles[]>{
-    return this.rolesRepository.findBy({ user_id });
+ async findRolesPerUser(user_id: number,n?: number, page?: number): Promise<any>{
+    var cd=await this.rolesRepository.findBy({ user_id });
+    return Pagination(cd,n,page);
   }
 
   findOneRoles(role_id: number): Promise<Roles> {

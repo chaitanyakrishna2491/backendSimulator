@@ -9,9 +9,7 @@ export class Cart {
   @Column() varient_id?: number
   @Column() user_id?: number
   @Column() qty?: number
-  @ManyToOne(() => Product)
-  @JoinColumn({ name: 'product_id' })
-  product?: Product;
-
-
+  // @ManyToOne(() => Product)
+  // @JoinColumn({ name: 'product_id' })
+  // product?: Product;
 }

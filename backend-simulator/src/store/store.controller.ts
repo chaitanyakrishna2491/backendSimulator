@@ -18,10 +18,11 @@ export class StoreController {
     return this.storeService.findAllStores(n,pgn);
   }
   
-@Get('Search_Store_ByName/:name')
-async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-return this.storeService.m7s(name,n,pgn);
-}
+    @Get('Search_Store_ByKeyWord/:name')
+    async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+    return this.storeService.m7s(name,n,pgn);
+    }
+
 
   @Get('store/:id')
   getStore(@Param('id') store_id: number): Promise<Store> {

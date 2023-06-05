@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PromotionalProduct } from './promotional-products.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
-import { Pagination } from 'src/globalHelper';
+import { Pagination, Search } from 'src/globalHelper';
 
 @Injectable()
 export class PromotionalProductsService {
@@ -18,13 +18,7 @@ export class PromotionalProductsService {
 
     async m7s(name:string,n?: number, page?: number):Promise<any> {
         var ab=await this.ppc.find();
-        var cd=[];
-      for(var a of ab) {
-          if(a.product_name.toLowerCase().includes(name.toLowerCase())) {
-            cd.push(a);
-          }
-      }
-        var gh=Pagination(cd,n,page); return gh;
+       return Search(name,ab,n,page);
       }
 
       

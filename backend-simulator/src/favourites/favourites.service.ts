@@ -21,8 +21,9 @@ export class FavouritesService {
    
   ) {}
 
-  async getAllFav(user_id:number): Promise<any> {
-    return this.FavouritesRepository.findBy({user_id:user_id});
+  async getAllFav(user_id:number,n?: number, page?: number): Promise<any> {
+    var cd=await this.FavouritesRepository.findBy({user_id:user_id});
+    return Pagination(cd,n,page);
   }
 
   async getFavProducts(user_id:number,n?: number, page?: number): Promise<any> {

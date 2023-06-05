@@ -12,6 +12,13 @@ export class TransactionController {
         return this.TransactionService.getTns(user_id,n,pgn);
     }
 
+    @Get("TransactionsByUser_Sarch/:user_id") 
+    async TnsSearch(@Param('user_id') user_id:number,@Query('Keyword') kw?: string,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number ): Promise<any> {
+        return this.TransactionService.getTnsUserSearch(user_id,kw,n,pgn);
+    }
+
+
+
     @Post("Transaction")
     async insertTns(@Body() tns:Transaction): Promise<InsertResult> {
         return this.TransactionService.insertNewTns(tns);

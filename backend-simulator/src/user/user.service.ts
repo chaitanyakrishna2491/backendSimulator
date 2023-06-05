@@ -9,7 +9,7 @@ import * as speakeasy from "speakeasy";
 import { SMSNotification } from 'src/sms/SMSNotification.service';
 // const bcrypt = require('bcrypt');
 import * as bcrypt from 'bcrypt'; 
-import { Pagination } from 'src/globalHelper';
+import { Pagination, Search } from 'src/globalHelper';
 const jwt = require('jsonwebtoken');
 
 @Injectable()
@@ -87,15 +87,8 @@ async verifyOTP(user_phone: string, otp: string): Promise<string> {
 
 async m7s(name:string,n?: number, page?: number):Promise<any> {
   var ab=await this.userRepository.find();
-  var cd=[];
-for(var a of ab) {
-    if(a.username.toLowerCase().includes(name.toLowerCase())) {
-      cd.push(a);
-    }
-}
-  var gh=Pagination(cd,n,page);
-
-    return gh;
+  
+    return Search(name,ab,n,page);
 }
 
 
