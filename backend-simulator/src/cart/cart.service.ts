@@ -15,25 +15,23 @@ export class CartService {
   ) {}
 
   /****************Carts CRUD********************/
-  async getCart(user_id: number,n?: number, page?: number): Promise<any> {
-    var cd=await this.cartRepository.findBy({ user_id:user_id });
-    var gh=Pagination(cd,n,page);return gh;
+  async getCart(user_id: number): Promise<any> {
+    return await this.cartRepository.findBy({ user_id:user_id });
   }
 
 //   {relations: {
 //     Product: true,
 // }}
 
-  async getCartup(n?: number, page?: number): Promise<any> {
-    var cd=await this.cartRepository.find();
-    var gh=Pagination(cd,n,page);return gh;
+  async getCartup(): Promise<any> {
+    return await this.cartRepository.find();
   }
 
 
-  async CartSearch(name:string,n?: number, page?: number):Promise<any> {
-    var ab=await this.cartRepository.find();
-    return Search(name,ab,n,page);
-  }
+  // async CartSearch(name:string):Promise<any> {
+  //   return await this.cartRepository.find();
+  //   return Search(name,ab,n,page);
+  // }
 
 
 
@@ -57,7 +55,7 @@ export class CartService {
 
   // async findchildrencart()
 
-  async findAllpcs(uid:number,n?: number, page?: number): Promise<any> {
+  async findAllpcs(uid:number): Promise<any> {
     const cs = await this.cartRepository.findBy({"user_id":uid});
     const pcs = [];
   
@@ -66,7 +64,7 @@ export class CartService {
       pcs.push({  c1 , ...ps});
     }
   
-    return Pagination(pcs,n,page);
+    return pcs;
   }
 
   findOneCartItem(cart_id: number): Promise<Cart> {

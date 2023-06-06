@@ -15,22 +15,22 @@ export class CartController {
 
   /****************Cart CRUD********************/
   @Get('ByUserId')
-  getCart(@Headers("userId") userId: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.cartService.getCart(userId,n,pgn);
+  getCart(@Headers("userId") userId: number): Promise<any> {
+    return this.cartService.getCart(userId);
   }
 
   @Get("findcartAll")
-  getCartup(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.cartService.getCartup(n,pgn);
+  getCartup(): Promise<any> {
+    return this.cartService.getCartup();
   }
-  @Get('Cart__Search/:keyword')
-  m1(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-    return this.cartService.CartSearch(name,n,pgn);
-  }
+  // @Get('Cart__Search/:keyword')
+  // m1(@Param('keyword') name:string):Promise<any> {
+  //   return this.cartService.CartSearch(name);
+  // }
 
-  @Get('findAllPc/user_id')
-  getCartpc(@Param('user_id') user_id:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.cartService.findAllpcs(user_id,n,pgn);
+  @Get('findAllPc')
+  getCartpc(@Headers("userId") user_id:number): Promise<any> {
+    return this.cartService.findAllpcs(user_id);
   }
 
   @Get('ByCartId:id')
