@@ -28,9 +28,9 @@ export class CartController {
     return this.cartService.CartSearch(name,n,pgn);
   }
 
-  @Get('findAllPc')
-  getCartpc(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.cartService.findAllpcs(n,pgn);
+  @Get('findAllPc/user_id')
+  getCartpc(@Param('user_id') user_id:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.cartService.findAllpcs(user_id,n,pgn);
   }
 
   @Get('ByCartId:id')

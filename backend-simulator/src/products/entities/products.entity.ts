@@ -30,8 +30,8 @@ export class Product {
   //   @JoinColumn()
   //   Cart:Cart
 
-  // @OneToOne(() => Cart, (cart) => cart.product)
-  // cart?: Cart;
+  @OneToOne(() => Cart, (cart) => cart.product)
+  cart?: Cart;
  
   @Column() price?: string;
   @Column() weight?: string;

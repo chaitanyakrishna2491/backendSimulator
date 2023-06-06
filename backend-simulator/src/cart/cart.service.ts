@@ -57,8 +57,8 @@ export class CartService {
 
   // async findchildrencart()
 
-  async findAllpcs(n?: number, page?: number): Promise<any> {
-    const cs = await this.cartRepository.find();
+  async findAllpcs(uid:number,n?: number, page?: number): Promise<any> {
+    const cs = await this.cartRepository.findBy({"user_id":uid});
     const pcs = [];
   
     for (const c1 of cs) {
@@ -120,8 +120,9 @@ export class CartService {
 
 
   async updateCartItem(cart_id: number, cart_item: Cart): Promise<UpdateResult> {
-    const existingCart = await this.cartRepository.findOneBy({ cart_id })
+    const existingCart = await this.cartRepository.findOneBy({ "cart_id":cart_id })
     if(existingCart){
+      //console.log(existingCart);
       return this.cartRepository.update(cart_id, {...existingCart,...cart_item});
     }
     else{

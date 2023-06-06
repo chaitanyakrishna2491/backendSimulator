@@ -29,7 +29,9 @@ export class BrandService {
     return this.brandRepository.findOneBy({ brand_id });
   }
 
-  createBrandItem(brand_item: Brand): Promise<InsertResult> {
+ async createBrandItem(brand_item: Brand): Promise<InsertResult> {
+    //console.log('asdfgh',brand_item);
+    console.log(await this.brandRepository.find());
     return this.brandRepository.insert(brand_item);
   }
 

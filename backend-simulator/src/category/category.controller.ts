@@ -37,13 +37,13 @@ export class CategoryController {
   }
 
   @Get('findCategoryByLevel/:level')
-  findgetcatlevel1(@Param('level') v: number): Promise<any> {
-    return this.categoryService.findcatlevel1(v);
+  findgetcatlevel1(@Param('level') v: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.categoryService.findcatlevel1(v,n,pgn);
   }
 
   @Get('findChildrenByCatId/:CatId')
-  fccr(@Param('CatId') v: number): Promise<any> { 
-    return this.categoryService.fcc(v);
+  fccr(@Param('CatId') v: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> { 
+    return this.categoryService.fcc(v,n,pgn);
   }
 
   @Post('categories/upload')

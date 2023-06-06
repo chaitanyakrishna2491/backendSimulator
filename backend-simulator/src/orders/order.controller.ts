@@ -31,7 +31,7 @@ export class OrdersController {
   getOrders(@Headers('userId') user_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
     return this.ordersService.findAllOrders(user_id,n,pgn);
   }
-  @Get(':orderId')
+  @Get('/:orderId')
   getOrder(@Param('orderId') order_id: number): Promise<any> {
     return this.ordersService.findOneOrder(order_id);
   }  

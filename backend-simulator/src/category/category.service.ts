@@ -14,8 +14,19 @@ export class CategoryService {
   ) {}
 
   /****************Categorys CRUD********************/
+  /*************** tree chaining of categories...................
+   * 
+   * cat_id=0===parent for all level=1 categories.......
+   * physically it doesnt exist....
+   * .......and we shoudn't insert any category with cat_id=0
+   *  
+   * .... level=1===no parent,  ........or parent=0 
+   * ....level=2===has a parent
+   * .....level=3===has a parent =p...and p has a parent= pp
+   * 
+   *      *********************/
   async getCategory(n?: number, page?: number): Promise<any> {
-    var cd=await this.categoryRepository.findBy({level:0});
+    var cd=await this.categoryRepository.findBy({parent:0});
     return Pagination(cd,n,page);
   }
 
@@ -30,7 +41,7 @@ export class CategoryService {
   }
 
 
-   async findcatlevel1(v:number): Promise <any> {
+   async findcatlevel1(v:number,n?: number, page?: number): Promise <any> {
     var a=await this.categoryRepository.find();
   var ar=[];
    for(var ca1 of a) {
@@ -38,10 +49,11 @@ export class CategoryService {
       ar.push(ca1);
     }
   }
-  return ar;
+  
+  return Pagination(ar,n,page);
   }
 
-  async fcc(v:number): Promise <any> {
+  async fcc(v:number,n?: number, page?: number): Promise <any> {
     var b=await this.categoryRepository.find();
   var nr=[];
    for(var cat of b) {
@@ -49,7 +61,7 @@ export class CategoryService {
       nr.push(cat);
     }
   }
-  return nr;
+  return Pagination(nr,n,page);
   }
 
 

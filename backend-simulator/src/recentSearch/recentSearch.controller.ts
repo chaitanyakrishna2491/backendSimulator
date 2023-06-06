@@ -23,6 +23,10 @@ return this.recentSearchService.m7s(name,n,pgn);
   getRecentSearch(@Headers('userId') user_id: number): Promise<RecentSearch[]> {
     return this.recentSearchService.getRecentSearch(user_id);
   }
+  @Get('AllRecentSearchByUserId')
+  GetAllRecentSearchByUserId(@Headers('userId') user_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.recentSearchService.getAllRecentSearchByUserId(user_id,n,pgn);
+  }
   @Get(':id')
   getRecentSearchItem(@Param('id') recentSearch_id: number): Promise<RecentSearch> {
     return this.recentSearchService.findOneRecentSearchItem(recentSearch_id);

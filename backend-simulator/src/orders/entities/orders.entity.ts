@@ -5,7 +5,13 @@ export class Orders {
   @PrimaryGeneratedColumn() order_id: number
   @Column() user_id?: number
   @Column() products_and_varients?: string
-  @Column() count?: number
+  // in swagger pass like this
+  // "products_and_varients":
+  // "[{\"product_id\":1,\"variants\":\"1,2,3\",\"count\":\"10,13,12\"},{\"product_id\":2,\"variants\":\"6,7,8\",\"count\":\"11,11,12\"}]"
+  //note .......strictly avoid spaces... ...........It will be inserted in database as...
+  // [{"product_id":1,"varients":"1,2,3","count":"10,13,12"},{"product_id":2,"varients":"6,7,8","count":"11,11,12"},]
+  // varient_id=1,count=10.........varient_id=2,count=13.......
+
   @Column() store_id?: number
   @Column() address_id?: number
   @Column() cart_id?: number
