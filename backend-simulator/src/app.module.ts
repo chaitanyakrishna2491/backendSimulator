@@ -76,7 +76,6 @@ import { ShippingModule } from './shipping/shipping.module';
     NotifyModule,
     CreditCardModule,
      HscreenModule,
-     PromotionalProductsModule
      PromotionalProductsModule,
      ShippingModule
 
