@@ -16,8 +16,8 @@ export class CouponController {
 
   /****************Coupon CRUD********************/
   @Get('readCoupon')
-  getCoupon(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.couponService.getCoupon(n,pgn);
+  getCoupon(): Promise<any> {
+    return this.couponService.getCoupon();
   }
 
 

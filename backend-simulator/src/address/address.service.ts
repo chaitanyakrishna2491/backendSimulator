@@ -18,7 +18,9 @@ export class AddressService {
   findAddressByUser(user_id:number): Promise<Address[]> {
     return this.addressRepository.findBy({ user_id });
   }
- async  qw12(n?: number, page?: number): Promise<any> {
+
+
+ async  qw12(): Promise<any> {
  var urs=await this.userRepository.find();
  var adrses=await this.addressRepository.find();
  //username,address,phonenumber
@@ -33,9 +35,7 @@ yt.push({"id":j.id,"name":j.name,"phone":j.user_phone,"address":h});
  }
  }
    
-    var cd=yt;
-    var gh=Pagination(cd,n,page);
-    return gh;
+    return yt;
   }
 
   async getAddressBySearch(name:string,n?: number, page?: number):Promise<any> {

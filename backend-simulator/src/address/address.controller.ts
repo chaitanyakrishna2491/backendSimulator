@@ -20,8 +20,8 @@ export class AddressController {
 
  
   @Get('AllUsersAddressList')
-  getAddressAll(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.addressService.qw12(n,pgn);
+  getAddressAll(): Promise<any> {
+    return this.addressService.qw12();
   }
 
   @Get('Address_Search/:address')

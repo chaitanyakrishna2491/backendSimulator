@@ -136,4 +136,14 @@ export class CartService {
   async removeFromCart(cart_id: number): Promise<DeleteResult> {
     return await this.cartRepository.delete(cart_id);
   }
+
+  async removeAllCartOfUser(user_id: number): Promise<any> {
+      var ab=await this.cartRepository.findBy({"user_id":user_id});
+      for(var a of ab) {
+        await this.cartRepository.delete(a.cart_id);
+      }
+      return "your cart is empty";
+  }
+
+  
 }

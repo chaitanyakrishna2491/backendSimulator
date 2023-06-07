@@ -49,4 +49,8 @@ export class CartController {
   deleteCart(@Param('id') cart_id: number): Promise<DeleteResult> {
     return this.cartService.removeFromCart(cart_id);
   }
+  @Delete('delete_All_cart:/user_id')
+  deleteAllCartByUserId(@Param('user_id') user_id: number): Promise<any> {
+    return this.cartService.removeAllCartOfUser(user_id);
+  }
 }

@@ -16,6 +16,7 @@ export class Product {
   @Column() brand_id?: number;
   @Column() product_name?: string;
   @Column() product_image?: string;
+  @Column() Image_Thumb_Nail?: string;
   @Column({default: 'Regular'}) type?: string;
   @Column({ default: 0 }) hide?: number;
   @Column({default: 0}) added_by?: number;
