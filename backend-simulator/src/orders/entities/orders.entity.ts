@@ -11,6 +11,7 @@ export class Orders {
   //note .......strictly avoid spaces... ...........It will be inserted in database as...
   // [{"product_id":1,"varients":"1,2,3","count":"10,13,12"},{"product_id":2,"varients":"6,7,8","count":"11,11,12"},]
   // varient_id=1,count=10.........varient_id=2,count=13.......
+  // updated=====[{"product_id":1,"varients":"1,2,3","count":10},{"product_id":2,"varients":"6,7,8","count":11}]
 
   @Column() store_id?: number
   @Column() address_id?: number

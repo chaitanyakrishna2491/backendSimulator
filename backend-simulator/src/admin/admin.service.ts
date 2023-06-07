@@ -12,9 +12,9 @@ export class AdminService {
   ) {}
 
   /****************Admins CRUD********************/
-  async findAllAdmins(n?: number, page?: number): Promise<any> {
-    var cd=await this.adminRepository.find();
-    return Pagination(cd,n,page);
+  async findAllAdmins(): Promise<any> {
+    return await this.adminRepository.find();
+   
   }
 
   async getAdminsByNameSearch(name:string,n?: number, page?: number):Promise<any> {

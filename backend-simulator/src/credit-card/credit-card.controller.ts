@@ -14,6 +14,12 @@ constructor(
 async getProducts(@Param('user_id') user_id:number ): Promise<CreditCard[]> {
   return this.CreditCardService.cc1(user_id);
 }
+   
+@Get('credit-card_by_Id/:id')
+async GetCreditCardById(@Param('id') id:string ): Promise<CreditCard> {
+  return this.CreditCardService.getCreditCardById(id);
+}
+    
 
 @Post('credit-card')
 async NewCreditCardInsert(@Body() ccr:CreditCard): Promise<InsertResult> {

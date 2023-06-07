@@ -14,8 +14,8 @@ export class AdminController {
 
   /****************Admin CRUD********************/
   @Get('admins')
-  getAdmin(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.adminService.findAllAdmins(n,pgn);
+  getAdmin(): Promise<any> {
+    return this.adminService.findAllAdmins();
   }
 
   @Get('Admins__Search/:keyword')

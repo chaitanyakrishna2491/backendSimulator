@@ -15,9 +15,9 @@ export class BrandService {
   ) {}
 
   /****************Brands CRUD********************/
- async getBrand(n?: number, page?: number): Promise<any> {
-    var cd=await this.brandRepository.find();
-    var gh=Pagination(cd,n,page);return gh;
+ async getBrand(): Promise<any> {
+    return await this.brandRepository.find();
+    
   }
 
   async BrandSearch(name:string,n?: number, page?: number):Promise<any> {

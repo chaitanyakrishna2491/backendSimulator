@@ -25,9 +25,8 @@ export class CategoryService {
    * .....level=3===has a parent =p...and p has a parent= pp
    * 
    *      *********************/
-  async getCategory(n?: number, page?: number): Promise<any> {
-    var cd=await this.categoryRepository.findBy({parent:0});
-    return Pagination(cd,n,page);
+  async getCategory(): Promise<any> {
+    return await this.categoryRepository.findBy({parent:0});
   }
 
   
@@ -41,7 +40,7 @@ export class CategoryService {
   }
 
 
-   async findcatlevel1(v:number,n?: number, page?: number): Promise <any> {
+   async findcatlevel1(v:number): Promise <any> {
     var a=await this.categoryRepository.find();
   var ar=[];
    for(var ca1 of a) {
@@ -50,10 +49,10 @@ export class CategoryService {
     }
   }
   
-  return Pagination(ar,n,page);
+  return ar;
   }
 
-  async fcc(v:number,n?: number, page?: number): Promise <any> {
+  async fcc(v:number): Promise <any> {
     var b=await this.categoryRepository.find();
   var nr=[];
    for(var cat of b) {
@@ -61,7 +60,7 @@ export class CategoryService {
       nr.push(cat);
     }
   }
-  return Pagination(nr,n,page);
+  return nr;
   }
 
 

@@ -16,8 +16,8 @@ export class BrandController {
 
   /****************Brand CRUD********************/
   @Get('readBrand')
-  GetBrand( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.brandService.getBrand(n,pgn);
+  GetBrand(): Promise<any> {
+    return this.brandService.getBrand();
   }
   @Get('Brands__Search/:keyword')
   m1(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {

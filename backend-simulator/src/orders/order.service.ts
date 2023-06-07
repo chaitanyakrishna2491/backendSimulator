@@ -19,7 +19,7 @@ export class OrdersService {
 
   /****************Orders CRUD********************/
   async findAllOrders(user_id: number,n?: number, page?: number): Promise<any> {
-    var cd=await this.ordersRepository.findBy({user_id});
+    var cd=await this.ordersRepository.findBy({"user_id":user_id,"isPlaced":true});
     return Pagination(cd,n,page);
   }
   async m2s(name:string,n?: number, page?: number):Promise<any> {
@@ -35,6 +35,7 @@ export class OrdersService {
     var pr=[];
     for(var k1 of pv) {
       var q1=await this.productsRepository.findOneBy({"product_id":k1.product_id});
+      q1.cartCount=k1.count;
         var str = k1.varients+"";
         console.log('zxcvb',str);
         var arr = str.split(",").map(function(item) {

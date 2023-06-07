@@ -14,8 +14,15 @@ export class CreditCardService {
     /************************************************ */
     
     async cc1(user_Id:number):Promise<CreditCard[]> {
-        return await this.CreditCardRepository.findBy({user_Id});
+        return await this.CreditCardRepository.findBy({"user_Id":user_Id});
     }
+
+
+    async getCreditCardById(id:string):Promise<CreditCard> {
+        return await this.CreditCardRepository.findOneBy({"id":id});
+    }
+
+ 
 
     async cc2(@Body() cd:CreditCard):Promise<InsertResult> {
         return await this.CreditCardRepository.insert(cd);
@@ -23,7 +30,7 @@ export class CreditCardService {
 
     
     async cc3(ccid:number,cd:CreditCard ):Promise<any> {
-        var rc=await this.CreditCardRepository.findOneBy({"card_Number":cd.card_Number});
+        var rc=await this.CreditCardRepository.findOneBy({"id":cd.id});
         return await this.CreditCardRepository.update(ccid,{...rc,...cd});
     }
 

@@ -14,9 +14,9 @@ export class CouponService {
   ) {}
 
   /****************Coupons CRUD********************/
-  async getCoupon(n?: number, page?: number): Promise<any> {
-    var cd=await this.couponRepository.find();
-    return Pagination(cd,n,page);
+  async getCoupon(): Promise<any> {
+    return await this.couponRepository.find();
+   
   }
 
 
