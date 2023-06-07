@@ -35,7 +35,7 @@ export class OrdersService {
     var pr=[];
     for(var k1 of pv) {
       var q1=await this.productsRepository.findOneBy({"product_id":k1.product_id});
-        var str = k1.varients;
+        var str = k1.varients+"";
         console.log('zxcvb',str);
         var arr = str.split(",").map(function(item) {
             return parseInt(item, 10);

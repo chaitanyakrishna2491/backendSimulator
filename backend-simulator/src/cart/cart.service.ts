@@ -98,9 +98,10 @@ export class CartService {
           console.log(cart_item);
           await this.cartRepository.insert(cart_item);
         }
-
-         let updatedCart=this.cartRepository.findBy({user_id:cart_item.user_id});
-         return updatedCart;
+        
+        return await this.findAllpcs(cart_item.user_id)
+        //  let updatedCart=this.cartRepository.findBy({user_id:cart_item.user_id});
+        //  return updatedCart;
       }
 
 
