@@ -89,7 +89,7 @@ export class OrdersController {
                                 .replace("$time", new Date().toString())
       this.twilioNotification.send(user.user_phone, userNotification)
     }
-    return result;
+    return this.ordersService.findOneOrder(order_id);
   }
   // @Delete(':id')
   // async deleteOrder(@Param('id') order_id: number): Promise<DeleteResult> {

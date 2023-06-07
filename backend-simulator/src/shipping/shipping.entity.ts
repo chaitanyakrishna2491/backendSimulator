@@ -6,4 +6,5 @@ export class Shipping {
   @Column() shipping_method?: string
   @Column() shipping_charge?: string
   @Column() hide?:boolean
+  @Column({type: 'text'}) description?: string
 }

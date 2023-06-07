@@ -8,8 +8,8 @@ export class HscreenController {
     constructor( private readonly HscreenService:HscreenService) {}
     /******************************************************* */
     @Get('AllHscreens')
-    async getAllHscreens( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-        return this.HscreenService.getHscreens(n,pgn);
+    async getAllHscreens():Promise<any> {
+        return this.HscreenService.getHscreens();
     }
 
     @Get('ByCatId/:HSCategory')

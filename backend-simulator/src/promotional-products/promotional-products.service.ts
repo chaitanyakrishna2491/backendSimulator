@@ -11,9 +11,8 @@ export class PromotionalProductsService {
     private ppc: Repository<PromotionalProduct>,
     ){}
     /************************************************************************************ */
-    async m1s(n?: number, page?: number) :Promise<any> {
-        var cd= await this.ppc.find();
-        var gh=Pagination(cd,n,page);return gh;
+    async m1s() :Promise<any> {
+        return await this.ppc.find();
     }
 
     async m7s(name:string,n?: number, page?: number):Promise<any> {

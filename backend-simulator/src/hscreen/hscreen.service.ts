@@ -14,9 +14,8 @@ export class HscreenService {
 
 
 
-    async getHscreens(n?: number, page?: number) :Promise<any> {
-        var cd= await this.HscreenRepository.find();
-            return Pagination(cd,n,page);
+    async getHscreens() :Promise<any> {
+        return await this.HscreenRepository.find();
     }
 
     async getHscreensByCatId(cat_id:number,n?: number, page?: number):Promise<any> {
