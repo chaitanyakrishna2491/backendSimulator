@@ -34,6 +34,12 @@ return this.productsService.m1s(name,n,pgn);
 }
 
 
+@Get('multi__Search__in_category_brand_product/:keyword')
+async MultiSearchPbc(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
+return this.productsService.multiSearchPbc(name,n,pgn);
+}
+
+
 
   @Get('Products_By_Brand/:brandId')
   async getByBrand(@Param('brandId') brandId: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<Product[]> {
