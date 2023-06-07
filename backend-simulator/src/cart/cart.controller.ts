@@ -33,7 +33,7 @@ export class CartController {
     return this.cartService.findAllpcs(user_id);
   }
 
-  @Get('ByCartId:id')
+  @Get('ByCartId/:id')
   getCartItem(@Param('id') cart_id: number): Promise<Cart> {
     return this.cartService.findOneCartItem(cart_id);
   }
@@ -49,7 +49,7 @@ export class CartController {
   deleteCart(@Param('id') cart_id: number): Promise<DeleteResult> {
     return this.cartService.removeFromCart(cart_id);
   }
-  @Delete('delete_All_cart:/user_id')
+  @Delete('delete_All_cart/:user_id')
   deleteAllCartByUserId(@Param('user_id') user_id: number): Promise<any> {
     return this.cartService.removeAllCartOfUser(user_id);
   }

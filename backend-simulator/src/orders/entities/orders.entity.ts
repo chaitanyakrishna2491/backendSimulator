@@ -53,7 +53,7 @@ export class Orders {
   @Column({default: ""}) status?:string
   @Column({default: false}) isDelivered?:boolean
   @Column({default: ""}) order_delivered_timestamp?:string
-  
+  @Column({default: ""}) creditCardId?:string
 
 
   
