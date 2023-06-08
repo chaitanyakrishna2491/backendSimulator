@@ -14,8 +14,8 @@ export class DeliveryBoyController {
 
   /****************DeliveryBoys CRUD********************/
   @Get('deliveryBoys')
-  getDeliveryBoys(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.deliveryBoyService.findAllDeliveryBoys(n,pgn);
+  getDeliveryBoys(): Promise<any> {
+    return this.deliveryBoyService.findAllDeliveryBoys();
   }
 
   

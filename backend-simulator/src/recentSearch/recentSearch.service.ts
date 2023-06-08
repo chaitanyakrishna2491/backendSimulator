@@ -29,9 +29,9 @@ export class RecentSearchService {
     return Search(name,ab,n,page);
   }
 
-  async  getAllRecentSearchByUserId(user_id: number,n?: number, page?: number): Promise<any> {
-    var ab=await this.recentSearchRepository.findBy({user_id});
-    return Pagination(ab,n,page);
+  async  getAllRecentSearchByUserId(user_id: number): Promise<any> {
+    return await this.recentSearchRepository.findBy({user_id});
+    
   }
 
 

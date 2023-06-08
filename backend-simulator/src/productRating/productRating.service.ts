@@ -18,9 +18,9 @@ export class ProductRatingService {
   ) {}
 
   /****************ProductRatings CRUD********************/
-  async getProductRating(n?: number, page?: number): Promise<any> {
-    var ab=await this.productRatingRepository.find();
-    return Pagination(ab,n,page);
+  async getProductRating(): Promise<any> {
+    return await this.productRatingRepository.find();
+    
   }
   async m4s(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.productRatingRepository.find();
@@ -68,14 +68,14 @@ return await this.productRatingRepository.insert(productRating_item);
       }
   }
 
-  async m2s(prod_id:number,n?: number, page?: number):Promise<any> {
-    var cd=await this.productRatingRepository.findBy({product_id:prod_id});
-    return Pagination(cd,n,page);
+  async m2s(prod_id:number):Promise<any> {
+    return await this.productRatingRepository.findBy({product_id:prod_id});
+    
   }
 
-  async m3s(user_id:number,n?: number, page?: number):Promise<any> {
-    var cd=await this.productRatingRepository.findBy({user_id:user_id});
-    var gh=Pagination(cd,n,page); return gh;
+  async m3s(user_id:number):Promise<any> {
+    return await this.productRatingRepository.findBy({user_id:user_id});
+   
   }
 
   async updateProductRatingItem(rate_id: number, productRating_item: ProductRating): Promise<UpdateResult> {

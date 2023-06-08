@@ -19,8 +19,17 @@ export class OrdersService {
 
   /****************Orders CRUD********************/
   async findAllOrders(user_id: number,n?: number, page?: number): Promise<any> {
-    var cd=await this.ordersRepository.findBy({"user_id":user_id,"isPlaced":true});
-    return Pagination(cd,n,page);
+    // var cd=await this.ordersRepository.findBy({"user_id":user_id,"isPlaced":true});
+    // return Pagination(cd,n,page);
+    const  limit=n;
+    const skip = (page - 1) * limit;
+    const [results, total] = await this.ordersRepository.findAndCount({
+      where:{"user_id":user_id,"isPlaced":true},
+      skip,
+      take: limit,
+      });
+
+      return results;
   }
   async m2s(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.ordersRepository.find();

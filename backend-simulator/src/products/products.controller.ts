@@ -10,6 +10,7 @@ import { ProductDto } from './GetProductsDto.dto';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import 'reflect-metadata';
+import { PaginationParams } from 'src/utils/PaginationParams.dto';
 
 
 @ApiHeader({
@@ -21,6 +22,12 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   /****************Products CRUD********************/
+
+    
+@Get('products-updated-get-method')
+async UpdatedgetProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number) {
+return this.productsService.UpdatedGetProducts(n,pgn);
+}
  
 
   @Get('products')

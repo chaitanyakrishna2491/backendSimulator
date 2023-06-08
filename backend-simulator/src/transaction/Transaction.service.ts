@@ -15,11 +15,19 @@ export class TransactionService {
 
 
         async getTns(user_Id:number,n?: number, page?: number):Promise<any> {
-
-            var cd=await this.TransactionRepository.findBy( {user_Id:user_Id} );
-         var gh=Pagination(cd,n,page);return gh;
-
+        //  var cd=await this.TransactionRepository.findBy( {user_Id:user_Id} );
+        //  var gh=Pagination(cd,n,page);return gh;
+         const  limit=n;
+         const skip = (page - 1) * limit;
+         const [results, total] = await this.TransactionRepository.find({
+           where:{"user_Id":user_Id},
+           skip,
+           take: limit,
+           });
+           return results;
         }
+
+
         async getTnsUserSearch(user_Id:number,kw:string,n?: number, page?: number):Promise<any> {
             var cd=await this.TransactionRepository.findBy( {user_Id:user_Id} );
             return Search(kw,cd,n,page);

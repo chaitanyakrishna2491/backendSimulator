@@ -14,8 +14,8 @@ export class RolesController {
 
   /****************Roles CRUD********************/
   @Get('all')
-  getRoles( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.rolesService.findAllRoles(n,pgn);
+  getRoles( ): Promise<any> {
+    return this.rolesService.findAllRoles();
   }
 
   
@@ -28,8 +28,8 @@ return this.rolesService.m7s(name,n,pgn);
 
 
   @Get('user/:id')
-  getRolesPerUser(@Param('id') user_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.rolesService.findRolesPerUser(user_id,n,pgn);
+  getRolesPerUser(@Param('id') user_id: number): Promise<any> {
+    return this.rolesService.findRolesPerUser(user_id);
   }
   @Get(':id')
   getRole(@Param('id') roles_id: number): Promise<Roles> {

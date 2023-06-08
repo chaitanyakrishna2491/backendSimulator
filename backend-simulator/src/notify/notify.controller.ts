@@ -9,8 +9,8 @@ export class NotifyController {
 
     /********************************* */
     @Get('notifications')
-     async getNfs( @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-        return await this.notifyService.getNfcs(n,pgn);
+     async getNfs( ):Promise<any> {
+        return await this.notifyService.getNfcs();
     }
 
     @Get('notificationById/:id')

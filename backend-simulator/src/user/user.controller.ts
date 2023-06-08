@@ -25,8 +25,8 @@ export class UserController {
     name: 'userId',
   })
   @Get('all')
-  getUsers(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.userService.findAllUsers(n,pgn);
+  getUsers(): Promise<any> {
+    return this.userService.findAllUsers();
   }
 
   @ApiHeader({

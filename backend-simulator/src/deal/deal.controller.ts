@@ -16,8 +16,8 @@ export class DealController {
 
   /****************Deal CRUD********************/
   @Get('deals')
-  getDeal(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.dealService.getDeal(n,pgn);
+  getDeal(): Promise<any> {
+    return this.dealService.getDeal();
   }
 
   

@@ -92,9 +92,9 @@ async m7s(name:string,n?: number, page?: number):Promise<any> {
 }
 
 
-  async findAllUsers(n?: number, page?: number): Promise<any> {
-    var cd=await  this.userRepository.find();
-    var gh=Pagination(cd,n,page); return gh;
+  async findAllUsers(): Promise<any> {
+    return await  this.userRepository.find();
+    
   }
 
   findOneUser(id: number): Promise<Users> {

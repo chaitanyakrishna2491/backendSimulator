@@ -3,6 +3,7 @@ import { Hscreen } from './hscreen.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Pagination, Search } from 'src/globalHelper';
+import { PaginationParams } from 'src/utils/PaginationParams.dto';
 
 @Injectable()
 export class HscreenService {
@@ -16,20 +17,22 @@ export class HscreenService {
 
     async getHscreens() :Promise<any> {
         return await this.HscreenRepository.find();
+        
     }
 
-    async getHscreensByCatId(cat_id:number,n?: number, page?: number):Promise<any> {
-        var cd= await this.HscreenRepository.findBy({category_Id:cat_id});
-            return Pagination(cd,n,page);
+    
+    async getHscreensByCatId(cat_id:number):Promise<any> {
+        return await this.HscreenRepository.findBy({category_Id:cat_id});
+          
     }
          
   async m2s(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.HscreenRepository.find();
     return Search(name,ab,n,page);
   }
-    async getHscreensByProductId(prId:number,n?: number, page?: number):Promise<any> {
-        var cd =await this.HscreenRepository.findBy({"product_id":prId});
-        return Pagination(cd,n,page);
+    async getHscreensByProductId(prId:number):Promise<any> {
+        return await this.HscreenRepository.findBy({"product_id":prId});
+       
     }
 
     async addHscreen(@Body() hs:Hscreen) :Promise<InsertResult> {

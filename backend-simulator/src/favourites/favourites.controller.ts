@@ -10,13 +10,13 @@ export class FavouritesController {
 
     
   @Get('favourites/:user_id')
-  async getProducts(@Param('user_Id') user_id:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.favService.getAllFav(user_id,n,pgn);
+  async getProducts(@Param('user_Id') user_id:number): Promise<any> {
+    return this.favService.getAllFav(user_id);
   }
 
   @Get('favouriteProductsDetails/:user_id')
-  async getFavProducts(@Param('user_Id') user_id:number, @Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.favService.getFavProducts(user_id,n,pgn);
+  async getFavProducts(@Param('user_Id') user_id:number): Promise<any> {
+    return this.favService.getFavProducts(user_id);
   }
 
   

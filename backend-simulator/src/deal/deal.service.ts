@@ -14,9 +14,9 @@ export class DealService {
   ) {}
 
   /****************Deals CRUD********************/
-  async getDeal(n?: number, page?: number): Promise<any> {
-   var cd= await this.dealRepository.find();
-   return Pagination(cd,n,page);
+  async getDeal(): Promise<any> {
+  return await this.dealRepository.find();
+   
   }
 
   async m2s(name:string,n?: number, page?: number):Promise<any> {

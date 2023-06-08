@@ -12,9 +12,8 @@ export class StoresService {
   ) {}
 
   /****************Stores CRUD********************/
-  async findAllStores(n?: number, page?: number): Promise<any> {
-    var cd=await this.storeRepository.find();
-   var gh=Pagination(cd,n,page); return gh;
+  async findAllStores(): Promise<any> {
+    return await this.storeRepository.find();
   }
 
   

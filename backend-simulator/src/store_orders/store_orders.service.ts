@@ -12,9 +12,9 @@ export class Store_ordersService {
   ) {}
 
   /****************Store_orderss CRUD********************/
-  async getStore_orders(n?: number, page?: number): Promise<any> {
-    var cd= await this.store_orderRepository.find();
-    var gh=Pagination(cd,n,page); return gh;
+  async getStore_orders(): Promise<any> {
+    return await this.store_orderRepository.find();
+    
   }
 
   async m7s(name:string,n?: number, page?: number):Promise<any> {
@@ -22,9 +22,9 @@ export class Store_ordersService {
    return Search(name,ab,n,page);
   }
 
-  async m5(sid:number,n?: number, page?: number):Promise<any> {
-    var ab=await this.store_orderRepository.findBy({"store_id":sid});
-      return Pagination(ab,n,page);
+  async m5(sid:number):Promise<any> {
+    return await this.store_orderRepository.findBy({"store_id":sid});
+    
   }
 
   findOneStore_ordersItem(store_order_id: number): Promise<Store_orders> {

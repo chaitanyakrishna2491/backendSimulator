@@ -15,6 +15,7 @@ import { Cart } from 'src/cart/entities/cart.entity';
 import { ProductRating } from 'src/productRating/entities/productRating.entity';
 import { Orders } from 'src/orders/entities/orders.entity';
 import { Pagination, Search } from 'src/globalHelper';
+import { PaginationParams } from 'src/utils/PaginationParams.dto';
 
 @Injectable()
 export class ProductsService {
@@ -41,9 +42,27 @@ export class ProductsService {
 
   /****************Products CRUD********************/
 
+  async UpdatedGetProducts(n?: number, page?: number) :Promise<any> {
+  //  const { page = 1, limit = 10 } = paginationParams;
+    // const { page , limit } = paginationParams;
+    const limit=n;
+const skip = (page - 1) * limit;
 
+// Use skip and take options in your repository query to implement pagination
+const [results, total] = await this.productsRepository.findAndCount({
 
- 
+skip,
+take: limit,
+});
+
+return {
+results,
+page,
+limit,
+total,
+};
+}
+
 
   async findAllProducts(n?: number, page?: number): Promise<any> {
     const products = await this.productsRepository.find();
@@ -172,14 +191,34 @@ export class ProductsService {
   
 
   async findByCategory(cat_id: number,n?: number, page?: number): Promise<any> {
-    var cd=await this.productsRepository.findBy({ cat_id });
-    var gh=Pagination(cd,n,page); return gh; 
+    // var cd=await this.productsRepository.findBy({ cat_id });
+    // var gh=Pagination(cd,n,page); return gh; 
+    const  limit=n;
+    const skip = (page - 1) * limit;
+    const [results, total] = await this.productsRepository.findAndCount({
+      where:{"cat_id":cat_id},
+      skip,
+      take: limit,
+      });
+
+      return results;
   }
 
   async getFeaturedProducts(n?: number, page?: number): Promise<any>{
-    var cd=await this.productsRepository.findBy({ "featured":1 });
-    var gh=Pagination(cd,n,page);
-    return gh;
+    // var cd=await this.productsRepository.findBy({ "featured":1 });
+    // var gh=Pagination(cd,n,page);
+    // return gh;
+
+    const  limit=n;
+    const skip = (page - 1) * limit;
+    const [results, total] = await this.productsRepository.findAndCount({
+      where:{"featured":1},
+      skip,
+      take: limit,
+      });
+
+      return results;
+
   }
 
   
@@ -227,9 +266,17 @@ export class ProductsService {
   }
 
           async m3s(n?: number, page?: number):Promise<any> {
-            var cd=await this.productvarientRepository.find();
-           var gh=Pagination(cd,n,page);
-           return gh;
+          //   var cd=await this.productvarientRepository.find();
+          //  var gh=Pagination(cd,n,page);
+          //  return gh;
+           const  limit=n;
+           const skip = (page - 1) * limit;
+           const [results, total] = await this.productvarientRepository.findAndCount({
+             skip,
+             take: limit,
+             });
+       
+             return results;
           }
 
   createProductVarient(productVarient: ProductVarient): Promise<InsertResult> {

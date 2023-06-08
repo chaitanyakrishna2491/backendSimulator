@@ -14,9 +14,9 @@ export class NotifyService {
     ) {}
 
     /*************************** */
-    async getNfcs(n?: number, page?: number):Promise<any> {
-            var cd=await this.notifyRepository.find();
-            return Pagination(cd,n,page);
+    async getNfcs():Promise<any> {
+            return await this.notifyRepository.find();
+            
     }
 
     //async getNfsByUserId:Promise<Notify>
@@ -24,9 +24,9 @@ export class NotifyService {
     async getNfsById(id:number):Promise<Notify> {
         return await this.notifyRepository.findOneBy({ "notify_id" :id});
     }
-    async getNfsByUserId(uid:number,n?: number, page?: number):Promise<any> {
-        var cd=await this.notifyRepository.findBy({user_id:uid});
-        return Pagination(cd,n,page);
+    async getNfsByUserId(uid:number):Promise<any> {
+        return await this.notifyRepository.findBy({user_id:uid});
+        
     }
 
     async m2s(name:string,n?: number, page?: number):Promise<any> {

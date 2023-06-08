@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { HscreenService } from './hscreen.service';
 import { Hscreen } from './hscreen.entity';
 import { DeleteResult, InsertResult } from 'typeorm';
+import { PaginationParams } from 'src/utils/PaginationParams.dto';
 
 @Controller('hscreen')
 export class HscreenController {
@@ -11,15 +12,16 @@ export class HscreenController {
     async getAllHscreens():Promise<any> {
         return this.HscreenService.getHscreens();
     }
+    
 
     @Get('ByCatId/:HSCategory')
-    async getAllHscreensByCatId(@Param('HSCategory') cat_id:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-        return this.HscreenService.getHscreensByCatId(cat_id,n,pgn);
+    async getAllHscreensByCatId(@Param('HSCategory') cat_id:number):Promise<any> {
+        return this.HscreenService.getHscreensByCatId(cat_id);
     }
 
     @Get('HscreensByProduct_Id/:product_id')
-    async getAllHscreensByProductId(@Param('product_id') prId:number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-        return this.HscreenService.getHscreensByProductId(prId,n,pgn);
+    async getAllHscreensByProductId(@Param('product_id') prId:number):Promise<any> {
+        return this.HscreenService.getHscreensByProductId(prId);
     }
     
     @Get('HScreen__Search/:keyword')

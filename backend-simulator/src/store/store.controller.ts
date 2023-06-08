@@ -14,8 +14,8 @@ export class StoreController {
 
   /****************Stores CRUD********************/
   @Get('stores')
-  getStores(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.storeService.findAllStores(n,pgn);
+  getStores(): Promise<any> {
+    return this.storeService.findAllStores();
   }
   
     @Get('Search_Store_ByKeyWord/:name')

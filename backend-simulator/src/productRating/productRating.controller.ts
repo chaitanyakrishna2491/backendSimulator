@@ -16,8 +16,8 @@ export class ProductRatingController {
 
   /****************ProductRating CRUD********************/
   @Get('productRatings')
-  getProductRating(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.productRatingService.getProductRating(n,pgn);
+  getProductRating(): Promise<any> {
+    return this.productRatingService.getProductRating();
   }
   @Get('ProductRatings__Search/:keyword')
   m4(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
@@ -35,13 +35,13 @@ export class ProductRatingController {
   }
 
   @Get('productRatingsByProductId')
-  async m2(@Param('product_id') prod_id:number, @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-    return this.productRatingService.m2s(prod_id,n,pgn);
+  async m2(@Param('product_id') prod_id:number):Promise<any> {
+    return this.productRatingService.m2s(prod_id);
   }
 
   @Get('productRatingsByUserId')
-  async m3(@Param('user_id') user_id:number,@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number) :Promise<any>{
-    return this.productRatingService.m3s(user_id,n,pgn);
+  async m3(@Param('user_id') user_id:number) :Promise<any>{
+    return this.productRatingService.m3s(user_id);
   }
 
 

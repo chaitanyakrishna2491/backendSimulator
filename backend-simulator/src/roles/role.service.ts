@@ -12,10 +12,9 @@ export class RolesService {
   ) {}
 
   /****************Roless CRUD********************/
- async findAllRoles(n?: number, page?: number): Promise<any> {
-    var cd=await this.rolesRepository.find();
-    var gh=Pagination(cd,n,page);return gh;
-
+ async findAllRoles(): Promise<any> {
+    return await this.rolesRepository.find();
+   
   }
 
   async m7s(name:string,n?: number, page?: number):Promise<any> {
@@ -23,9 +22,9 @@ export class RolesService {
     return Search(name,ab,n,page);
   }
 
- async findRolesPerUser(user_id: number,n?: number, page?: number): Promise<any>{
-    var cd=await this.rolesRepository.findBy({ user_id });
-    return Pagination(cd,n,page);
+ async findRolesPerUser(user_id: number): Promise<any>{
+    return await this.rolesRepository.findBy({ user_id });
+    
   }
 
   findOneRoles(role_id: number): Promise<Roles> {

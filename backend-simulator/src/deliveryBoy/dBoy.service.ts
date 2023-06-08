@@ -12,9 +12,9 @@ export class DeliveryBoysService {
   ) {}
 
   /****************DeliveryBoys CRUD********************/
- async findAllDeliveryBoys(n?: number, page?: number): Promise<any> {
-    var cd= await this.deliveryBoyRepository.find();
-    return Pagination(cd,n,page);
+ async findAllDeliveryBoys(): Promise<any> {
+    return await this.deliveryBoyRepository.find();
+    
   }
 
   
