@@ -83,13 +83,14 @@ export class OrdersController {
   @Put(':id')
   async updateorder(@Param('id') order_id: number, @Body() order:Orders): Promise<UpdateResult> {
     const result:UpdateResult = await this.ordersService.updateorder(order_id, order);
+    const updatedOrder = this.ordersService.findOneOrder(order_id);
     if(result.affected){
       const user: Users = await this.userService.findOneUser(order.user_id);
       const userNotification = ORDER_REVISED.replace("$orderId", order_id.toString())
                                 .replace("$time", new Date().toString())
       this.twilioNotification.send(user.user_phone, userNotification)
     }
-    return this.ordersService.findOneOrder(order_id);
+    return updatedOrder;
   }
   // @Delete(':id')
   // async deleteOrder(@Param('id') order_id: number): Promise<DeleteResult> {

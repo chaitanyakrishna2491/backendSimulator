@@ -98,33 +98,30 @@ total,
   
   async multiSearchPbc(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.categoryRepository.find();
-    var pds=await this.productsRepository.find();
-    var bds=await this.brandRepository.find();
-    var prds=await this.productsRepository.find();
     var cats= Search(name,ab,24,1);
     if(cats.length>0) {
         var abp=[];
         for(var i of cats ) {
 
-          var zx=await this.productsRepository.findBy({"cat_id":i.cat_id});
-          abp.push({"category":i,"products":zx});
+          var zx=await this.productsRepository.findBy({"cat_id":i.cat_id,});
+          abp = [...abp, ...zx];
         }
-          console.log('arwaar',abp);
-        return abp;
+        return abp.filter((item,index) => {if(index < 24) return item;});
     }
     else {
+    var bds=await this.brandRepository.find();
       var brands=Search(name,bds,24,1);
       if(brands.length>0) {
         var bps=[];
         for( var j of brands) {
           var cv=await this.productsRepository.findBy({"brand_id":j.brand_id});
-          bps.push({"brand":j,"products":cv});
-        } console.log('ddydydy',abp);
-        return bps;
+          bps = [...bps,...cv];
+        } 
+        return bps.filter((item,index) => {if(index < 24) return item;});
       }
      else {
+    var prds=await this.productsRepository.find();
       var gh= Search(name,prds,24,1);
-      console.log('ststrsts',gh);
       return gh;
 
      }

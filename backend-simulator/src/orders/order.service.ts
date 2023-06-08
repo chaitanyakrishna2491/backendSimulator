@@ -45,17 +45,17 @@ export class OrdersService {
     for(var k1 of pv) {
       var q1=await this.productsRepository.findOneBy({"product_id":k1.product_id});
       q1.cartCount=k1.count;
-        var str = k1.varients;
-        console.log('zxcvb',str);
-        var arr = str.split(",").map(function(item) {
-            return parseInt(item, 10);
-          });
-          var q2=[];
-          for (var k2 of arr) {
-              q2.push(await this.productvarientRepository.findOneBy({"varient_id":k2}));
-          }
-        var q3={...q1,"varients":q2}
-        pr.push(q3);
+        // var str = k1.varients+"";
+        // console.log('zxcvb',str);
+        // var arr = str.split(",").map(function(item) {
+        //     return parseInt(item, 10);
+        //   });
+        //   var q2=[];
+        //   for (var k2 of arr) {
+        //       q2.push(await this.productvarientRepository.findOneBy({"varient_id":k2}));
+        //   }
+        // var q3={...q1,"varients":q2}
+        pr.push(q1);
       
     }
     return ({...ab,"products":pr});
