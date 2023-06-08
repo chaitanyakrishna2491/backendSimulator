@@ -1,4 +1,5 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -40,16 +41,22 @@ import { ShippingModule } from './shipping/shipping.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mariadb',
-      host: 'boozemartdb.cikntbshfrwd.ap-south-1.rds.amazonaws.com',
-      port: 3306,
-      username: 'root',
-      password: 'password',
-      database: 'boozemartDB',
-      entities: [Brand, Product],
-      synchronize: true,
-      autoLoadEntities: true,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+          return ({
+          type: 'mariadb', // Replace with your database type
+          host: configService.get<string>('PROD_DB_HOST'),
+          port: configService.get<number>('PROD_DB_PORT'),
+          username: configService.get<string>('PROD_DB_UNAME'),
+          password: configService.get<string>('PROD_DB_PASS'),
+          database: configService.get<string>('PROD_DB_NAME'),
+          entities: [], // Add your entities here
+          synchronize: true, // Set to false in production
+        })
+      },
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Users]),
     UserModule,
