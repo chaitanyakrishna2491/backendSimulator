@@ -25,11 +25,10 @@ export class OrdersService {
     const skip = (page - 1) * limit;
     const [results, total] = await this.ordersRepository.findAndCount({
       where:{"user_id":user_id,"isPlaced":true, isCancelled:false},
+      order: { order_id: 'DESC' },
+      //should be........order: { order_placed_timestamp: 'DESC' },
       skip,
       take: limit,
-      order: {
-        "order_id": 'DESC'
-      },
       });
 
       return results;

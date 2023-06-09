@@ -46,6 +46,7 @@ export class Orders {
   
   @Column({default: false}) isPlaced?:boolean
   @Column({default: ""}) order_placed_timestamp?:string
+  //should be........... @Column({default: ""}) order_placed_timestamp?:date
   @Column({default: false}) isShipped?:boolean
   @Column({default: ""}) order_shipped_timestamp?:string
   @Column({default: false}) isOutForDelivery?:boolean
