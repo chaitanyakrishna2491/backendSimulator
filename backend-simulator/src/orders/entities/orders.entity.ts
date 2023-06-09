@@ -54,7 +54,7 @@ export class Orders {
   @Column({default: false}) isDelivered?:boolean
   @Column({default: ""}) order_delivered_timestamp?:string
   @Column({default: ""}) creditCardId?:string
-
-
+  @Column({default: ""}) order_cancelled_timestamp?:string
+  @Column({default: false}) isCancelled?:boolean
   
 }
