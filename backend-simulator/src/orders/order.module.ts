@@ -16,10 +16,12 @@ import { Brand } from 'src/brand/entities/brand.entity';
 import { ProductsModule } from 'src/products/products.module';
 import { BrandModule } from 'src/brand/brand.module';
 import { BrandService } from 'src/brand/brand.service';
+import { FavouritesModule } from 'src/favourites/favourites.module';
+import { Favourites } from 'src/favourites/entities/Favourites.entity';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Orders, ProductVarient, Product, Brand, Cart, Users]),  ProductsModule,
+  imports: [TypeOrmModule.forFeature([Orders,FavouritesModule,Favourites, ProductVarient, Product, Brand, Cart, Users]),  ProductsModule,
   BrandModule, ],
   exports: [TypeOrmModule],
   providers: [OrdersService, ProductsService, BrandService , CartService, UsersService, SMSNotification, MailService],
