@@ -24,10 +24,9 @@ export class OrdersService {
     const  limit=n;
     const skip = (page - 1) * limit;
     const [results, total] = await this.ordersRepository.findAndCount({
-      where:{"user_id":user_id,"isPlaced":true},
+      where:{"user_id":user_id,"isPlaced":true, isCancelled:false},
       order: { order_id: 'DESC' },
       //should be........order: { order_placed_timestamp: 'DESC' },
-
       skip,
       take: limit,
       });
@@ -91,15 +90,7 @@ export class OrdersService {
   // }
 
   async findOrderByStatus(order_status: string,user_id: number): Promise<Orders[]> {
-      var ab=await this.ordersRepository.findBy({"user_id":user_id});
-      var ar=[];
-      for( var h of ab) {
-          if(h.order_status==order_status) 
-          {
-            ar.push(h);
-          }
-      }
-      return ar;
+      return await this.ordersRepository.findBy({"user_id":user_id, "status": order_status});
   }
 
   createOrder(order: Orders): Promise<InsertResult> {
