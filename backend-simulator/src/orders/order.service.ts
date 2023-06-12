@@ -90,7 +90,11 @@ export class OrdersService {
   // }
 
   async findOrderByStatus(order_status: string,user_id: number): Promise<Orders[]> {
-      return await this.ordersRepository.findBy({"user_id":user_id, "status": order_status});
+      const [orders, count] = await this.ordersRepository.findAndCount({
+        where:{"user_id":user_id, "status": order_status},
+        order: { order_id: 'DESC' }
+        })
+      return orders;
   }
 
   createOrder(order: Orders): Promise<InsertResult> {
