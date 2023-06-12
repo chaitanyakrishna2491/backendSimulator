@@ -11,9 +11,12 @@ import { ProductVarient } from 'src/products/entities/productvarient.entity';
 import { Orders } from 'src/orders/entities/orders.entity';
 import { ProductRating } from 'src/productRating/entities/productRating.entity';
 import { Categories } from 'src/category/entities/category.entity';
+import { Favourites } from 'src/favourites/entities/Favourites.entity';
+import { FavouritesModule } from 'src/favourites/favourites.module';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Categories,ProductRating,Cart,Orders,Product,Brand,ProductVarient])],
+  imports: [TypeOrmModule.forFeature([FavouritesModule,Favourites,Categories,ProductRating,Cart,Orders,Product,Brand,ProductVarient])],
   exports: [TypeOrmModule],
   providers: [CartService,ProductsService,BrandService],
   controllers: [CartController],

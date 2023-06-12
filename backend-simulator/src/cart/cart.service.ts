@@ -4,6 +4,7 @@ import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Cart } from './entities/cart.entity';
 import { Product } from 'src/products/entities/products.entity';
 import { Pagination, Search } from 'src/globalHelper';
+import { Favourites } from 'src/favourites/entities/Favourites.entity';
 
 @Injectable()
 export class CartService {
@@ -12,6 +13,9 @@ export class CartService {
     private cartRepository: Repository<Cart>,
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(Favourites)
+    private favouritesRepository: Repository<Favourites>,
+
   ) {}
 
   /****************Carts CRUD********************/
@@ -61,6 +65,10 @@ export class CartService {
   
     for (const c1 of cs) {
       const ps = await this.productsRepository.findOneBy({ product_id: c1.product_id });
+      const fv= await this.favouritesRepository.findOneBy({user_id:uid,prod_id:c1.product_id});
+      if(fv) {
+        ps.isFavourite=true;
+      }
       pcs.push({  c1 , ...ps});
     }
   
