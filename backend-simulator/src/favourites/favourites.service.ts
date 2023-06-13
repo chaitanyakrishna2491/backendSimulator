@@ -44,13 +44,11 @@ export class FavouritesService {
   }
 
   async delfav(uid:number,prod_id:number): Promise<DeleteResult> { 
-       var  q1=await this.FavouritesRepository.find();
-        for(var h of q1) {
-          if(h.user_id==uid &&  h.prod_id==prod_id) {
-                return (  await this.FavouritesRepository.delete(h.fav_id) );
-          }
-        }
-
+       const resp = await this.FavouritesRepository.delete({
+          user_id: uid,
+          prod_id: prod_id
+       });
+       return this.getFavProducts(uid);
   }
 
 
