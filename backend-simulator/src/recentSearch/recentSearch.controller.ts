@@ -47,5 +47,9 @@ return this.recentSearchService.m7s(name,n,pgn);
   deleteAllRecentSearch():Promise<any> {
     return this.recentSearchService.delS();
   }
+  @Delete('clearSearch/:user_id')
+  deleteRecentSearchByUid(@Param('user_id') user_id: number): Promise<any> {
+    return this.recentSearchService.clearSearch(user_id);
+  }
 
 }

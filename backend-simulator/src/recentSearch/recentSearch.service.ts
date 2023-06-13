@@ -77,11 +77,23 @@ export class RecentSearchService {
   async delS():Promise<any> {
     var ab=await this.recentSearchRepository.find();
     for(var a of ab) {
-      await this.recentSearchRepository.delete(a);
+      await this.recentSearchRepository.delete(a.id);
     }
     return [];
 
   }
+  async clearSearch(user_id:number):Promise<any> {
+   // console.log("asdsdf");
+    var ab=await this.recentSearchRepository.findBy({"user_id":user_id});
+    //console.log(ab);
+    for(var a of ab) {
+    //  console.log(a);
+      await this.recentSearchRepository.delete(a.id);
+    }
+    return [];
+
+  }
+
 
 
 }

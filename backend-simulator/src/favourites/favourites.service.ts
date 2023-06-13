@@ -39,18 +39,21 @@ export class FavouritesService {
 
 
   
-  createFav(fav:Favourites): Promise<InsertResult> {
-    return this.FavouritesRepository.insert(fav);
+ async createFav(fav:Favourites): Promise<any> {
+    var ab=await this.FavouritesRepository.findOneBy({"prod_id":fav.prod_id,"user_id":fav.user_id});
+    if(ab) return "duplicate entry";
+    else return await this.FavouritesRepository.insert(fav);
   }
 
-  async delfav(uid:number,prod_id:number): Promise<DeleteResult> { 
+  async delfav(uid:number,prod_id:number): Promise<any> { 
        var  q1=await this.FavouritesRepository.find();
         for(var h of q1) {
           if(h.user_id==uid &&  h.prod_id==prod_id) {
-                return (  await this.FavouritesRepository.delete(h.fav_id) );
+                  await this.FavouritesRepository.delete(h.fav_id) ;
           }
         }
-
+        const [results, total] =await this.FavouritesRepository.findAndCount({where:{"user_id":uid}, order: { fav_id: 'DESC' }});
+        return results;
   }
 
 
