@@ -14,10 +14,11 @@ import { Categories } from 'src/category/entities/category.entity';
 import { Cart } from 'src/cart/entities/cart.entity';
 import { ProductRating } from 'src/productRating/entities/productRating.entity';
 import { Orders } from 'src/orders/entities/orders.entity';
+import { FavouritesModule } from 'src/favourites/favourites.module';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product,Cart,Orders,ProductRating,Categories,PromotionalProduct, ProductVarient, Brand, BrandRepository ]), BrandModule],
+  imports: [TypeOrmModule.forFeature([Product,Cart,Orders,ProductRating,Categories,PromotionalProduct, ProductVarient, Brand, BrandRepository ]),FavouritesModule, BrandModule],
   exports: [TypeOrmModule],
   providers: [ProductsService,PromotionalProductsService,BrandService,BrandRepository],
   controllers: [ProductsController],

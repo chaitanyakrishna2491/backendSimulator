@@ -52,7 +52,7 @@ export class FavouritesService {
             prod_id: prod_id
         });
         const results =await this.getFavProducts(uid);
-        console.log("getRes",results)
+        //console.log("getRes",results)
         return results;
   }
 

@@ -16,6 +16,7 @@ import { ProductRating } from 'src/productRating/entities/productRating.entity';
 import { Orders } from 'src/orders/entities/orders.entity';
 import { Pagination, Search } from 'src/globalHelper';
 import { PaginationParams } from 'src/utils/PaginationParams.dto';
+import { Favourites } from 'src/favourites/entities/Favourites.entity';
 
 @Injectable()
 export class ProductsService {
@@ -24,6 +25,8 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(Favourites)
+    private FavouritesRepository: Repository<Favourites>,
     @InjectRepository(Orders)
     private ordersRepository: Repository<Orders>,
     @InjectRepository(ProductRating)
@@ -64,23 +67,48 @@ total,
 }
 
 
-  async findAllProducts(n?: number, page?: number): Promise<any> {
-    const products = await this.productsRepository.find();
-    const productsWithBrands = [];
-    const pageSize = n || 24;
-    console.log(page);
-    const startIndex = (page ? (page - 1) * pageSize : 0);
-    var r=0;let v5=pageSize;
-    while(r<startIndex){v5++;r++;}
-    console.log('startIndex:', startIndex, 'page:', page, 'pageSize:', pageSize);
-    const endIndex = Math.min(v5, products.length);
+  // async findAllProducts(n?: number, page?: number): Promise<any> {
+  //   const products = await this.productsRepository.find();
+  //   const productsWithBrands = [];
+  //   const pageSize = n || 24;
+  //   console.log(page);
+  //   const startIndex = (page ? (page - 1) * pageSize : 0);
+  //   var r=0;let v5=pageSize;
+  //   while(r<startIndex){v5++;r++;}
+  //   console.log('startIndex:', startIndex, 'page:', page, 'pageSize:', pageSize);
+  //   const endIndex = Math.min(v5, products.length);
   
-    for (let i = startIndex; i < endIndex; i++) {
-      const product = products[i];
-      const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
-      productsWithBrands.push({ ...products[i], brand });
+  //   for (let i = startIndex; i < endIndex; i++) {
+  //     const product = products[i];
+  //     const brand = await this.brandRepository.findOneBy({ brand_id: product.brand_id });
+  //     productsWithBrands.push({ ...products[i], brand });
+  //   }
+  //   return productsWithBrands;
+  // }
+  
+
+  async findAllProducts(user_id:number,n?: number, page?: number): Promise<any> {
+   var a1=await this.productsRepository.find();
+  // var a2=await this.FavouritesRepository.find();
+   //var a3=await this.cartRepository.find();
+   var a4=[];
+  for(var a of a1) {
+    var b1=await this.FavouritesRepository.findOneBy({"prod_id":a.product_id,"user_id":user_id});
+    if(b1) {
+      a.isFavourite=true;
     }
-    return productsWithBrands;
+    var b2=await this.cartRepository.findOneBy({"user_id":user_id,"product_id":a.product_id});
+    if(b2) {
+      a.cartCount=b2.qty;
+
+    }
+    var b3=await this.brandRepository.findOneBy({"brand_id":a.brand_id});
+    if(b3) {
+      a4.push({...a,"BRAND":b3})
+    }
+    else a4.push(a);
+  }
+  return Pagination(a4,n,page);
   }
 
 
