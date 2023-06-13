@@ -62,8 +62,9 @@ yt.push({"id":j.id,"name":j.name,"phone":j.user_phone,"address":h});
     }
   }
 
-  async removeAddress(address_id: number): Promise<DeleteResult> {
-    return await this.addressRepository.delete(address_id);
+  async removeAddress(address_id: number, user_Id: number): Promise<Address[]> {
+    await this.addressRepository.delete(address_id);
+    return await this.findAddressByUser(user_Id);
   }
 
 }

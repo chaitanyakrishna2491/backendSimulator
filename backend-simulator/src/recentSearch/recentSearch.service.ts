@@ -15,13 +15,14 @@ export class RecentSearchService {
 
   /****************RecentSearchs CRUD********************/
  async  getRecentSearch(user_id: number): Promise<RecentSearch[]> {
-    var ab=await this.recentSearchRepository.findBy({user_id});
-    var ar=[];
- 
-    for(let i=ab.length-1;i>ab.length-7;i--) {
-      ar.push(ab[i]);
-    }
-    return ar;
+    const skip: number= 0;
+  const [results,count]=await this.recentSearchRepository.findAndCount({
+      where:{"user_id":user_id},
+      order: { id: 'DESC' },
+      skip,
+      take: 7,
+      });
+    return results;
   }
 
   async m7s(name:string,n?: number, page?: number):Promise<any> {
@@ -77,11 +78,23 @@ export class RecentSearchService {
   async delS():Promise<any> {
     var ab=await this.recentSearchRepository.find();
     for(var a of ab) {
-      await this.recentSearchRepository.delete(a);
+      await this.recentSearchRepository.delete(a.id);
     }
     return [];
 
   }
+  async clearSearch(user_id:number):Promise<any> {
+   // console.log("asdsdf");
+    var ab=await this.recentSearchRepository.findBy({"user_id":user_id});
+    //console.log(ab);
+    for(var a of ab) {
+    //  console.log(a);
+      await this.recentSearchRepository.delete(a.id);
+    }
+    return [];
+
+  }
+
 
 
 }

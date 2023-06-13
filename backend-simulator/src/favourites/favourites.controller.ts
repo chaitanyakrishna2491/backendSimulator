@@ -32,7 +32,7 @@ export class FavouritesController {
   }
 
   @Delete('DelFavBy_UserId_and_ProductId')
-  deleteProduct(@Body() dft:DelFav): Promise<DeleteResult> {
+  deleteProduct(@Body() dft:DelFav): Promise<any> {
     const { user_id , prod_id } = dft;
     return this.favService.delfav(user_id,prod_id);
   }

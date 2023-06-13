@@ -27,9 +27,10 @@ export class FavouritesService {
   }
 
   async getFavProducts(user_id:number): Promise<any> {
-    var ab=await this.FavouritesRepository.findBy({user_id:user_id});
+    var [results,count]=await this.FavouritesRepository.findAndCount({where:{user_id:user_id}, order: { fav_id: 'DESC' }});
+    console.log("results",results)
     var cd=[]; 
-    for(var a of ab) {
+    for(var a of results) {
       var ef=await this.productsRepository.findOneBy({"product_id":a.prod_id});
       cd.push({"Fav":a,"product":ef});
     }
@@ -39,16 +40,20 @@ export class FavouritesService {
 
 
   
-  createFav(fav:Favourites): Promise<InsertResult> {
-    return this.FavouritesRepository.insert(fav);
+ async createFav(fav:Favourites): Promise<any> {
+    var ab=await this.FavouritesRepository.findOneBy({"prod_id":fav.prod_id,"user_id":fav.user_id});
+    if(ab) return "duplicate entry";
+    else return await this.FavouritesRepository.insert(fav);
   }
 
-  async delfav(uid:number,prod_id:number): Promise<DeleteResult> { 
-       const resp = await this.FavouritesRepository.delete({
-          user_id: uid,
-          prod_id: prod_id
-       });
-       return this.getFavProducts(uid);
+  async delfav(uid:number,prod_id:number): Promise<any> { 
+        await this.FavouritesRepository.delete({
+            user_id: uid,
+            prod_id: prod_id
+        });
+        const results =await this.getFavProducts(uid);
+        console.log("getRes",results)
+        return results;
   }
 
 
@@ -69,13 +74,4 @@ export class FavouritesService {
 
     return prp;
   }
-
-  
-
-
-
-
-
-
-
 }

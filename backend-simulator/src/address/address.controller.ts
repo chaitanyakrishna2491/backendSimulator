@@ -46,7 +46,7 @@ export class AddressController {
     return this.addressService.updateAddress(address_id, address);
   }
   @Delete(':id')
-  deleteAddress(@Param('id') address_id: number): Promise<DeleteResult> {
-    return this.addressService.removeAddress(address_id);
+  deleteAddress(@Param('id') address_id: number,@Headers('userId') user_id: number): Promise<Address[]> {
+    return this.addressService.removeAddress(address_id, user_id);
   }
 }
