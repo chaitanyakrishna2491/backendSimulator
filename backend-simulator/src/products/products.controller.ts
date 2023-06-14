@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Delete, Body, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, Query, Header, Headers } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/products.entity';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
@@ -46,14 +46,10 @@ async MultiSearchPbc(@Param('keyword') name:string , @Query('items_per_page') n?
 return this.productsService.multiSearchPbc(name,n,pgn);
 }
 
-
-
   @Get('Products_By_Brand/:brandId')
   async getByBrand(@Param('brandId') brandId: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<Product[]> {
     return this.productsService.findByBrandWithDetails(brandId,n,pgn);
   }
-
-
 
   @Get('product/:id')
   getProduct(@Param('id') product_id: number): Promise<any> {
@@ -64,8 +60,8 @@ return this.productsService.multiSearchPbc(name,n,pgn);
   //   return this.productsService.findByBrand(brand_id);
   // }
   @Get('product/category/:id')
-  getProductsByCategory(@Param('id') cat_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-    return this.productsService.findByCategory(cat_id,n,pgn);
+  getProductsByCategory(@Headers('user_id') user_id:number,@Param('id') cat_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.productsService.findByCategory(user_id,cat_id,n,pgn);
   }
   @Get('products/featured')
   getFeaturedProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {

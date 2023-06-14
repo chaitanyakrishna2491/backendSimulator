@@ -19,7 +19,7 @@ export class TransactionService {
         //  var gh=Pagination(cd,n,page);return gh;
          const  limit=n;
          const skip = (page - 1) * limit;
-         const [results, total] = await this.TransactionRepository.find({
+         const [results, total] = await this.TransactionRepository.findAndCount({
            where:{"user_Id":user_Id},
            skip,
            take: limit,
