@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CreditCardService } from './credit-card.service';
 import { CreditCard } from './entities/CreditCard.entity';
 import { InsertResult } from 'typeorm';
@@ -25,7 +25,7 @@ async GetCreditCardById(@Param('id') id:string ): Promise<CreditCard> {
 async NewCreditCardInsert(@Body() ccr:CreditCard): Promise<InsertResult> {
     return this.CreditCardService.cc2(ccr);
 }
-@Post('credit-card-update/:ccid')
+@Put('credit-card-update/:ccid')
 async UpdateCreditCard(@Param() ccid , @Body() ccr:CreditCard ): Promise<any> {
     return this.CreditCardService.cc3(ccid,ccr);
 }

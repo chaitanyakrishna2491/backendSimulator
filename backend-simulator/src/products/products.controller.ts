@@ -11,6 +11,7 @@ import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import 'reflect-metadata';
 import { PaginationParams } from 'src/utils/PaginationParams.dto';
+import { Filter1 } from './Filter1.dto';
 
 
 @ApiHeader({
@@ -22,6 +23,12 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   /****************Products CRUD********************/
+
+   
+  @Post('filter1--category--brand--price')
+  Filter1(@Body() f1: Filter1,@Query('keyword') keyword:string): Promise<any> {
+    return this.productsService.filter1(f1,keyword);
+  }
 
     
 @Get('products-updated-get-method')

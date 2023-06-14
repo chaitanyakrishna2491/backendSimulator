@@ -17,6 +17,7 @@ import { Orders } from 'src/orders/entities/orders.entity';
 import { Pagination, Search } from 'src/globalHelper';
 import { PaginationParams } from 'src/utils/PaginationParams.dto';
 import { Favourites } from 'src/favourites/entities/Favourites.entity';
+import { Filter1 } from './Filter1.dto';
 
 @Injectable()
 export class ProductsService {
@@ -44,6 +45,34 @@ export class ProductsService {
   ) { }
 
   /****************Products CRUD********************/
+
+  
+  async filter1(f1: Filter1,keyword:string): Promise<any> {
+
+    var ab=await this.productsRepository.find();
+    var cd=Search(keyword,ab,ab.length,1);
+   // console.log(cd);
+    var sr1=cd.filter(t1=>t1.ratingValue==f1.rating);
+   // console.log(sr1);
+   
+    var arr = f1.brands.split(",").map(function(item) {
+            return parseInt(item, 10);
+          });
+
+          var brr = f1.categories.split(",").map(function(item) {
+            return parseInt(item, 10);
+          });
+          // sr1=sr1.filter(t1 => arr.includes(t1.brand_id));
+           sr1=sr1.filter(t1 => arr.some(value=>value==t1.brand_id));
+          // sr1=sr1.filter(t1=>brr.includes(t1.cat_id)  );
+          sr1=sr1.filter(t1=>brr.some(value=>value==t1.cat_id));
+           sr1=sr1.filter(t1=>( t1.price>=f1.minPrice && t1.price<=f1.maxPrice ));
+           //return sr1;
+           return Pagination(sr1,24,1);    
+  }
+
+
+  
 
   async UpdatedGetProducts(n?: number, page?: number): Promise<any> {
     const limit = n;
