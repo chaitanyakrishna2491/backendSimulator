@@ -5,13 +5,13 @@ import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { ProductVarient } from './entities/productvarient.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ProductDto } from './GetProductsDto.dto';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import 'reflect-metadata';
 import { PaginationParams } from 'src/utils/PaginationParams.dto';
-import { Filter1 } from './Filter1.dto';
+import { Filter1 } from './Filter1.entity';
 
 
 @ApiHeader({
@@ -26,8 +26,8 @@ export class ProductsController {
 
    
   @Post('filter1--category--brand--price')
-  Filter1(@Body() f1: Filter1,@Query('keyword') keyword:string): Promise<any> {
-    return this.productsService.filter1(f1,keyword);
+  Filter1(@Body() f1: Filter1): Promise<any> {
+    return this.productsService.filter1(f1);
   }
 
     
