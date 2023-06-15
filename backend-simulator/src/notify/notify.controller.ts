@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { NotifyService } from './notify.service';
 import { Notify } from './notify.entity';
 import { InsertResult } from 'typeorm';
@@ -33,7 +33,7 @@ export class NotifyController {
     async addNewNotification(@Body() nf:Notify):Promise<InsertResult> {
             return await this.notifyService.addNfs(nf);
     }
-    @Post('updateNotificationById/:id')
+    @Put('updateNotificationById/:id')
     async updateNfns(@Param('id') nf_id,@Body() nf:Notify): Promise<any> {
         return await this.notifyService.updateNfs(nf_id,nf);
     }

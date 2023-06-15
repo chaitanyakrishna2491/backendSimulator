@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { TransactionService } from './Transaction.service';
 import { Transaction } from './Transaction.entity';
 import { InsertResult, UpdateDateColumn } from 'typeorm';
@@ -23,7 +23,7 @@ export class TransactionController {
     async insertTns(@Body() tns:Transaction): Promise<InsertResult> {
         return this.TransactionService.insertNewTns(tns);
     }
-    @Post("update_transaction")
+    @Put("update_transaction")
     async updateTns(@Param('py_id') py_id:number,@Body() tns:Transaction): Promise<InsertResult> {
         return this.TransactionService.updateTns(py_id,tns);
     }

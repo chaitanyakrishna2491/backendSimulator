@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ShippingService } from './shipping.service';
 import { Shipping } from './shipping.entity';
 
@@ -16,7 +16,7 @@ export class ShippingController {
         InsertShipping(@Body() shm:Shipping):Promise<any> {
             return this.ss.addShippingMethod(shm);
         }
-        @Post('update_ShippingMethod/:id')
+        @Put('update_ShippingMethod/:id')
         UpdateShipping(@Param('id') sh_id:number,@Body() shm:Shipping):Promise<any> {
             return this.ss.updateShipping(sh_id,shm);
         }

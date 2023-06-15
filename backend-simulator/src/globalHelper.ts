@@ -25,7 +25,7 @@ export function Search(s1:string,arr:any[],num1: number, num2: number):any[] {
     var cd=[];
   for(var a of ab) {
     var tmp=JSON.stringify(a);
-    if(tmp.includes(name)) {
+    if(tmp.toLowerCase().includes(name.toLowerCase())) {
         cd.push(a);
     }
   }

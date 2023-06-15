@@ -47,29 +47,43 @@ export class ProductsService {
   /****************Products CRUD********************/
 
   
-  async filter1(f1: Filter1,keyword:string): Promise<any> {
+       async filter1(f1: Filter1,keyword:string): Promise<any> {
 
-    var ab=await this.productsRepository.find();
-    var cd=Search(keyword,ab,ab.length,1);
-   // console.log(cd);
-    var sr1=cd.filter(t1=>t1.ratingValue==f1.rating);
-   // console.log(sr1);
-   
-    var arr = f1.brands.split(",").map(function(item) {
-            return parseInt(item, 10);
-          });
+         var ab=await this.productsRepository.find();
+          var cd=Search(keyword,ab,ab.length,1);
+            // console.log("****************************keyword filter*************");
+            // console.log(cd);
+            // console.log("no. of results.............keyword filter.................", cd.length);
+            //  console.log("***************************** rating filter***************");
+          var sr1=cd.filter(t1=> t1.ratingValue== f1.rating );
+          //   console.log(sr1);
+          //   console.log("no. of results.............. rating filter...................", sr1.length);
+          //  console.log("*****************brand filter************************");
+          var arr = f1.brands.split(",").map(function(item) {
+                  return parseInt(item, 10);
+                });
 
           var brr = f1.categories.split(",").map(function(item) {
             return parseInt(item, 10);
           });
+          
           // sr1=sr1.filter(t1 => arr.includes(t1.brand_id));
            sr1=sr1.filter(t1 => arr.some(value=>value==t1.brand_id));
+           console.log(sr1);
+          //  console.log("no. of results..............brand filter...................", sr1.length);
+          //  console.log("***********category filter*****************");
           // sr1=sr1.filter(t1=>brr.includes(t1.cat_id)  );
           sr1=sr1.filter(t1=>brr.some(value=>value==t1.cat_id));
+          // console.log(sr1);
+          // console.log("no. of results...........category filter.............", sr1.length);
+          // console.log("************price filter*****************");
            sr1=sr1.filter(t1=>( t1.price>=f1.minPrice && t1.price<=f1.maxPrice ));
            //return sr1;
+          //  console.log(sr1);
+          //  console.log("no. of results.........price filter...........", sr1.length);
            return Pagination(sr1,24,1);    
-  }
+          
+          }
 
 
   

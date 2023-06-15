@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { HscreenService } from './hscreen.service';
 import { Hscreen } from './hscreen.entity';
 import { DeleteResult, InsertResult } from 'typeorm';
@@ -34,7 +34,7 @@ export class HscreenController {
         return this.HscreenService.addHscreen(hs);
     }
 
-    @Post('UpdateHscreenById/:hs_id')
+    @Put('UpdateHscreenById/:hs_id')
     async updateHscreen(@Param('hs_id') hs_id,@Body() hs:Hscreen) :Promise<any> {
         return this.HscreenService.UpdateHscreen(hs_id,hs);
     }
