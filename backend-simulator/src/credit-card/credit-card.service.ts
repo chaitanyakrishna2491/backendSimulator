@@ -1,4 +1,4 @@
-import { Body, Get, Injectable, Param } from '@nestjs/common';
+import { Body, Get, Headers, Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreditCard } from './entities/CreditCard.entity';
 import { DeleteResult, InsertResult, Repository } from 'typeorm';
@@ -24,7 +24,7 @@ export class CreditCardService {
 
  
 
-    async cc2(@Body() cd:CreditCard):Promise<InsertResult> {
+    async cc2(cd:CreditCard):Promise<InsertResult> {
         return await this.CreditCardRepository.insert(cd);
     }
 
@@ -35,8 +35,9 @@ export class CreditCardService {
     }
 
 
-    async cc4(@Param() crn:number ): Promise<DeleteResult> {
-        return await this.CreditCardRepository.delete(crn);
+    async cc4(crn:string, user_Id: number): Promise<any> {
+        await this.CreditCardRepository.delete({"card_Number":crn});
+        return await this.CreditCardRepository.findBy({user_Id})
     }
 
 
