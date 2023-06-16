@@ -68,7 +68,8 @@ export class BrandService {
     }
   }
 
-  async removeFromBrand(brand_id: number): Promise<DeleteResult> {
-    return await this.brandRepository.delete(brand_id);
+  async removeFromBrand(brand_id: number): Promise<any> {
+    await this.brandRepository.delete(brand_id);
+    return await this.brandRepository.find();
   }
 }

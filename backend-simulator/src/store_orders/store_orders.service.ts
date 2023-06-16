@@ -58,7 +58,8 @@ export class Store_ordersService {
     }
   }
 
-  async removeFromStore_orders(store_order_id: number): Promise<DeleteResult> {
-    return await this.store_orderRepository.delete(store_order_id);
+  async removeFromStore_orders(store_order_id: number): Promise<any> {
+     await this.store_orderRepository.delete(store_order_id);
+     return await this.store_orderRepository.find();
   }
 }

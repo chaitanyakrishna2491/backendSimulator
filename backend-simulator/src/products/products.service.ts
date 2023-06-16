@@ -323,8 +323,9 @@ export class ProductsService {
     }
   }
 
-  async removeProduct(product_id: number): Promise<DeleteResult> {
+  async removeProduct(product_id: number): Promise<any> {
     return await this.productsRepository.delete(product_id);
+    
   }
 
   /****************ProductVarient CRUD********************/

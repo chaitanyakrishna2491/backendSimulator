@@ -60,7 +60,7 @@ export class CouponController {
     return this.couponService.updateCouponItem(coupon_id, coupon);
   }
   @Delete('removeFromCoupon/:id')
-  deleteCoupon(@Param('id') coupon_id: number): Promise<DeleteResult> {
+  deleteCoupon(@Param('id') coupon_id: number): Promise<any> {
     return this.couponService.removeFromCoupon(coupon_id);
   }
 }

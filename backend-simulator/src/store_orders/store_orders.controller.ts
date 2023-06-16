@@ -41,7 +41,7 @@ export class Store_orderController {
     return this.store_orderService.updateStore_ordersItem(store_order_id, store_order);
   }
   @Delete('removeFromStore_order/:id')
-  deleteStore_order(@Param('id') store_order_id: number): Promise<DeleteResult> {
+  deleteStore_order(@Param('id') store_order_id: number): Promise<any> {
     return this.store_orderService.removeFromStore_orders(store_order_id);
   }
 }

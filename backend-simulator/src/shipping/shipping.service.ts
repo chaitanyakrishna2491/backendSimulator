@@ -28,7 +28,9 @@ export class ShippingService {
     }
 
     async removeShippingMethod(sh_id:number):Promise<any> {
-        return await this.ShippingRepository.delete(sh_id);
+         await this.ShippingRepository.delete(sh_id);
+         return this.ShippingRepository.find();
+
     }
 
 }

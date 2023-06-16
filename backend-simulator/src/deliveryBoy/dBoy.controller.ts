@@ -38,7 +38,7 @@ export class DeliveryBoyController {
     return this.deliveryBoyService.updatedeliveryBoy(deliveryBoy_id, deliveryBoy);
   }
   @Delete('deliveryBoy/:id')
-  deleteDeliveryBoy(@Param('id') deliveryBoy_id: number): Promise<DeleteResult> {
+  deleteDeliveryBoy(@Param('id') deliveryBoy_id: number): Promise<any> {
     return this.deliveryBoyService.removeDeliveryBoy(deliveryBoy_id);
   }
 }

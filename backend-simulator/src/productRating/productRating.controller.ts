@@ -56,7 +56,7 @@ export class ProductRatingController {
     return this.productRatingService.updateProductRatingItem(productRating_id, productRating);
   }
   @Delete('productRating/:id')
-  deleteProductRating(@Param('id') productRating_id: number): Promise<DeleteResult> {
+  deleteProductRating(@Param('id') productRating_id: number): Promise<any> {
     return this.productRatingService.removeFromProductRating(productRating_id);
   }
 }

@@ -44,7 +44,7 @@ return this.rolesService.m7s(name,n,pgn);
     return this.rolesService.updateroles(roles_id, roles);
   }
   @Delete(':id')
-  deleteRoles(@Param('id') roles_id: number): Promise<DeleteResult> {
+  deleteRoles(@Param('id') roles_id: number): Promise<any> {
     return this.rolesService.removeRoles(roles_id);
   }
 }

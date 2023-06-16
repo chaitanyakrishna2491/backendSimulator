@@ -54,7 +54,7 @@ export class BrandController {
     return this.brandService.updateBrandItem(brand_id, brand);
   }
   @Delete('removeFromBrand/:id')
-  deleteBrand(@Param('id') brand_id: number): Promise<DeleteResult> {
+  deleteBrand(@Param('id') brand_id: number): Promise<any> {
     return this.brandService.removeFromBrand(brand_id);
   }
 }

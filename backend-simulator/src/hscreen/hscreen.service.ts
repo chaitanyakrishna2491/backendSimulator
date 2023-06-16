@@ -55,8 +55,9 @@ export class HscreenService {
 
    
 
-    async  DeleteHscreen(prId:number):Promise<DeleteResult> {
-        return await this.HscreenRepository.delete(prId);
+    async  DeleteHscreen(prId:number):Promise<any> {
+         await this.HscreenRepository.delete(prId);
+         return await this.HscreenRepository.find();
     }
 
 

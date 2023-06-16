@@ -103,7 +103,7 @@ return this.productsService.multiSearchPbc(name,n,pgn);
     return this.productsService.updateproduct(product_id, product);
   }
   @Delete('product/:id')
-  deleteProduct(@Param('id') product_id: number): Promise<DeleteResult> {
+  deleteProduct(@Param('id') product_id: number): Promise<any> {
     return this.productsService.removeProduct(product_id);
   }
 

@@ -46,7 +46,7 @@ export class CartController {
     return this.cartService.updateCartItem(cart_id, cart);
   }
   @Delete(':id')
-  deleteCart(@Headers("userId") user_id:number, @Param('id') cart_id: number): Promise<DeleteResult> {
+  deleteCart(@Headers("userId") user_id:number, @Param('id') cart_id: number): Promise<any> {
     return this.cartService.removeFromCart(cart_id, user_id);
   }
   @Delete('delete_All_cart/:user_id')

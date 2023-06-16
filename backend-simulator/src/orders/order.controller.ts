@@ -108,7 +108,7 @@ export class OrdersController {
   //   return result;
   // }
 
-  @Post('orderId/:id')
+  @Delete('orderId/:id')
   async deleteOrder(@Param('id') order_id:number ): Promise<DeleteResult> {
     return this.ordersService.removeOrder(order_id);
   }

@@ -70,7 +70,7 @@ export class CategoryController {
     return this.categoryService.updateCategoryItem(category_id, category);
   }
   @Delete('removeFromCategory/:id')
-  deleteCategory(@Param('id') category_id: number): Promise<DeleteResult> {
+  deleteCategory(@Param('id') category_id: number): Promise<any> {
     return this.categoryService.removeFromCategory(category_id);
   }
 }

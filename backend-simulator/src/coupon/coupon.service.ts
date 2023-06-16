@@ -69,7 +69,8 @@ export class CouponService {
     }
   }
 
-  async removeFromCoupon(coupon_id: number): Promise<DeleteResult> {
-    return await this.couponRepository.delete(coupon_id);
+  async removeFromCoupon(coupon_id: number): Promise<any> {
+     await this.couponRepository.delete(coupon_id);
+     return await this.couponRepository.find();
   }
 }

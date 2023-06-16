@@ -89,7 +89,9 @@ return await this.productRatingRepository.insert(productRating_item);
     }
   }
 
-  async removeFromProductRating(productRating_id: number): Promise<DeleteResult> {
-    return await this.productRatingRepository.delete(productRating_id);
+  async removeFromProductRating(productRating_id: number): Promise<any> {
+     await this.productRatingRepository.delete(productRating_id);
+     return await this.productRatingRepository.find();
+
   }
 }

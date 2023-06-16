@@ -53,8 +53,9 @@ export class AdminService {
     
   }
 
-  async removeAdmin(id: number): Promise<DeleteResult> {
-    return await this.adminRepository.delete(id);
+  async removeAdmin(id: number): Promise<any> {
+    await this.adminRepository.delete(id);
+    return await this.adminRepository.find();
   }
 
 }

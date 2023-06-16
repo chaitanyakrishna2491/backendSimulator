@@ -55,8 +55,9 @@ export class DeliveryBoysService {
   }
  
 
-  async removeDeliveryBoy(id: number): Promise<DeleteResult> {
-    return await this.deliveryBoyRepository.delete(id);
+  async removeDeliveryBoy(id: number): Promise<any> {
+    await this.deliveryBoyRepository.delete(id);
+    return await this.deliveryBoyRepository.find();
   }
 
 }

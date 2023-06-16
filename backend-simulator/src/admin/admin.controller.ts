@@ -37,7 +37,7 @@ export class AdminController {
     return this.adminService.updateadmin(admin_id, admin);
   }
   @Delete('admin/:id')
-  deleteAdmin(@Param('id') admin_id: number): Promise<DeleteResult> {
+  deleteAdmin(@Param('id') admin_id: number): Promise<any> {
     return this.adminService.removeAdmin(admin_id);
   }
 }

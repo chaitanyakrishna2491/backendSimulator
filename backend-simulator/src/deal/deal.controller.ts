@@ -58,7 +58,7 @@ export class DealController {
     return this.dealService.updateDealItem(deal_id, deal);
   }
   @Delete('deal/:id')
-  deleteDeal(@Param('id') deal_id: number): Promise<DeleteResult> {
+  deleteDeal(@Param('id') deal_id: number): Promise<any> {
     return this.dealService.removeFromDeal(deal_id);
   }
 }

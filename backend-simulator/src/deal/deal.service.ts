@@ -65,7 +65,8 @@ export class DealService {
     }
   }
 
-  async removeFromDeal(deal_id: number): Promise<DeleteResult> {
-    return await this.dealRepository.delete(deal_id);
+  async removeFromDeal(deal_id: number): Promise<any> {
+    await this.dealRepository.delete(deal_id);
+    return await this.dealRepository.find();
   }
 }

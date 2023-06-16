@@ -39,8 +39,8 @@ export class HscreenController {
         return this.HscreenService.UpdateHscreen(hs_id,hs);
     }
     @Post('DeleteHscreen/:pr_id')
-    async deleteHscreen(@Param('pr_id') pr_id:number ) :Promise<DeleteResult> {
-        return this.HscreenService.DeleteHscreen(pr_id);
+    async deleteHscreen(@Param('pr_id') pr_id:number ) :Promise<any> {
+        return await this.HscreenService.DeleteHscreen(pr_id);
     }
     
 }
