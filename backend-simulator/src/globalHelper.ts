@@ -29,6 +29,32 @@ export function Search(s1:string,arr:any[],num1: number, num2: number):any[] {
         cd.push(a);
     }
   }
+
+
+  if(cd) 
   return Pagination(cd,n,page);
+  else return [];
 
 }
+
+
+
+
+export function AdSearch(s1:string,arr:any[],num1: number, num2: number):any[] {
+  var ab=arr;var name=s1;var n=num1;var page=num2;
+  var cd=[];
+for(var a of ab) {
+  var tmp=JSON.stringify(a);
+  if(tmp.toLowerCase().includes(name.toLowerCase())) {
+      cd.push(a);
+  }
+}
+
+
+if(cd) 
+return Pagination(cd,cd.length,1);
+else return [];
+
+}
+
+
