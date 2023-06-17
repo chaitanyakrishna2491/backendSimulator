@@ -30,7 +30,7 @@ async UpdateCreditCard(@Param() ccid , @Body() ccr:CreditCard ): Promise<any> {
     return this.CreditCardService.cc3(ccid,ccr);
 }
 @Delete('delete-credit-card/:idcc')
-async DeleteCreditCard(@Param('idcc') idcc:string, @Headers() user_Id: number) : Promise<any> {
+async DeleteCreditCard(@Param('idcc') idcc:string, @Headers('user_Id') user_Id: number) : Promise<any> {
     return this.CreditCardService.cc4(idcc, user_Id);
 }
 
