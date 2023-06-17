@@ -37,7 +37,8 @@ export class CreditCardService {
 
     async cc4(crn:string, user_Id: number): Promise<any> {
         await this.CreditCardRepository.delete({"card_Number":crn});
-        return await this.CreditCardRepository.findBy({user_Id})
+        console.log("successfullly deleted")
+        return await this.cc1(user_Id)
     }
 
 
