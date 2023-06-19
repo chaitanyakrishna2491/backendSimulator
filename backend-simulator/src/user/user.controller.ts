@@ -66,8 +66,8 @@ async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto): Promise<any> {
 
 
 @Get('Search_Users_ByKeyword/:name')
-async m7(@Param('name') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {
-return this.userService.m7s(name,n,pgn);
+async m7(@Param('name') name:string):Promise<Users[]> {
+return this.userService.m7s(name);
 }
 
   

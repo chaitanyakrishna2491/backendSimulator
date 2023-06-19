@@ -10,12 +10,12 @@ export class FavouritesController {
 
     
   @Get('favourites/:user_id')
-  async getProducts(@Param('user_Id') user_id:number): Promise<any> {
+  async getProducts(@Param('user_id') user_id:number): Promise<any> {
     return this.favService.getAllFav(user_id);
   }
 
   @Get('favouriteProductsDetails/:user_id')
-  async getFavProducts(@Param('user_Id') user_id:number): Promise<any> {
+  async getFavProducts(@Param('user_id') user_id:number): Promise<any> {
     return this.favService.getFavProducts(user_id);
   }
 

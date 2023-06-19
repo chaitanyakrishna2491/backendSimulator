@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 export class DelFav {
     
-    @ApiProperty()
+    // @ApiProperty()
     user_id:number;
-    @ApiProperty()
+    // @ApiProperty()
     prod_id:number;
 }

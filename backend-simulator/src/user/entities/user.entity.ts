@@ -1,16 +1,18 @@
 import { Address } from 'src/address/entities/address.entity';
 import { Product } from 'src/products/entities/products.entity';
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany, Index } from 'typeorm';
 
 @Entity()
 export class Users{
     @PrimaryGeneratedColumn() id: number
     @Column({default: ""}) name?: string
-    @Column({default: ""}) email?: string
+    @Column({default: "", unique: true}) email?: string
     @Column({default: ""}) email_verified_at?: string
     @Column({default: ""}) password?: string
     @Column({default: ""}) remember_token?: string
-    @Column({default: ""}) user_phone?: string
+    @Column({default: null}) 
+    @Index({ unique: true, where: "user_phone IS NOT NULL" })
+    user_phone?: string
     @Column({default: ""}) device_id?: string
     @Column({default: ""}) user_image?: string
     @Column({default: 0}) user_city?: number
@@ -23,7 +25,9 @@ export class Users{
     @Column({default: 0}) block?: number
     @Column({default: ""}) reg_date?: string
     @Column({default: 0}) app_update?: number
-    @Column({default: ""}) facebook_id?: string
+    @Column({default: null})  
+    @Index({ unique: true, where: "facebook_id IS NOT NULL" })
+    facebook_id?: string
     @Column({default: ""}) referral_code?: string
     @Column({default: 0}) membership?: number
     @Column({default: ""}) mem_plan_start?: string

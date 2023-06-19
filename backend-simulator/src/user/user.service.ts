@@ -85,10 +85,14 @@ async verifyOTP(user_phone: string, otp: string): Promise<string> {
 }
 
 
-async m7s(name:string,n?: number, page?: number):Promise<any> {
-  var ab=await this.userRepository.find();
-  
-    return Search(name,ab,n,page);
+async m7s(searchText:string):Promise<Users[]> {
+  return await this.userRepository.find({
+    where : [
+      {name: searchText},
+      {email: searchText},
+      {user_phone: searchText}
+    ]
+  });
 }
 
 

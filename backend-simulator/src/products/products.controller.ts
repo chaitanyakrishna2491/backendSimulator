@@ -38,7 +38,7 @@ return this.productsService.UpdatedGetProducts(n,pgn);
  
 
   @Get('products')
-async getProducts(@Param('user_id') user_id:number ,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+async getProducts(@Headers('user_id') user_id:number ,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
   return this.productsService.findAllProducts(user_id,n,pgn);
 }
 
