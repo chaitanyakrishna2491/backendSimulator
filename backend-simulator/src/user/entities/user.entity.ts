@@ -6,7 +6,9 @@ import { Entity, Column, PrimaryGeneratedColumn,OneToMany, Index } from 'typeorm
 export class Users{
     @PrimaryGeneratedColumn() id: number
     @Column({default: ""}) name?: string
-    @Column({default: "", unique: true}) email?: string
+    @Column({default: null}) 
+    @Index({ unique: true, where: "email IS NOT NULL" })
+    email?: string
     @Column({default: ""}) email_verified_at?: string
     @Column({default: ""}) password?: string
     @Column({default: ""}) remember_token?: string
@@ -34,9 +36,8 @@ export class Users{
     @Column({default: ""}) mem_plan_expiry?: string
     @Column({default: ""}) created_at?: string
     @Column({default: ""}) updated_at?: string
+    @Column({default: ""}) secret?: string;
     @OneToMany(() => Address, (adr) => adr.user_id)
     Addresses?: Address[]
     
-  username: string;
-  secret: any;
 }

@@ -35,19 +35,27 @@ async generateOTP(mb: string): Promise<any> {
     otp += digits[Math.floor(Math.random() * 10)];
   }
 
-  const user = await this.userRepository
+  let user = await this.userRepository
     .createQueryBuilder('user')
     .where('user.user_phone = :phone', { phone: mb })
     .getOne();
 
+  const hashedOTP = await bcrypt.hash(otp, 10); // Hash the OTP value
+
   if (user) {
-    const hashedOTP = await bcrypt.hash(otp, 10); // Hash the OTP value
     user.otp_value = hashedOTP;
     await this.userRepository.save(user);
+  } else {
+    const createdUserResult = await this.createUser({
+      id: 0,
+      user_phone: mb,
+      otp_value: hashedOTP
+    })
+    // user = await this.findOneUser(createdUserResult.generatedMaps[0].id)
   }
 
   let otp_msg = `your otp is ${otp}`;
-  this.twilioNotification.send(user.user_phone, otp_msg);
+  this.twilioNotification.send(mb, otp_msg);
 
   setTimeout(async () => {
     const az = await this.userRepository.find();
@@ -62,7 +70,7 @@ async generateOTP(mb: string): Promise<any> {
   return "otp sent"+otp;
 }
 
-async verifyOTP(user_phone: string, otp: string): Promise<string> {
+async verifyOTP(user_phone: string, otp: string): Promise<any> {
   const user = await this.userRepository
     .createQueryBuilder('user')
     .where('user.user_phone = :phone', { phone: user_phone })
@@ -74,14 +82,23 @@ async verifyOTP(user_phone: string, otp: string): Promise<string> {
     if (otpMatches) {
       // OTP is valid
       user.otp_value = ''; // Clear OTP value
+      user.remember_token = this.generateJWT(user.id);
       await this.userRepository.save(user);
       //this.twilioNotification.send(user.user_phone, "OTP verification successful");
-      return "OTP verification successful";
+      return {
+        message:"OTP verification successful",
+        token: user.remember_token,
+        userId: user.id,
+        status: 200
+      };
     }
   }
 
   //this.twilioNotification.send(user.user_phone, "OTP verification failed");
-  return "OTP verification failed";
+  return {
+    message:"OTP verification failed",
+    status: 500
+  };
 }
 
 
@@ -217,5 +234,38 @@ async m7s(searchText:string):Promise<Users[]> {
     }
     const token = jwt.sign(data, jwtSecretKey+":"+id,);// { expiresIn: expiresIn });
     return token
+  }
+
+  async verifyJWT(user_id:number, token:string): Promise<any>{
+    const jwtSecretKey = process.env.jwtSecretKey
+    try {
+        
+        const user: Users = await this.findOneUser(user_id);
+        if(user.remember_token === token){
+          const verified = jwt.verify(token, jwtSecretKey+":"+user_id);
+          if(verified) {
+              return {
+                status: 200,
+                message: "Token verification successful"
+              }
+          } else {
+              return {
+                status: 500,
+                message: "Token verification failed"
+              }
+          }
+        } else {
+          return {
+            status: 500,
+            message: "Token verification failed"
+          }
+        }
+        
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Token verification failed"
+      }
+    }
   }
 }

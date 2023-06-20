@@ -123,7 +123,7 @@ return this.userService.m7s(name);
     name: 'userId',
   })
   @Put('password')
-  async updateUserPassword(@Headers("userid") user_id: number, @Body() password:PasswordEntity): Promise<UpdateResult> {
+  async updateUserPassword(@Headers("userId") user_id: number, @Body() password:PasswordEntity): Promise<UpdateResult> {
     const user: Users = await this.userService.findOneUser(user_id);
     const updateResult: UpdateResult = await this.userService.updateuser(user_id, {...user, ...{"password":password.password}}, true);
     if(updateResult.affected){
@@ -134,11 +134,16 @@ return this.userService.m7s(name);
     return updateResult;
   }
 
+  @Post("/verifyJWT")
+  verifyJWT(@Headers("userId") user_id: number, @Headers("token") token: string): Promise<any>{
+    return this.verifyJWT(user_id, token.split(" ")[1] || "")
+  }
+
   @ApiHeader({
     name: 'userId',
   })
   @Delete()
-  deleteUser(@Headers("userid") user_id: number): Promise<DeleteResult> {
+  deleteUser(@Headers("userId") user_id: number): Promise<DeleteResult> {
     return this.userService.removeUser(user_id);
   }
 }
