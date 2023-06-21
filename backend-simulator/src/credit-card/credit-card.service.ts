@@ -29,9 +29,9 @@ export class CreditCardService {
     }
 
     
-    async cc3(ccid:number,cd:CreditCard ):Promise<any> {
+    async cc3(card_Number:number,cd:CreditCard ):Promise<any> {
         var rc=await this.CreditCardRepository.findOneBy({"id":cd.id});
-        return await this.CreditCardRepository.update(ccid,{...rc,...cd});
+        return await this.CreditCardRepository.update(card_Number,{...rc,...cd});
     }
 
 

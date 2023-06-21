@@ -134,9 +134,9 @@ return this.userService.m7s(name);
     return updateResult;
   }
 
-  @Post("/verifyJWT")
+  @Post("verifyJWT")
   verifyJWT(@Headers("userId") user_id: number, @Headers("token") token: string): Promise<any>{
-    return this.verifyJWT(user_id, token.split(" ")[1] || "")
+    return this.userService.verifyJWT(user_id, token.split(" ")[1] || "")
   }
 
   @ApiHeader({
