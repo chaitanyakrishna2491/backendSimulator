@@ -26,8 +26,8 @@ export class ProductsController {
 
    
   @Post('filter1--category--brand--price')
-  Filter1(@Body() f1: Filter1): Promise<any> {
-    return this.productsService.filter1(f1);
+  Filter1(@Headers("userId") user_id: number ,@Body() f1: Filter1): Promise<any> {
+    return this.productsService.filter1(f1, user_id);
   }
 
     

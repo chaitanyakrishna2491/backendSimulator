@@ -26,7 +26,7 @@ async NewCreditCardInsert(@Body() ccr:CreditCard): Promise<InsertResult> {
     return this.CreditCardService.cc2(ccr);
 }
 @Put('credit-card-update/:ccid')
-async UpdateCreditCard(@Param() ccid , @Body() ccr:CreditCard ): Promise<any> {
+async UpdateCreditCard(@Param("ccid") ccid:number , @Body() ccr:CreditCard ): Promise<any> {
     return this.CreditCardService.cc3(ccid,ccr);
 }
 @Delete('delete-credit-card/:idcc')

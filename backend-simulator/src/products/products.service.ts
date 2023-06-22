@@ -47,98 +47,42 @@ export class ProductsService {
   /****************Products CRUD********************/
 
   
-       async filter1(f1: Filter1): Promise<any> {
+  async filter1(f1: Filter1, user_id: number): Promise<any> {
 
-         var ab=await this.productsRepository.find();var sr1;
-        // console.log("****************************keyword filter*************");
-         var keyword=f1.keyword;
-          if(keyword)
-          sr1=AdSearch(keyword,ab,ab.length,1);
-          else sr1=ab;
-          // console.log(sr1);
-          // console.log("no. of results.............keyword filter.................", sr1.length);
-
-
-
-            if(f1.rating) {
-            // console.log("***************************** rating filter***************");
-
-            sr1=sr1.filter(t1=> t1.ratingValue== f1.rating );
-            // console.log(sr1);
-            // console.log("no. of results.............. rating filter...................", sr1.length);
-          
-          }
-
-
-          //  console.log("*****************brand filter************************");
-
-              if(f1.brands) {
-                    var arr = f1.brands.split(",").map(function(item) {
-                  return parseInt(item, 10);
-                });
-             // sr1=sr1.filter(t1 => arr.includes(t1.brand_id));
-              sr1=sr1.filter(t1 => arr.some(value=>value==t1.brand_id));
-              // console.log(sr1);
-              // console.log("no. of results..............brand filter...................", sr1.length);
-
-              }
-
-
-              if(f1.categories) {
-                  var brr = f1.categories.split(",").map(function(item) {
-                  return parseInt(item, 10);
-                  });
-          
-              //  console.log("***********category filter*****************");
-                //sr1=sr1.filter(t1=>brr.includes(t1.cat_id)  );
-                sr1=sr1.filter(t1=>brr.some(value=>value==t1.cat_id));
-                // console.log(sr1);
-                // console.log("no. of results...........category filter.............", sr1.length);
-              }
-
-
-         
-
-
-
-
-
-           if(f1.minPrice&&f1.maxPrice) {
-          //  console.log("************overall price filter*****************");
-           sr1=sr1.filter(t1=>( t1.price>=f1.minPrice    && t1.price<=f1.maxPrice  ));
-          //  console.log(sr1);
-          //  console.log("no. of results.........overall price filter...........", sr1.length);
-
-           }
-
-           else if(f1.minPrice) {
-          //  console.log("************min price filter*****************");
-            sr1=sr1.filter(t1=>( t1.price>=f1.minPrice  ));
-            // console.log(sr1);
-            // console.log("no. of results.........minprice filter...........", sr1.length);
-           }
-
-           else if(f1.maxPrice){
-              
-          // console.log("************max price filter*****************");
-           sr1=sr1.filter(t1=>( t1.price<=f1.maxPrice  ));
-          //  console.log(sr1);
-          //  console.log("no. of results.........max price filter...........", sr1.length);
-
-           }
-
-           //return sr1;
-          //  console.log(sr1);
-          //  console.log("no. of results.........price filter...........", sr1.length);
-
-          if(sr1)
-           return Pagination(sr1,24,1);    
-           else return [];
-          
-          }
-
-
-  
+    var ab = await this.productsRepository.find(); 
+    var sr1;
+    var keyword = f1.keyword;
+    if (keyword)
+      sr1 = AdSearch(keyword, ab, ab.length, 1);
+    else sr1 = ab;
+    if (f1.rating) {
+      sr1 = sr1.filter(t1 => t1.ratingValue == f1.rating);
+    }
+    if (f1.brands) {
+      var arr = f1.brands.split(",").map(function (item) {
+        return parseInt(item, 10);
+      });
+      sr1 = sr1.filter(t1 => arr.some(value => value == t1.brand_id));
+    }
+    if (f1.categories) {
+      var brr = f1.categories.split(",").map(function (item) {
+        return parseInt(item, 10);
+      });
+      sr1 = sr1.filter(t1 => brr.some(value => value == t1.cat_id));
+    }
+    if (f1.minPrice && f1.maxPrice) {
+      sr1 = sr1.filter(t1 => (t1.price >= f1.minPrice && t1.price <= f1.maxPrice));
+    }
+    else if (f1.minPrice) {
+      sr1 = sr1.filter(t1 => (t1.price >= f1.minPrice));
+    }
+    else if (f1.maxPrice) {
+      sr1 = sr1.filter(t1 => (t1.price <= f1.maxPrice));
+    }
+    if (sr1)
+      return await this.populateFavouriteCartCountAndBrandDetails(Pagination(sr1, 24, 1), user_id);
+    else return [];
+  }
 
   async UpdatedGetProducts(n?: number, page?: number): Promise<any> {
     const limit = n;
@@ -146,7 +90,6 @@ export class ProductsService {
 
     // Use skip and take options in your repository query to implement pagination
     const [results, total] = await this.productsRepository.findAndCount({
-
       skip,
       take: limit,
     });
@@ -159,13 +102,7 @@ export class ProductsService {
     };
   }
 
-  async findAllProducts(user_id: number, n?: number, page?: number): Promise<any> {
-    const limit = n;
-    const skip = (page - 1) * limit;
-    var [results,total] = await this.productsRepository.findAndCount({
-      skip,
-      take: limit,
-    });
+  async populateFavouriteCartCountAndBrandDetails(results: Product[], user_id: number): Promise<Product[]>{
     var UpdatedProductList = [];
     for (var product of results) {
       var b1 = await this.FavouritesRepository.findOneBy({ "prod_id": product.product_id, "user_id": user_id });
@@ -184,6 +121,16 @@ export class ProductsService {
       else UpdatedProductList.push(product);
     }
     return UpdatedProductList;
+  }
+
+  async findAllProducts(user_id: number, n?: number, page?: number): Promise<any> {
+    const limit = n;
+    const skip = (page - 1) * limit;
+    var [results,total] = await this.productsRepository.findAndCount({
+      skip,
+      take: limit,
+    });
+    return await this.populateFavouriteCartCountAndBrandDetails(results, user_id);
   }
 
   async m1s(name: string, n?: number, page?: number): Promise<any> {
