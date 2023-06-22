@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { readFileSync } from 'fs';
 import { parse } from 'papaparse';
-import { DeleteResult, InsertResult, Repository, UpdateResult, FindOneOptions } from 'typeorm';
+import { DeleteResult, InsertResult, Repository, UpdateResult, FindOneOptions, Between } from 'typeorm';
 import { Product } from './entities/products.entity';
 import { ProductVarient } from './entities/productvarient.entity';
 import { Brand } from 'src/brand/entities/brand.entity';
@@ -18,6 +18,9 @@ import { AdSearch, Pagination, Search } from 'src/globalHelper';
 import { PaginationParams } from 'src/utils/PaginationParams.dto';
 import { Favourites } from 'src/favourites/entities/Favourites.entity';
 import { Filter1 } from './Filter1.entity';
+import {  In, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+
+
 
 @Injectable()
 export class ProductsService {
@@ -47,42 +50,113 @@ export class ProductsService {
   /****************Products CRUD********************/
 
   
-  async filter1(f1: Filter1, user_id: number): Promise<any> {
+  // async filter1(f1: Filter1, user_id: number): Promise<any> {
 
-    var ab = await this.productsRepository.find(); 
-    var sr1;
-    var keyword = f1.keyword;
-    if (keyword)
-      sr1 = AdSearch(keyword, ab, ab.length, 1);
-    else sr1 = ab;
-    if (f1.rating) {
-      sr1 = sr1.filter(t1 => t1.ratingValue == f1.rating);
-    }
-    if (f1.brands) {
-      var arr = f1.brands.split(",").map(function (item) {
-        return parseInt(item, 10);
-      });
-      sr1 = sr1.filter(t1 => arr.some(value => value == t1.brand_id));
-    }
-    if (f1.categories) {
-      var brr = f1.categories.split(",").map(function (item) {
-        return parseInt(item, 10);
-      });
-      sr1 = sr1.filter(t1 => brr.some(value => value == t1.cat_id));
-    }
-    if (f1.minPrice && f1.maxPrice) {
-      sr1 = sr1.filter(t1 => (t1.price >= f1.minPrice && t1.price <= f1.maxPrice));
-    }
-    else if (f1.minPrice) {
-      sr1 = sr1.filter(t1 => (t1.price >= f1.minPrice));
-    }
-    else if (f1.maxPrice) {
-      sr1 = sr1.filter(t1 => (t1.price <= f1.maxPrice));
-    }
-    if (sr1)
-      return await this.populateFavouriteCartCountAndBrandDetails(Pagination(sr1, 24, 1), user_id);
-    else return [];
+  //   var ab = await this.productsRepository.find(); 
+  //   var sr1;
+  //   var keyword = f1.keyword;
+  //   if (keyword)
+  //     sr1 = AdSearch(keyword, ab, ab.length, 1);
+  //   else sr1 = ab;
+  //   if (f1.rating) {
+  //     sr1 = sr1.filter(t1 => t1.ratingValue == f1.rating);
+  //   }
+  //   if (f1.brands) {
+  //     var arr = f1.brands.split(",").map(function (item) {
+  //       return parseInt(item, 10);
+  //     });
+  //     sr1 = sr1.filter(t1 => arr.some(value => value == t1.brand_id));
+  //   }
+  //   if (f1.categories) {
+  //     var brr = f1.categories.split(",").map(function (item) {
+  //       return parseInt(item, 10);
+  //     });
+  //     sr1 = sr1.filter(t1 => brr.some(value => value == t1.cat_id));
+  //   }
+  //   if (f1.minPrice && f1.maxPrice) {
+  //     sr1 = sr1.filter(t1 => (t1.price >= f1.minPrice && t1.price <= f1.maxPrice));
+  //   }
+  //   else if (f1.minPrice) {
+  //     sr1 = sr1.filter(t1 => (t1.price >= f1.minPrice));
+  //   }
+  //   else if (f1.maxPrice) {
+  //     sr1 = sr1.filter(t1 => (t1.price <= f1.maxPrice));
+  //   }
+  //   if (sr1)
+  //     return await this.populateFavouriteCartCountAndBrandDetails(Pagination(sr1, 24, 1), user_id);
+  //   else return [];
+  // }
+
+// async filter1(f1: Filter1, user_id: number): Promise<any> {
+//   const query: FindConditions<Product> = {};
+
+//   if (f1.keyword) {
+//     query.name = f1.keyword; // Assuming `name` is the column to search for keyword
+//   }
+
+//   if (f1.rating) {
+//     query.ratingValue = f1.rating;
+//   }
+
+//   if (f1.brands) {
+//     const brandIds = f1.brands.split(',').map(Number);
+//     query.brand_id = In(brandIds);
+//   }
+
+//   if (f1.categories) {
+//     const categoryIds = f1.categories.split(',').map(Number);
+//     query.cat_id = In(categoryIds);
+//   }
+
+//   if (f1.minPrice && f1.maxPrice) {
+//     query.price = Between(f1.minPrice, f1.maxPrice);
+//   } else if (f1.minPrice) {
+//     query.price = MoreThanOrEqual(f1.minPrice);
+//   } else if (f1.maxPrice) {
+//     query.price = LessThanOrEqual(f1.maxPrice);
+//   }
+
+//   const sr1 = await this.productsRepository.find({ ...query, take: 24 }); // Limit to 24 results
+//   return await this.populateFavouriteCartCountAndBrandDetails(sr1, user_id);
+// }
+
+
+async filter1(f1: Filter1, user_id: number): Promise<any> {
+  const whereClause: any = {};
+
+  if (f1.keyword) {
+    whereClause.name = f1.keyword; // Assuming `name` is the column to search for keyword
   }
+
+  if (f1.rating) {
+    whereClause.ratingValue = f1.rating;
+  }
+
+  if (f1.brands) {
+    const brandIds = f1.brands.split(',').map(Number);
+    whereClause.brand_id = In(brandIds);
+  }
+
+  if (f1.categories) {
+    const categoryIds = f1.categories.split(',').map(Number);
+    whereClause.cat_id = In(categoryIds);
+  }
+
+  if (f1.minPrice && f1.maxPrice) {
+    whereClause.price = Between(f1.minPrice, f1.maxPrice);
+  } else if (f1.minPrice) {
+    whereClause.price = MoreThanOrEqual(f1.minPrice);
+  } else if (f1.maxPrice) {
+    whereClause.price = LessThanOrEqual(f1.maxPrice);
+  }
+
+  const sr1 = await this.productsRepository.find({
+    where: whereClause,
+    take: 24,
+  });
+  return await this.populateFavouriteCartCountAndBrandDetails(sr1, user_id);
+}
+
 
   async UpdatedGetProducts(n?: number, page?: number): Promise<any> {
     const limit = n;

@@ -41,6 +41,11 @@ export class OrdersController {
     return this.ordersService.m2s(name,n,pgn);
   }
 
+  @Get('recent5OrderdProductsOfUser/:user_Id')
+  Find5RecentOrderedProductsOfUser(@Param('user_Id') user_Id: number):Promise<any> {
+    return this.ordersService.find5RecentOrderedProductsOfUser(user_Id);
+  }
+
 
 
   // @Get('ordersByUserId/:userId')

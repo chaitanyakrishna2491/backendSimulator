@@ -33,6 +33,30 @@ export class OrdersService {
 
       return results;
   }
+async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
+  var ab=await this.findAllOrders(user_id,5,1);var c2=0;var arr=[];
+  for(var a of ab) {
+    var c=JSON.parse(a.products_and_varients);
+    // var c1=c.length;
+    if(c2<5) {
+      for(var c3 of c) {
+        arr.push(c3.product_id);
+        c2++;if(c2==5) break;
+      }
+    }
+    if(c2==5) break;
+    
+  }
+
+  var brr=[];
+  for(var c4 of arr) {
+    var p1=await this.productsRepository.findOneBy({"product_id":c4});
+    brr.push(p1);
+  }
+  return brr;
+
+}
+
   async m2s(name:string,n?: number, page?: number):Promise<any> {
     var ab=await this.ordersRepository.find();
     return Search(name,ab,n,page);
