@@ -5,6 +5,7 @@ import { Orders } from './entities/orders.entity';
 import { Product } from 'src/products/entities/products.entity';
 import { ProductVarient } from 'src/products/entities/productvarient.entity';
 import { Pagination, Search } from 'src/globalHelper';
+import { ProductsService } from 'src/products/products.service'
 
 @Injectable()
 export class OrdersService {
@@ -14,7 +15,8 @@ export class OrdersService {
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
     @InjectRepository(ProductVarient)
-    private productvarientRepository: Repository<ProductVarient>
+    private productvarientRepository: Repository<ProductVarient>,
+    private readonly productsService: ProductsService
   ) {}
 
   /****************Orders CRUD********************/
@@ -48,11 +50,12 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
     
   }
 
-  var brr=[];
+  let brr=[];
   for(var c4 of arr) {
     var p1=await this.productsRepository.findOneBy({"product_id":c4});
     brr.push(p1);
   }
+  brr = await this.productsService.populateFavouriteCartCountAndBrandDetails(brr, user_id)
   return brr;
 
 }
