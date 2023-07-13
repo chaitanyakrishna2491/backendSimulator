@@ -136,6 +136,7 @@ async m7s(searchText:string):Promise<Users[]> {
     else if(user.user_phone){
       retrievedUser = (await this.userRepository.findOneBy({"user_phone": user.user_phone}))
     }
+    console.log("user",retrievedUser)
     let authResponse: Authentication = null;
     const result = await bcrypt.compare(user.password, retrievedUser.password)
       if(result){

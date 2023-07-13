@@ -126,11 +126,12 @@ return this.userService.m7s(name);
   async updateUserPassword(@Headers("userId") user_id: number, @Body() password:PasswordEntity): Promise<UpdateResult> {
     const user: Users = await this.userService.findOneUser(user_id);
     const updateResult: UpdateResult = await this.userService.updateuser(user_id, {...user, ...{"password":password.password}}, true);
-    if(updateResult.affected){
-      const userNotification = USER_PASSWORD_RESET.replace("$username", user.name)
-                                .replace("$time", new Date().toString())
-      this.twilioNotification.send(user.user_phone, userNotification)
-    }
+    console.log(updateResult)
+    // if(updateResult.affected){
+    //   const userNotification = USER_PASSWORD_RESET.replace("$username", user.name)
+    //                             .replace("$time", new Date().toString())
+    //   this.twilioNotification.send(user.user_phone, userNotification)
+    // }
     return updateResult;
   }
 
