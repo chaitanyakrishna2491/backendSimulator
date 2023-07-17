@@ -19,6 +19,21 @@ export class CategoryController {
   getCategory(): Promise<Categories[]> {
     return this.categoryService.getCategory();
   }
+  @Get('AllCategory')
+  GetAllCategory(): Promise<any> {
+    return this.categoryService.ListAllCategory();
+  }
+
+  @Get('SubCategory')
+  SubCategory(): Promise<any> {
+    return this.categoryService.ListSubCategory();
+  }
+  
+  // @Get('tax')
+  // Tax(): Promise<any> {
+  //   return this.categoryService.tax();
+  // }
+
 
   @Get('Category__Search/:keyword')
   m2(@Param('keyword') name:string , @Query('items_per_page') n?: number,@Query('page_number') pgn?: number):Promise<any> {

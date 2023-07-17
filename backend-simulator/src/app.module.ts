@@ -64,6 +64,7 @@ import { Notify } from './notify/notify.entity';
 import { CreditCard } from './credit-card/entities/CreditCard.entity';
 import { PromotionalProduct } from './promotional-products/promotional-products.entity';
 import { Shipping } from './shipping/shipping.entity';
+import { TaxModule } from './tax/tax.module';
 
 
 @Module({
@@ -113,7 +114,8 @@ import { Shipping } from './shipping/shipping.entity';
     CreditCardModule,
      HscreenModule,
      PromotionalProductsModule,
-     ShippingModule
+     ShippingModule,
+     TaxModule
 
     
   ],

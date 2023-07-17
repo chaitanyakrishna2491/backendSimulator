@@ -22,11 +22,18 @@ export class OrdersService {
   /****************Orders CRUD********************/
   async findAllOrders(user_id: number,n?: number, page?: number): Promise<any> {
     // var cd=await this.ordersRepository.findBy({"user_id":user_id,"isPlaced":true});
+    // var cd=await this.ordersRepository.findBy({"user_id":user_id});
+    // var cd=await this.ordersRepository.find();
+    
+    // console.log('zxcvbnm',cd,user_id);
+    // var cd=await this.ordersRepository.find({user_id});
     // return Pagination(cd,n,page);
     const  limit=n;
     const skip = (page - 1) * limit;
     const [results, total] = await this.ordersRepository.findAndCount({
       where:{"user_id":user_id,"isPlaced":true, isCancelled:false},
+      // where:{"user_id":user_id},
+
       order: { order_id: 'DESC' },
       //should be........order: { order_placed_timestamp: 'DESC' },
       skip,
@@ -34,6 +41,31 @@ export class OrdersService {
       });
 
       return results;
+
+  }
+
+  async findTotalOrders(user_id: number,n?: number, page?: number): Promise<any> {
+    // var cd=await this.ordersRepository.findBy({"user_id":user_id,"isPlaced":true});
+    // var cd=await this.ordersRepository.findBy({"user_id":user_id});
+    // var cd=await this.ordersRepository.find();
+    
+    // console.log('zxcvbnm',cd,user_id);
+    // var cd=await this.ordersRepository.find({user_id});
+    // return Pagination(cd,n,page);
+    const  limit=n;
+    const skip = (page - 1) * limit;
+    const [results, total] = await this.ordersRepository.findAndCount({
+      // where:{"user_id":user_id,"isPlaced":true, isCancelled:false},
+      where:{"user_id":user_id},
+
+      order: { order_id: 'DESC' },
+      //should be........order: { order_placed_timestamp: 'DESC' },
+      skip,
+      take: limit,
+      });
+
+      return results;
+
   }
 async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
   var ab=await this.findAllOrders(user_id,5,1);var c2=0;var arr=[];

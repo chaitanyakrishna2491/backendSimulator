@@ -28,6 +28,36 @@ export class CategoryService {
   async getCategory(): Promise<any> {
     return await this.categoryRepository.findBy({parent:0});
   }
+  
+
+  async ListAllCategory(): Promise<any> {
+    // return await this.categoryRepository.findBy({parent:0});
+    // return 0;
+    var ab=await this.categoryRepository.find();var abc,pr,cc=[];
+    for(var a of ab) {
+            if(a.parent==0) abc={...a,"parent_title":"NO PARENT"};
+            else {
+              pr=await this.categoryRepository.findOneBy({"cat_id":a.parent});
+              abc={...a,"parent_title":pr.title};
+                }
+          
+          cc.push(abc);
+    }
+    return cc;
+  }
+  async ListSubCategory(): Promise<any> {
+    // return await this.categoryRepository.findBy({parent:0});
+    // return 0;
+    var ab=await this.categoryRepository.find();var abc,pr,cc=[];
+    for(var a of ab) {
+            if(a.parent>0) {
+              pr=await this.categoryRepository.findOneBy({"cat_id":a.parent});
+              abc={...a,"parent_title":pr.title};
+              cc.push(abc);
+                }
+    }
+    return cc;
+  }
 
   
   async m2s(name:string,n?: number, page?: number):Promise<any> {
