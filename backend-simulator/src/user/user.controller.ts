@@ -65,6 +65,13 @@ async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto): Promise<any> {
 }
 
 
+
+@Get('percentIncrease_NewUsers')
+getOrdersPercentIncrease(): Promise<any> {
+  return this.userService.pr();
+}
+
+
 @Get('Search_Users_ByKeyword/:name')
 async m7(@Param('name') name:string):Promise<Users[]> {
 return this.userService.m7s(name);

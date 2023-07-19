@@ -25,7 +25,7 @@ export class Users{
     @Column({default: 0}) rewards?: number
     @Column({default: 0}) is_verified?: number
     @Column({default: 0}) block?: number
-    @Column({default: ""}) reg_date?: string
+    @Column() reg_date?: Date
     @Column({default: 0}) app_update?: number
     @Column({default: null})  
     @Index({ unique: true, where: "facebook_id IS NOT NULL" })

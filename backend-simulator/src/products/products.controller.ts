@@ -30,12 +30,27 @@ export class ProductsController {
     return this.productsService.filter1(f1, user_id);
   }
 
+   
+
     
 @Get('products-updated-get-method')
 async UpdatedgetProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number) {
 return this.productsService.UpdatedGetProducts(n,pgn);
 }
- 
+
+
+@Get('soldCount/:product_id')
+async otcsr(@Param('product_id') prid:number) {
+return this.productsService.getotcsr(prid);
+}
+
+
+@Get('giftCount/:product_id')
+async Getgc(@Param('product_id') prid:number) {
+return this.productsService.getGc(prid);
+}
+
+
 
   @Get('products')
 async getProducts(@Headers('user_id') user_id:number ,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {

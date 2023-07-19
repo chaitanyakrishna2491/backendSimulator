@@ -27,6 +27,44 @@ export class OrdersController {
     private readonly mailService: MailService) {}
 
   /****************Orders CRUD********************/
+
+  
+  @Get('percentIncrease_NewOrders')
+  getOrdersPercentIncrease(): Promise<any> {
+    return this.ordersService.findIncreasedPercent();
+  }
+
+
+  
+  @Get('LastWeekOrders')
+  getLastWeekOrders(): Promise<any> {
+    return this.ordersService.findLastWeekOrders();
+  }
+
+
+
+
+  
+  @Get('percentIncrease_pendingOrders')
+  getOrdersPercentIncreasePending(): Promise<any> {
+    return this.ordersService.pp1();
+  }
+
+
+  
+  @Get('percentIncrease_cancelledOrders')
+  getOrdersPercentIncreaseCancelled(): Promise<any> {
+    return this.ordersService.pp2();
+  }
+
+  
+  // @Get('percentIncrease_NewUsers')
+  // getOrdersPercentIncrease(): Promise<any> {
+  //   return this.ordersService.findIncreasedPercent();
+  // }
+
+ 
+
   @Get('all')
   getOrders(@Headers('userId') user_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
     return this.ordersService.findAllOrders(user_id,n,pgn);
@@ -35,6 +73,15 @@ export class OrdersController {
   getOrdersTotal(@Headers('userId') user_id: number,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
     return this.ordersService.findTotalOrders(user_id,n,pgn);
   }
+  @Get('TotalOrders')
+  getOrdersAll(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.ordersService.findAllOrders2(n,pgn);
+  }
+  @Get('TotalOrdersByStatus')
+  getOrdersByStatus(@Headers('status') status: string,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+    return this.ordersService.findAllOrders3(status,n,pgn);
+  }
+
 
   @Get('/:orderId')
   getOrder(@Param('orderId') order_id: number): Promise<any> {

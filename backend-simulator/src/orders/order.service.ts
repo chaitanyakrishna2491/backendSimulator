@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository} from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Orders } from './entities/orders.entity';
 import { Product } from 'src/products/entities/products.entity';
 import { ProductVarient } from 'src/products/entities/productvarient.entity';
 import { Pagination, Search } from 'src/globalHelper';
 import { ProductsService } from 'src/products/products.service'
+import {  MoreThan } from 'typeorm';
+
 
 @Injectable()
 export class OrdersService {
@@ -20,6 +22,129 @@ export class OrdersService {
   ) {}
 
   /****************Orders CRUD********************/
+
+
+  // async findIncreasedPercent(dt:Date):Promise<any> {
+  //   const [results, total] = await this.ordersRepository.findAndCount({
+  //     where: { order_date: MoreThan(new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)) },
+
+
+  //     order: { order_id: 'DESC' },
+     
+  //     });
+
+  //     return total;
+
+
+  // }
+
+
+async findIncreasedPercent(): Promise<number> {
+  const oneWeekAgo = new Date(new Date().getTime() - 7* 24 * 60 * 60 * 1000);
+  const total = await this.ordersRepository.count({
+    where: { order_date: MoreThan(oneWeekAgo) },
+  });
+
+  // var qw=100;
+  const [rows, tn] = await this.ordersRepository.findAndCount({
+
+    order: { order_id: 'DESC' },
+    // take:qw
+    });
+  return (total/tn-total)*100;
+  
+}
+
+
+
+async findLastWeekOrders(): Promise<any> {
+  const oneWeekAgo = new Date(new Date().getTime() - 7* 24 * 60 * 60 * 1000);
+  const [abc , ert] = await this.ordersRepository.findAndCount({
+    where: { order_date: MoreThan(oneWeekAgo) }
+  });
+return abc;
+  
+}
+
+
+
+async pp1(): Promise<number> {
+  const oneWeekAgo = new Date(new Date().getTime() - 7* 24 * 60 * 60 * 1000);
+  const total = await this.ordersRepository.count({
+    where: { order_date: MoreThan(oneWeekAgo),order_status:"Pending" },
+  });
+
+  // var qw=100;
+  const [rows, tn] = await this.ordersRepository.findAndCount({
+    where: { order_status:"Pending" },
+    order: { order_id: 'DESC' },
+    // take:qw
+    });
+  return (total/tn-total)*100;
+  
+}
+
+    
+
+async pp2(): Promise<number> {
+  const oneWeekAgo = new Date(new Date().getTime() - 7* 24 * 60 * 60 * 1000);
+  const total = await this.ordersRepository.count({
+    where: { order_date: MoreThan(oneWeekAgo),isCancelled:true },
+  });
+
+  // var qw=100;
+  const [rows, tn] = await this.ordersRepository.findAndCount({
+    where: { isCancelled:true },
+    order: { order_id: 'DESC' },
+    // take:qw
+    });
+  return (total/tn-total)*100;
+  
+}
+
+    
+
+
+
+
+  async findAllOrders3(status: string,n?: number, page?: number): Promise<any> {
+   
+    const  limit=n;
+    const skip = (page - 1) * limit;
+    const [results, total] = await this.ordersRepository.findAndCount({
+      where:{order_status:status},
+
+      order: { order_id: 'DESC' },
+      //should be........order: { order_placed_timestamp: 'DESC' },
+      skip,
+      take: limit,
+      });
+
+      return results;
+
+  }
+
+
+  async findAllOrders2(n?: number, page?: number): Promise<any> {
+   
+    const  limit=n;
+    const skip = (page - 1) * limit;
+    const [results, total] = await this.ordersRepository.findAndCount({
+
+      order: { order_id: 'DESC' },
+      //should be........order: { order_placed_timestamp: 'DESC' },
+      skip,
+      take: limit,
+      });
+
+      return results;
+
+  }
+
+
+
+
+
   async findAllOrders(user_id: number,n?: number, page?: number): Promise<any> {
     // var cd=await this.ordersRepository.findBy({"user_id":user_id,"isPlaced":true});
     // var cd=await this.ordersRepository.findBy({"user_id":user_id});
@@ -157,7 +282,8 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
   }
 
   createOrder(order: Orders): Promise<InsertResult> {
-    return this.ordersRepository.insert(order);
+    var ord=order;ord.delivery_date=order.order_date;
+    return this.ordersRepository.insert(ord);
   }
 
   async updateorder(order_id: number, order: Orders): Promise<UpdateResult> {

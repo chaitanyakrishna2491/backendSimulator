@@ -49,6 +49,48 @@ export class ProductsService {
 
   /****************Products CRUD********************/
 
+  async getotcsr(prid: number): Promise<any> {
+    var ct=await this.ordersRepository.findBy({"isPlaced":true,"isCancelled":false});var ctr=0;
+    console.log(ct);
+    var pd=await this.productsRepository.findOneBy({"product_id":prid});
+    for(var a of ct) {
+      var pv=JSON.parse(a.products_and_varients);
+      for(var b of pv) {
+        if(b.product_id==prid) {
+          ctr=ctr+b.count;
+        }
+
+      }
+
+    }
+    
+    // return this.productsRepository.insert(product);
+    return ctr;
+
+  }
+
+
+  
+  async getGc(prid: number): Promise<any> {
+    var ct=await this.ordersRepository.findBy({"isPlaced":true,"isCancelled":false,"is_gift":true});var ctr=0;
+    var pd=await this.productsRepository.findOneBy({"product_id":prid});
+    for(var a of ct) {
+      var pv=JSON.parse(a.products_and_varients);
+      for(var b of pv) {
+        if(b.product_id==prid) {
+          ctr=ctr+b.count;
+        }
+
+      }
+
+    }
+    
+    // return this.productsRepository.insert(product);
+    return ctr;
+
+  }
+
+
   
   // async filter1(f1: Filter1, user_id: number): Promise<any> {
 

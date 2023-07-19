@@ -12,6 +12,11 @@ export class Product {
   @ManyToOne(() => Brand)
   brand?: Brand;
 
+
+  @Column() ordered_times_count?: number;
+  @Column() seller_rank?: number;
+  
+
   @Column() cat_id?: number;
   @Column() brand_id?: number;
   @Column() product_name?: string;

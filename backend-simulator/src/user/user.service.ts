@@ -9,6 +9,7 @@ import * as speakeasy from "speakeasy";
 import { SMSNotification } from 'src/sms/SMSNotification.service';
 // const bcrypt = require('bcrypt');
 import * as bcrypt from 'bcrypt'; 
+import {  MoreThan } from 'typeorm';
 import { Pagination, Search } from 'src/globalHelper';
 const jwt = require('jsonwebtoken');
 
@@ -23,6 +24,21 @@ export class UsersService {
   /****************Users CRUD********************/
 
 
+
+  async pr(): Promise<number> {
+    const oneWeekAgo = new Date(new Date().getTime() - 7* 24 * 60 * 60 * 1000);
+    const total = await this.userRepository.count({
+      where: { reg_date: MoreThan(oneWeekAgo) },
+    });
+  
+    const [rows, tn] = await this.userRepository.findAndCount({
+  
+      });
+    return (total/tn-total)*100;
+    
+  }
+  
+  
 
 
 
@@ -170,6 +186,7 @@ async m7s(searchText:string):Promise<Users[]> {
 
   createUser(user: Users): Promise<InsertResult> {
     let result:Promise<InsertResult> = null;
+    user.reg_date=new Date();
     bcrypt.hash(user.password, 10/* salt rounds*/, (err,hash) => {
       result = this.userRepository.insert({...user, ...{"password":hash}});
     });
