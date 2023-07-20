@@ -15,6 +15,8 @@ export class Product {
 
   @Column() ordered_times_count?: number;
   @Column() seller_rank?: number;
+  @Column() gift_times_count:number;
+  @Column() gift_ranking:number;
   
 
   @Column() cat_id?: number;

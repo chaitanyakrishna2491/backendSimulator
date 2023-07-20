@@ -35,11 +35,21 @@ export class OrdersController {
   }
 
 
+
   
   @Get('LastWeekOrders')
   getLastWeekOrders(): Promise<any> {
     return this.ordersService.findLastWeekOrders();
   }
+
+
+
+  
+  @Get('dashboardOrders')
+  getDashboardOrders(): Promise<any> {
+    return this.ordersService.dashboardOrders();
+  }
+
 
 
 

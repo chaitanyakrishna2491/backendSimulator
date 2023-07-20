@@ -7,6 +7,8 @@ import { ProductVarient } from 'src/products/entities/productvarient.entity';
 import { Pagination, Search } from 'src/globalHelper';
 import { ProductsService } from 'src/products/products.service'
 import {  MoreThan } from 'typeorm';
+import { Cart } from 'src/cart/entities/cart.entity';
+import { Users } from 'src/user/entities/user.entity';
 
 
 @Injectable()
@@ -14,8 +16,12 @@ export class OrdersService {
   constructor(
     @InjectRepository(Orders)
     private ordersRepository: Repository<Orders>,
+    @InjectRepository(Users)
+    private userRepository: Repository<Users>,
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(Cart)
+    private cartRepository: Repository<Cart>,
     @InjectRepository(ProductVarient)
     private productvarientRepository: Repository<ProductVarient>,
     private readonly productsService: ProductsService
@@ -41,6 +47,7 @@ export class OrdersService {
 
 async findIncreasedPercent(): Promise<number> {
   const oneWeekAgo = new Date(new Date().getTime() - 7* 24 * 60 * 60 * 1000);
+
   const total = await this.ordersRepository.count({
     where: { order_date: MoreThan(oneWeekAgo) },
   });
@@ -51,9 +58,10 @@ async findIncreasedPercent(): Promise<number> {
     order: { order_id: 'DESC' },
     // take:qw
     });
-  return (total/tn-total)*100;
+  return (total/(tn-total))*100;
   
 }
+
 
 
 
@@ -80,7 +88,7 @@ async pp1(): Promise<number> {
     order: { order_id: 'DESC' },
     // take:qw
     });
-  return (total/tn-total)*100;
+  return (total/(tn-total))*100;
   
 }
 
@@ -98,10 +106,23 @@ async pp2(): Promise<number> {
     order: { order_id: 'DESC' },
     // take:qw
     });
-  return (total/tn-total)*100;
+  return (total/(tn-total))*100;
   
 }
 
+
+
+
+      async dashboardOrders(): Promise<any> { 
+      const [ab,qw]=await this.ordersRepository.findAndCount({order:{"order_id":"ASC"}});
+      var cd=[];
+      for (var a of ab) {
+        var usr=await this.userRepository.findOneBy({"id":a.user_id});
+        console.log(usr);
+        cd.push({...a,"user_details":(usr.name+" - "+usr.user_phone)});
+      }
+      return cd;
+      }
     
 
 
@@ -281,13 +302,38 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
       return orders;
   }
 
-  createOrder(order: Orders): Promise<InsertResult> {
-    var ord=order;ord.delivery_date=order.order_date;
-    return this.ordersRepository.insert(ord);
-  }
+  
+  async createOrder(order: Orders): Promise<any> {
+    var ord=order;
+    ord.delivery_date=order.order_date;
+    var abcd=this.ordersRepository.insert(ord);
+      var ct=await this.ordersRepository.findOneBy({"order_id":ord.order_id});
+      var pv=JSON.parse(ct.products_and_varients);
+        for(var b of pv) {
+          var sct=await this.productsService.getotcsr(b.product_id);
+          var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
+          var pr2=pr;
+          pr.ordered_times_count=sct;
+          await this.productsRepository.update(b.product_id,{...pr2,...pr});
+        }
+      return abcd;
+    }
+
+
 
   async updateorder(order_id: number, order: Orders): Promise<UpdateResult> {
-    const existingOrder= await this.ordersRepository.findOneBy({ order_id })
+    const existingOrder= await this.ordersRepository.findOneBy({ order_id });
+
+    var ct=await this.ordersRepository.findOneBy({"order_id":order_id});
+    var pv=JSON.parse(ct.products_and_varients);
+      for(var b of pv) {
+        var sct=await this.productsService.getotcsr(b.product_id);
+        var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
+        var pr2=pr;
+        pr.ordered_times_count=sct;
+        await this.productsRepository.update(b.product_id,{...pr2,...pr});
+      }
+
     if(existingOrder){
       return this.ordersRepository.update(order_id, {...existingOrder,...order});
     }else{
@@ -295,9 +341,24 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
         //  resolve(null)
       })
     }
+
+
+
+
   }
 
   async removeOrder(order_id: number): Promise<DeleteResult> {
+
+    var ct=await this.ordersRepository.findOneBy({"order_id":order_id});
+    var pv=JSON.parse(ct.products_and_varients);
+      for(var b of pv) {
+        var sct=await this.productsService.getotcsr(b.product_id);
+        var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
+        var pr2=pr;
+        pr.ordered_times_count=sct;
+        await this.productsRepository.update(b.product_id,{...pr2,...pr});
+      }
+
     return await this.ordersRepository.delete(order_id);
   }
 

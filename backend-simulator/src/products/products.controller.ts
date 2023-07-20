@@ -52,6 +52,20 @@ return this.productsService.getGc(prid);
 
 
 
+@Get('Product_Ranking')
+async getBestProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+  return this.productsService.findBestProducts(n,pgn);
+}
+
+
+// @Get('Gift_Ranking')
+// async getGiftProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+//   return this.productsService.findGiftProducts(n,pgn);
+// }
+
+
+
+
   @Get('products')
 async getProducts(@Headers('user_id') user_id:number ,@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
   return this.productsService.findAllProducts(user_id,n,pgn);
