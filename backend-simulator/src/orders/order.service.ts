@@ -58,7 +58,7 @@ async findIncreasedPercent(): Promise<number> {
     order: { order_id: 'DESC' },
     // take:qw
     });
-  return (total/(tn-total))*100;
+  return (total/((tn-total)>0?(tn-total):1))*100;
   
 }
 
@@ -88,7 +88,7 @@ async pp1(): Promise<number> {
     order: { order_id: 'DESC' },
     // take:qw
     });
-  return (total/(tn-total))*100;
+  return (total/((tn-total)>0?(tn-total):1))*100;
   
 }
 
@@ -106,7 +106,7 @@ async pp2(): Promise<number> {
     order: { order_id: 'DESC' },
     // take:qw
     });
-  return (total/(tn-total))*100;
+  return (total/((tn-total)>0?(tn-total):1))*100;
   
 }
 
@@ -114,12 +114,13 @@ async pp2(): Promise<number> {
 
 
       async dashboardOrders(): Promise<any> { 
-      const [ab,qw]=await this.ordersRepository.findAndCount({order:{"order_id":"ASC"}});
+      const [ab,qw]=await this.ordersRepository.findAndCount({order:{"order_id":"DESC"}});
       var cd=[];
       for (var a of ab) {
+        // console.log("a.user_id",a.user_id);
         var usr=await this.userRepository.findOneBy({"id":a.user_id});
-        console.log(usr);
-        cd.push({...a,"user_details":(usr.name+" - "+usr.user_phone)});
+        // console.log(usr.name);
+        if(usr) cd.push({...a,"user_details":(usr.name+" - "+usr.user_phone)});
       }
       return cd;
       }
@@ -213,6 +214,8 @@ async pp2(): Promise<number> {
       return results;
 
   }
+
+  
 async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
   var ab=await this.findAllOrders(user_id,5,1);var c2=0;var arr=[];
   for(var a of ab) {
@@ -313,9 +316,15 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
           var sct=await this.productsService.getotcsr(b.product_id);
           var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
           var pr2=pr;
+          var gct=await this.productsService.getGc(b.product_id);
+          if(ct.is_gift==true) {
+            pr.gift_times_count=gct;
+          }
           pr.ordered_times_count=sct;
           await this.productsRepository.update(b.product_id,{...pr2,...pr});
         }
+
+
       return abcd;
     }
 
@@ -323,14 +332,20 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
 
   async updateorder(order_id: number, order: Orders): Promise<UpdateResult> {
     const existingOrder= await this.ordersRepository.findOneBy({ order_id });
+    // console.log("asdfghjk");
 
     var ct=await this.ordersRepository.findOneBy({"order_id":order_id});
     var pv=JSON.parse(ct.products_and_varients);
       for(var b of pv) {
         var sct=await this.productsService.getotcsr(b.product_id);
+        // console.log("azxcvb",sct);
         var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
         var pr2=pr;
         pr.ordered_times_count=sct;
+        var gct=await this.productsService.getGc(b.product_id);
+          if(ct.is_gift==true) {
+            pr.gift_times_count=gct;
+          }
         await this.productsRepository.update(b.product_id,{...pr2,...pr});
       }
 
@@ -356,6 +371,10 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
         var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
         var pr2=pr;
         pr.ordered_times_count=sct;
+        var gct=await this.productsService.getGc(b.product_id);
+          if(ct.is_gift==true) {
+            pr.gift_times_count=gct;
+          }
         await this.productsRepository.update(b.product_id,{...pr2,...pr});
       }
 

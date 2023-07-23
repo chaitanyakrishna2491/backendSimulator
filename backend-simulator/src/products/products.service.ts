@@ -51,7 +51,7 @@ export class ProductsService {
 
   async getotcsr(prid: number): Promise<any> {
     var ct=await this.ordersRepository.findBy({"isDelivered":true});var ctr=0;
-    console.log(ct);
+    // console.log(ct);
     var pd=await this.productsRepository.findOneBy({"product_id":prid});
     for(var a of ct) {
       var pv=JSON.parse(a.products_and_varients);
@@ -82,27 +82,9 @@ export class ProductsService {
       }
 
     }
-    
-    // return this.productsRepository.insert(product);
     return ctr;
 
   }
-
-
-  
-//   async getGc2(): Promise<any> {
-//    var ab=await this.ordersRepository.find({
-//     where:{is_gift:true,isCancelled:false,isPlaced:true}
-//    }); var abc=[];
-//    for ( var a of ab ) {
-//     var pv=JSON.parse(a.products_and_varients);
-//     for(var b of pv) {
-//         abc.push(await this.productsRepository.findOneBy({"product_id":b.product_id}))
-//    }
-
-//   }
-
-// }
 
 
   
@@ -244,29 +226,27 @@ async filter1(f1: Filter1, user_id: number): Promise<any> {
       take: limit,
     });
 
-    return {
-      results
-    };
+    return results;
+    
   }
 
 
 
-  // async findGiftProducts(n?: number, page?: number): Promise<any> {
-  //   const limit = n;
-  //   const skip = (page - 1) * limit;
+  async findGiftProducts(n?: number, page?: number): Promise<any> {
+    const limit = n;
+    const skip = (page - 1) * limit;
 
-  //   // Use skip and take options in your repository query to implement pagination
-  //   const [results, total] = await this.productsRepository.findAndCount({
-  //     where:{is},
-  //     order:{ordered_times_count:"DESC"},
-  //     skip,
-  //     take: limit,
-  //   });
+    // Use skip and take options in your repository query to implement pagination
+    const [results, total] = await this.productsRepository.findAndCount({
+      
+      order:{gift_times_count:"DESC"},
+      skip,
+      take: limit,
+    });
 
-  //   return {
-  //     results
-  //   };
-  // }
+    return results;
+    
+  }
 
 
 

@@ -34,7 +34,7 @@ export class UsersService {
     const [rows, tn] = await this.userRepository.findAndCount({
   
       });
-    return (total/(tn-total))*100;
+    return (total/((tn-total)>0?(tn-total):1))*100;
     
   }
   

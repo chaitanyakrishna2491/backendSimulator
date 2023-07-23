@@ -58,10 +58,10 @@ async getBestProducts(@Query('items_per_page') n?: number,@Query('page_number') 
 }
 
 
-// @Get('Gift_Ranking')
-// async getGiftProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
-//   return this.productsService.findGiftProducts(n,pgn);
-// }
+@Get('Gift_Ranking')
+async getGiftProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
+  return this.productsService.findGiftProducts(n,pgn);
+}
 
 
 
