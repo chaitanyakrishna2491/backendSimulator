@@ -19,6 +19,7 @@ import { PaginationParams } from 'src/utils/PaginationParams.dto';
 import { Favourites } from 'src/favourites/entities/Favourites.entity';
 import { Filter1 } from './Filter1.entity';
 import {  In, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import { SetTrending } from './entities/SetTrending.entity';
 
 
 
@@ -48,6 +49,7 @@ export class ProductsService {
   ) { }
 
   /****************Products CRUD********************/
+
 
   async getotcsr(prid: number): Promise<any> {
     var ct=await this.ordersRepository.findBy({"isDelivered":true});var ctr=0;
@@ -228,6 +230,20 @@ async filter1(f1: Filter1, user_id: number): Promise<any> {
 
     return results;
     
+  }
+
+  async setTrendingProducts(pr_ids:SetTrending): Promise<any> {
+    var pr2=pr_ids.setTrendingProducts;
+    var arr = pr2.split(",").map(function(item) {
+      return parseInt(item, 10);
+          });
+            for(var a of arr) {
+              var pr=await this.productsRepository.findOneBy({product_id:a});
+              await this.productsRepository.update(a,{...pr,"trending_rank":1});
+            }
+            const [qw , er] =await this.productsRepository.findAndCount({where:{"trending_rank":1}});
+
+    return qw;
   }
 
 

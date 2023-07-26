@@ -12,6 +12,7 @@ import { validate } from 'class-validator';
 import 'reflect-metadata';
 import { PaginationParams } from 'src/utils/PaginationParams.dto';
 import { Filter1 } from './Filter1.entity';
+import { SetTrending } from './entities/SetTrending.entity';
 
 
 @ApiHeader({
@@ -43,6 +44,8 @@ return this.productsService.UpdatedGetProducts(n,pgn);
 async otcsr(@Param('product_id') prid:number) {
 return this.productsService.getotcsr(prid);
 }
+
+
 
 
 @Get('giftCount/:product_id')
@@ -103,10 +106,23 @@ return this.productsService.multiSearchPbc(name,n,pgn);
   getFeaturedProducts(@Query('items_per_page') n?: number,@Query('page_number') pgn?: number): Promise<any> {
     return this.productsService.getFeaturedProducts(n,pgn);
   }
+
   @Post('product')
   addProduct(@Body() product: Product): Promise<InsertResult> {
     return this.productsService.createProduct(product);
   }
+
+  @Post('Trending_Products')
+  setTrending(@Body() product_ids: SetTrending): Promise<any> {
+    return this.productsService.setTrendingProducts(product_ids);
+  }
+
+
+  
+  // @Post('product')
+  // addProduct(@Body() product: Product): Promise<InsertResult> {
+  //   return this.productsService.createProduct(product);
+  // }
 
   @Post('products/upload')
   @UseInterceptors(FileInterceptor('file', {
