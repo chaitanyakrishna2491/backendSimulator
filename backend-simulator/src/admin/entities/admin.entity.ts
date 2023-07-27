@@ -7,7 +7,8 @@ export class Admin{
     @Column() email?: string
     @Column() password?: string
     @Column() admin_image?: string
-    @Column() remember_token?: string
+    @Column({default: "string"}) remember_token?: string
     @Column() role_id?: number
-    @Column() role_name?: string
+    @Column({default: ""}) role_name?: string
+    @Column({default: 0}) user_id?: number
 }

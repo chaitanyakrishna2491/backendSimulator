@@ -30,5 +30,6 @@ export class Store {
   @Column() id_photo?: string
   @Column() compensation?: number
   @Column() compensation_unit?: string
+  @Column({default: "string"}) store_feedback?: string
 
 }

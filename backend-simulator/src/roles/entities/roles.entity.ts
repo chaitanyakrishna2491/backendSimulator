@@ -3,10 +3,10 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Roles{
     @PrimaryGeneratedColumn() role_id: number
-    @Column() role_name?: string
+    @Column({default: 'string'}) role_name?: string
     @Column() dashboard?: number
     @Column() tax?: number
-    @Column() user_id?: number
+    @Column({default: 0}) user_id?: number
     @Column() membership?: number
     @Column() reports?: number
     @Column() notification?: number

@@ -9,9 +9,19 @@ export class NotifyController {
 
     /********************************* */
     @Get('notifications')
-     async getNfs( ):Promise<any> {
+     async getNfs():Promise<any> {
         return await this.notifyService.getNfcs();
     }
+
+    @Get('Users_Notifications')
+    async UsersNfs():Promise<any> {
+       return await this.notifyService.getUsersNfcs();
+   }
+
+   @Get('Store_Notifications')
+    async StoreNfs():Promise<any> {
+       return await this.notifyService.getStoreNfcs();
+   }
 
     @Get('notificationById/:id')
     async getNfnsById(@Param('id') id:number):Promise<Notify> {
@@ -34,7 +44,7 @@ export class NotifyController {
             return await this.notifyService.addNfs(nf);
     }
     @Put('updateNotificationById/:id')
-    async updateNfns(@Param('id') nf_id,@Body() nf:Notify): Promise<any> {
+    async updateNfns(@Param('id') nf_id:number,@Body() nf:Notify): Promise<any> {
         return await this.notifyService.updateNfs(nf_id,nf);
     }
     

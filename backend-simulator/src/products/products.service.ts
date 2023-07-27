@@ -247,6 +247,22 @@ async filter1(f1: Filter1, user_id: number): Promise<any> {
   }
 
 
+  
+  async reamoveTrendingProducts(pr_ids:SetTrending): Promise<any> {
+    var pr2=pr_ids.setTrendingProducts;
+    var arr = pr2.split(",").map(function(item) {
+      return parseInt(item, 10);
+          });
+            for(var a of arr) {
+              var pr=await this.productsRepository.findOneBy({product_id:a});
+             if(pr) await this.productsRepository.update(a,{...pr,"trending_rank":99999});
+            }
+            const [qw , er] =await this.productsRepository.findAndCount({where:{"trending_rank":1}});
+
+    return qw;
+  }
+
+
 
   async findGiftProducts(n?: number, page?: number): Promise<any> {
     const limit = n;

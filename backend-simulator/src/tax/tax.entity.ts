@@ -1,13 +1,13 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Tax {
-    @PrimaryColumn() tx_id:number;
-    @Column() tax_name?:string;
-    @Column() tax_type?:number;
-    @Column() tax_per?:number;
-
-    @Column() description?:string;
+    
+    @PrimaryGeneratedColumn() tx_id:number;
+    @Column({default: "string"}) tax_name?:string;
+    @Column({default: 0}) tax_type?:number;
+    @Column({default: 0}) tax_per?:number;
+    @Column({default: "string" }) description?:string;
 
 }
 

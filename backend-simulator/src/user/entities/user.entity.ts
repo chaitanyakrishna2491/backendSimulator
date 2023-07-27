@@ -37,6 +37,9 @@ export class Users{
     @Column({default: ""}) created_at?: string
     @Column({default: ""}) updated_at?: string
     @Column({default: ""}) secret?: string;
+    @Column({default: "string"}) user_feedback?: string;
+    @Column({default: false}) is_admin?: boolean
+
     @OneToMany(() => Address, (adr) => adr.user_id)
     Addresses?: Address[]
     

@@ -72,6 +72,12 @@ getOrdersPercentIncrease(): Promise<any> {
 }
 
 
+// @Get('UserFeedback')
+// UserFeedback(): Promise<any> {
+//   return this.userService.getUserFeedback();
+// }
+
+
 @Get('Search_Users_ByKeyword/:name')
 async m7(@Param('name') name:string):Promise<Users[]> {
 return this.userService.m7s(name);

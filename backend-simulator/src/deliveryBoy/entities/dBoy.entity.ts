@@ -21,4 +21,5 @@ export class DeliveryBoy{
     @Column() id_name?: string
     @Column() current_lat?: string
     @Column() current_lng?: string
+    @Column() delivery_boy_feedback?: string
 }
