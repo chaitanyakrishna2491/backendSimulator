@@ -117,6 +117,11 @@ return this.productsService.multiSearchPbc(name,n,pgn);
     return this.productsService.setTrendingProducts(product_ids);
   }
 
+  @Get('Trending_Products')
+  Trending(): Promise<any> {
+    return this.productsService.getTrendingProducts();
+  }
+
   
   @Post('reamoveTrending_Products')
   reamoveTrending(@Body() product_ids: SetTrending): Promise<any> {
