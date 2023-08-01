@@ -311,8 +311,8 @@ async find5RecentOrderedProductsOfUser(user_id: number):Promise<any> {
     ord.delivery_date=order.order_date;
     var abcd=this.ordersRepository.insert(ord);
       var ct=await this.ordersRepository.findOneBy({"order_id":ord.order_id});
-      var pv=JSON.parse(ct.products_and_varients);
-        for(var b of pv) {
+      var pv=JSON.parse((ct.products_and_varients||""));
+      if(pv)  for(var b of pv) {
           var sct=await this.productsService.getotcsr(b.product_id);
           var pr=await this.productsRepository.findOneBy({"product_id":b.product_id});
           var pr2=pr;

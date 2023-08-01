@@ -69,6 +69,11 @@ export class ProductsService {
 
   }
 
+  async getTrendingProducts(): Promise<any> {
+    const [qw , er] =await this.productsRepository.findAndCount({where:{"trending_rank":1}});
+    return qw;
+  }
+
 
   
   async getGc(prid: number): Promise<any> {
