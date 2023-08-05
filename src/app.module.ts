@@ -65,7 +65,12 @@ import { CreditCard } from './credit-card/entities/CreditCard.entity';
 import { PromotionalProduct } from './promotional-products/promotional-products.entity';
 import { Shipping } from './shipping/shipping.entity';
 import { TaxModule } from './tax/tax.module';
-
+import { CitiesModule } from './cities/cities.module';
+import { CancelReasonModule } from './cancel-reason/cancel-reason.module';
+import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module';
+import { City } from './cities/city.entity';
+import { TermsAndConditions } from './terms-and-conditions/TermsAndConditions.entity';
+import { cancelReason } from './cancel-reason/cancelReason.entity';
 
 @Module({
   imports: [
@@ -80,7 +85,7 @@ import { TaxModule } from './tax/tax.module';
           username: configService.get<string>('PROD_DB_UNAME'),
           password: configService.get<string>('PROD_DB_PASS'),
           database: configService.get<string>('PROD_DB_NAME'),
-          entities: [Address,Users, GenOtpDto,VerifyOtpDto,LoginDetail,Authentication,PasswordEntity,ProductVarient,
+          entities: [Address,Tax,TermsAndConditions,cancelReason,City,Users, GenOtpDto,VerifyOtpDto,LoginDetail,Authentication,PasswordEntity,ProductVarient,
             Cart,Product,Brand,Orders,Store,Store_orders,Categories,DeliveryBoy,Admin,Roles,Coupon,DealProduct,ProductRating,
             RecentSearch,Favourites,DelFav,Transaction,Notify,CreditCard,Hscreen,PromotionalProduct,Shipping], // Add your entities here
           synchronize: true, // Set to false in production
@@ -115,7 +120,10 @@ import { TaxModule } from './tax/tax.module';
      HscreenModule,
      PromotionalProductsModule,
      ShippingModule,
-     TaxModule
+     TaxModule,
+    CitiesModule,
+     CancelReasonModule,
+     TermsAndConditionsModule
 
     
   ],
